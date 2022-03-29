@@ -1,0 +1,135 @@
+
+@media print {
+    body{
+      width: 90%;
+      margin: 0 auto;
+      background-color: #fff;
+    }
+    .pdf-title{
+      margin-top: 20px
+    }
+    .pdf-title span{
+      font-weight: 700;
+      font-size: 32px;
+      }
+    .custom-span{
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      font-size: 16px;
+      font-weight: 500;
+      height: 30px;
+      width: 250px;
+      padding-left: 10px;
+    }
+    .computation,.arenaLabel {
+      font-weight: 500;
+      font-size: 14px;
+    }
+  
+    .computation-span{
+      font-weight: 500;
+      
+    }
+    .mobile-computebox{
+      margin: 0 2px;
+      margin-bottom: 20px;
+      width: 100%;
+      padding: 0 9px;
+      justify-content: space-between;
+     
+    }
+    .compute-container-box{
+      display: flex;
+      margin-top: 4px;
+      margin-bottom: 0;
+      padding: 4px;
+      margin-right: 7px;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .custom-label{
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .ctotal-label{
+      font-weight: 900
+    }
+    
+    .arenaLabel {
+      font-weight: 700;
+    }
+  
+    .bank-wrapper{
+      padding: 12px;
+      // margin-top: 50px;
+      // margin-bottom: 50px;
+      font-weight: 700;
+      height: 100px;
+      }
+      .row-compute{
+        margin: 0;
+        padding: 0;
+      }
+  
+      .detailed{
+        text-transform: uppercase; 
+        font-weight: bold;
+        font-size: 16px;
+      }
+  
+    .fullspan{
+      width: 100%;
+      }
+  
+    
+  
+      .fr-notif{
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .signed-text{
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .sign-wrapper .signedBy{
+        font-size: 16px;
+        font-weight: 500;
+      }
+      
+  
+      .signed-text_name {
+        line-height: 2.5;
+        text-align: center;
+      }
+    
+      
+      .sign-wrapper{
+        height: 125px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+         
+        }
+        .sign-wrapper-bottom{
+          margin-top: 10px;
+        }
+        .signatory-container{
+          width: 100%;
+          padding: 20px;
+        }
+        .computation-banner{
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 10px;
+          height: 30px;
+          padding: 1px;
+          border: 1px solid rgba(61, 61, 61, 0.8);
+        }
+  
+        .custom-textarea{
+          height: 80px;
+        }
+  
+        .report-soa_container{
+          width: 100%;
+        }
+  }

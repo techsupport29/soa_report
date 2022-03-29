@@ -1,0 +1,193 @@
+.custom-layout__login {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+    background-image: url('/image/backgound_body.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.login-box {
+  margin-top: 75px;
+  height: auto;
+  background: #1A2226;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  opacity: 0.9;
+}
+
+.login-key {
+  height: 100px;
+  font-size: 80px;
+  line-height: 100px;
+  background: -webkit-linear-gradient(#27EF9F, #0DB8DE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-title {
+
+  text-align: center;
+  font-size: 30px;
+  letter-spacing: 2px;
+  margin-top: 15px;
+  font-weight: bold;
+  color: #ECF0F5;
+}
+
+.login-form {
+  margin-top: 25px;
+  text-align: left;
+  color: #ECF0F5 !important;
+}
+.custom-input{
+  background-color: #1A2226;
+  border: none;
+  border-bottom: 2px solid #0DB8DE;
+  border-top: 0px;
+  border-radius: 0px;
+  font-weight: bold;
+  outline: 0;
+  margin-bottom: 20px;
+  padding-left: 0px;
+  color: #ECF0F5;
+}
+
+
+.form-group {
+  margin-bottom: 40px;
+  outline: 0px;
+  color: #ECF0F5;
+}
+
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-bottom: 2px solid #0DB8DE;
+  outline: 0;
+  background-color: #1A2226;
+  color: #ECF0F5;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0;
+}
+
+label {
+  margin-bottom: 0px;
+  
+}
+
+.form-control-label {
+  font-size: 18px;
+  color: #6C6C6C;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color:white !important;
+}
+
+.btn-outline-primary {
+  border-color: #0DB8DE;
+  color: #0DB8DE;
+  border-radius: 0px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+}
+
+.btn-outline-primary:hover {
+  background-color: #0DB8DE;
+  right: 0px;
+}
+
+.login-btm {
+  float: left;
+
+}
+
+.login-button {
+  padding-right: 0px;
+  text-align: right;
+  margin-bottom: 25px;
+
+}
+
+.login-text {
+  text-align: left;
+  padding-left: 0px;
+  color:white;
+}
+
+.loginbttm {
+  padding: 0px;
+
+}
+
+
+.custom-card__glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  /* background-color: rgba(17, 25, 40, 0.45); */
+  border-radius: 12px;
+  border: 2px solid red;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.06), 2px 2px 2px rgba(0, 0, 0, 0.06), 4px 4px 4px rgba(0, 0, 0, 0.06), 8px 8px 8px rgba(0, 0, 0, 0.06), 16px 16px 16px rgba(0, 0, 0, 0.06), 32px 32px 32px rgba(0, 0, 0, 0.06), -1px -1px 1px rgba(255, 255, 255, 0.06), -2px -2px 2px rgba(255, 255, 255, 0.06), -4px -4px 4px rgba(255, 255, 255, 0.06), -8px -8px 8px rgba(255, 255, 255, 0.06), -16px -16px 16px rgba(255, 255, 255, 0.06), -32px -32px 32px rgba(255, 255, 255, 0.06);
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.06), 2px 2px 2px rgba(0, 0, 0, 0.06), 4px 4px 4px rgba(0, 0, 0, 0.06), 8px 8px 8px rgba(0, 0, 0, 0.06), 16px 16px 16px rgba(0, 0, 0, 0.06), 32px 32px 32px rgba(0, 0, 0, 0.06), -1px -1px 1px rgba(255, 255, 255, 0.06), -2px -2px 2px rgba(255, 255, 255, 0.06), -4px -4px 4px rgba(255, 255, 255, 0.06), -8px -8px 8px rgba(255, 255, 255, 0.06), -16px -16px 16px rgba(255, 255, 255, 0.06), -32px -32px 32px rgba(255, 255, 255, 0.06);
+}
+
+.custom-button {
+  background-color: #0DB8DE;
+  border: none;
+  letter-spacing: 0.5em;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif !important;
+  color: #fff !important;
+}
+
+.custom-button:hover, .custom-button:focus, .custom-button:active {
+  background-color: #219db9 !important;
+}
+
+.custom-button:focus, .custom-button:active {
+  background-color: #219db9 !important;
+}
+
+
+.custom-input:focus {
+  background: none;
+}
+
+.custom-input__label {
+  color: #fff;
+}
+
+.custom-welcome {
+  letter-spacing: 0.65em;
+  font-size: 2em;
+  margin-bottom: 1.2em;
+  color: black !important;
+}
+
+
+body.modal-open .is-blurred {
+  filter: blur(8px);
+  -webkit-filter: blur(2px);
+
+}
+tr.v-data-table__selected {
+  background: rgba(237,112,110,.1) !important;
+}
+
+
+
+/*# sourceMappingURL=custom.css.map */
