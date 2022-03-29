@@ -397,7 +397,7 @@ export default {
                             "MMDYY"
                         )}.zip`
                     );
-                    console.log('searc',base64);
+
                     await axios.put("api/arenaStatus", statusArenas);
 
                     axios.post('api/sendZipEmail', {
