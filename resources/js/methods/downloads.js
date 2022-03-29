@@ -11,6 +11,7 @@ const imageDownload = async (details, codeEvent, el) => {
 
     link.download = `${details.arena}.png`;
     link.href = printCanvas.toDataURL("image/png");
+
     document.body.appendChild(link);
     link.click();
 

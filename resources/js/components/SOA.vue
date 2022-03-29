@@ -575,7 +575,7 @@
                                                     :loading="loading"
                                                     :disabled="loading"
                                                     @click="
-                                                        sendEmiail(arenaDetails)
+                                                        sendEmail(arenaDetails)
                                                     "
                                                 >
                                                     <v-icon>mdi-email</v-icon>
@@ -740,9 +740,9 @@ export default {
         };
     },
     methods: {
-        async sendEmiail(details){
+        async sendEmail(details){
             const el = this.$refs.soaReport;
-            const imgdl = await sendEmailwithImage(details, this.dateEvent, el);
+            const imgdl = await sendEmailwithImage(details, this.dateEvent, this.codeEvent, el);
             if (imgdl.status === 200) {
                 this.dialog = false;
                 this.arenaDetails = {};
