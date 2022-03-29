@@ -396,11 +396,13 @@ export default {
                     const operatorsEmail = this.selected.map(selected => {
                         return selected.arena_details.email_details.map(email => email.email)
                     })
+                    
 
                     axios.post('api/sendZipEmail', {
                             link: base64,
                             emails: uniq(flattenDeep(operatorsEmail)),
-                            date:selected[0].date_of_soa
+                            date: this.selected[0].date_of_soa,
+                            operator: this.selected[0].arena_details.operator
                         },
                         formData,
                         {
