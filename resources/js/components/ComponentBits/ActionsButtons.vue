@@ -113,6 +113,7 @@ import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import { saveAs } from "file-saver";
 import moment from "moment";
+import { flattenDeep, uniq } from 'lodash'
 import {
     printSoa,
 } from "../../methods";
@@ -391,17 +392,15 @@ export default {
                     const formData = new FormData();
                     const blob = await zip.generateAsync({ type: "blob" });
                     const base64 = await zip.generateAsync({ type: "base64" });
-                    await saveAs(
-                        blob,
-                        `report-${moment(this.selected[0].date_closed).format(
-                            "MMDYY"
-                        )}.zip`
-                    );
-
-                    await axios.put("api/arenaStatus", statusArenas);
+                    
+                    const operatorsEmail = this.selected.map(selected => {
+                        return selected.arena_details.email_details.map(email => email.email)
+                    })
 
                     axios.post('api/sendZipEmail', {
-                        link: base64
+                            link: base64,
+                            emails: uniq(flattenDeep(operatorsEmail)),
+                            date:selected[0].date_of_soa
                         },
                         formData,
                         {
@@ -469,7 +468,6 @@ export default {
 
                 const folderName =
                     parseFloat(this.selected[i].for_total) < 0 ? "Replenishment" : "Deposit";
-                console.log(this.selected[i])
                 const arenaName =
                     (this.selected[i].arena_name.indexOf("/")) > -1
                         ? this.selected[i].arena_name.replace(/\//g, "-")

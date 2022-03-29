@@ -123,6 +123,7 @@ class EmailController extends Controller
         // $image = str_replace(' ', '+', $image);
 
         // foreach ($request->data['email_details'] as $email){
+        
 
         $data = [
             // 'email' => $email['email'],

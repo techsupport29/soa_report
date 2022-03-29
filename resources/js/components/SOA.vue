@@ -742,7 +742,7 @@ export default {
     methods: {
         async sendEmail(details){
             const el = this.$refs.soaReport;
-            const imgdl = await sendEmailwithImage(details, this.dateEvent, this.codeEvent, el);
+            const imgdl = await sendEmailwithImage(details, this.dateEvent, this.codeEvent,el);
             if (imgdl.status === 200) {
                 this.dialog = false;
                 this.arenaDetails = {};
