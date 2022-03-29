@@ -392,19 +392,10 @@ export default {
                     const formData = new FormData();
                     const blob = await zip.generateAsync({ type: "blob" });
                     const base64 = await zip.generateAsync({ type: "base64" });
-                    // await saveAs(
-                    //     blob,
-                    //     `report-${moment(this.selected[0].date_closed).format(
-                    //         "MMDYY"
-                    //     )}.zip`
-                    // );
-            
                     
                     const operatorsEmail = this.selected.map(selected => {
                         return selected.arena_details.email_details.map(email => email.email)
                     })
-
-         
 
                     axios.post('api/sendZipEmail', {
                             link: base64,
