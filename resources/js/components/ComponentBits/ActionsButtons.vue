@@ -74,6 +74,20 @@
                             Zip
                     </v-btn>
                 </v-list-item>
+                  <v-list-item class="d-flex justify-center">
+                    <v-btn
+                        :loading="downloadingReport"
+                        :disabled="downloadingReport"
+                        color="yellow darken-3"
+                        class="ma-2 white--text allbtn"
+                        @click="sendZipEmail"
+                    >
+                        <v-icon
+                            light
+                        >mdi-zip-box</v-icon>
+                            EMAIL Zip
+                    </v-btn>
+                </v-list-item>
                 <hr color="green lighten-2" class="ma-2">
                 <v-list-item class="d-flex justify-center">
                     <v-btn
@@ -268,6 +282,7 @@ export default {
             };
 
             const generateZipFile = async (zip) => {
+                  
                     const blob = await zip.generateAsync({ type: "blob" });
                     await saveAs(
                         blob,
@@ -275,14 +290,10 @@ export default {
                             "MMDYY"
                         )}.zip`
                     );
-                    console.log("zip generated");
+
+                  
                     await axios.put("api/arenaStatus", statusArenas);
-                    // const c = this.arenaData.filter(
-                    //     (arena) =>
-                    //         !this.selected.find(
-                    //             (select) => select.areaCode === arena.areaCode
-                    //         )
-                    // );
+                    
 
                     if (this.progressvalue === 100) {
                         setTimeout(async () => {
@@ -290,18 +301,12 @@ export default {
                             this.loading = false;
 
                             console.log("done");
-                            // this.selected = [];
                           
                         }, 1000);
                     }
 
-                    
-                    // if(this.dates.length !== 0) {
-                    //     await this.loadDateRange(this.tab)
-                    // }else{
-                        // this.tab === 'ongoing' ? this.soaLists() : this.importWithStatus();
+                   
                         await this.fetchLists()
-                    // }
 
                     this.handleEmptySelect()
             };
@@ -358,6 +363,122 @@ export default {
             //Generate zip file
             await generateZipFile(zip);
         },
+
+        async sendZipEmail(){
+            let statusArenas = [];
+            this.downloadingReport = true;
+            this.loading = true;
+
+            // // -----------ZIP--------------- // // //
+            const divsss = document.querySelectorAll(".reportsoaoutput");
+
+            const zip = new JSZip();
+
+            const urlToPromise = async (url) => {
+                return new Promise(function (resolve, reject) {
+                    JSZipUtils.getBinaryContent(url, function (err, data) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(data);
+                            console.log(data);
+                        }
+                    });
+                });
+            };
+
+            const generateZipFile = async (zip) => {
+                   
+                    const blob = await zip.generateAsync({ type: "blob" });
+                    await saveAs(
+                        blob,
+                        `report-${moment(this.selected[0].date_closed).format(
+                            "MMDYY"
+                        )}.zip`
+                    );
+
+                    await axios.put("api/arenaStatus", statusArenas);
+
+                    // axios.post('api/sendZipEmail',{
+                    //     link: blob
+                    //     },{
+                    //         headers: {
+                    //             "Content-Type": "multipart/form-data"
+                    //         }
+                    //     }).then(({data}) => {
+                    //         console.log(data);
+                    // });
+
+        
+
+                    if (this.progressvalue === 100) {
+                        setTimeout(async () => {
+                            this.downloadingReport = false;
+                            this.loading = false;
+
+                            console.log("done");
+                            // this.selected = [];
+                          
+                        }, 1000);
+                    }
+   
+                        await this.fetchLists()
+  
+                    this.handleEmptySelect()
+            };
+            // start benchmark
+            const t = new Date();
+            // some xml processing
+
+            for (let i = 0; i < this.selected.length; i++) {
+                statusArenas.push({
+                    codeEvent: this.selected[i].codeEvent,
+                    status: "done",
+                });
+
+                console.log(
+                    `Currently at ${i}, ${(new Date() - t) / 1000} secs`
+                );
+
+                this.progressvalue = Math.ceil(
+                    (parseInt(i + 1) / parseInt(this.selected.length)) * 100
+                );
+
+                const canvas = await html2canvas(divsss[i], {
+                    onclone: function (clonedDoc) {
+                        const elems =
+                            clonedDoc.getElementsByClassName("reportsoaoutput");
+                        for (let i = 0; i < elems.length; i++) {
+                            elems[i].style.display = "block";
+                        }
+                    },
+                    type: "dataURL",
+                    backgroundColor: "#ffffff",
+                    scale: 0.9,
+                });
+
+                const link = document.createElement("a");
+                link.download = `${this.selected[i].arena_details.arena}.png`;
+                link.href = await canvas.toDataURL("image/png");
+                const url = link.href;
+
+                const folderName =
+                    parseFloat(this.selected[i].for_total) < 0 ? "Replenishment" : "Deposit";
+                console.log(this.selected[i])
+                const arenaName =
+                    (this.selected[i].arena_name.indexOf("/")) > -1
+                        ? this.selected[i].arena_name.replace(/\//g, "-")
+                        : this.selected[i].arena_name;
+                const filename = `${folderName}/${arenaName}(${this.selected[i].refNo}).png`;
+
+                await zip.file(filename, await urlToPromise(url), {
+                    binary: true,
+                }); //Create new zip file with filename and content
+            }
+
+            //Generate zip file
+            await generateZipFile(zip);
+        }
        
     }
 }
