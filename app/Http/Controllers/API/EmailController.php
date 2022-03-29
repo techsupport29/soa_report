@@ -116,13 +116,46 @@ class EmailController extends Controller
 
 
     public function sendZipEmail(request $request){
+        // dd($request->all());
         // $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
         // $replace = substr($request->link, 0, strpos($request->link, ',')+1);
-        // // find substring fro replace here eg: data:image/png;base64,
+        // find substring fro replace here eg: data:image/png;base64,
         // $image = str_replace($replace, '', $request->link);
         // $image = str_replace(' ', '+', $image);
 
-        dd($request);
+        // foreach ($request->data['email_details'] as $email){
+
+        $data = [
+            // 'email' => $email['email'],
+            'email' => 'fsiapco@gmail.com',
+            'date' => '$request->date',
+            'type' => "Statement of Account", //to fix
+            'arena_name' => '$request->data["arena"]',
+            'subject' => "KIOSK SALES REPORT FOR".' '.'$request->date',
+            'file' =>  $request->link
+        ];
+
+        $files = [
+           base64_decode($data["file"])
+        ];
+
+
+        Mail::send('email.emailsoa', $data, function($message)use($data, $files) {
+            $message->to($data["email"])
+                    ->subject($data["subject"]);
+
+            foreach ($files as $file){
+                $message->attachData($file, $data['arena_name'].".zip",['mime' => 'application/zip']);
+            }
+
+        });
+            // dump($email['email']);
+
+        // }
+
+        return response()->json('Email suucessfully send');
+
+        // dd($request->all());
     }
 
     /**

@@ -1,6 +1,6 @@
 <template lang="">
     <v-col class="col-md-6 d-flex justify-end align-center">
-     
+
         <v-btn
             color="red lighten-1 text-white"
             class="mr-4"
@@ -9,7 +9,7 @@
         >
             <v-icon light>mdi-backspace-outline</v-icon>
             &nbsp;Clear {{tab}}
-        </v-btn>                                 
+        </v-btn>
         <v-menu
             class="flex-end"
             origin="center center"
@@ -17,7 +17,7 @@
             v-if="selected.length > 0"
             rounded="rounded"
             :loading="downloadingReport"
-            :disabled="downloadingReport"      
+            :disabled="downloadingReport"
         >
             <template
                 v-slot:activator="{on: menu,attrs}"
@@ -104,7 +104,7 @@
                 </v-list-item>
             </v-list>
         </v-menu>
-        <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" />                         
+        <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" />
     </v-col>
 </template>
 <script>
@@ -174,7 +174,7 @@ export default {
                                 "Your file has been deleted.",
                                 "success"
                             );
-                        
+
                             // this.tab === 'ongoing' ? this.soaLists() : this.importWithStatus();
                             if(this.dates.length !== 0) {
                                 this.loadDateRange(this.tab)
@@ -189,7 +189,7 @@ export default {
             });
         },
         async multiDownloads() {
-          
+
             let statusArenas = [];
             this.downloadingReport = true;
             this.loading = true;
@@ -282,7 +282,7 @@ export default {
             };
 
             const generateZipFile = async (zip) => {
-                  
+
                     const blob = await zip.generateAsync({ type: "blob" });
                     await saveAs(
                         blob,
@@ -291,9 +291,9 @@ export default {
                         )}.zip`
                     );
 
-                  
+
                     await axios.put("api/arenaStatus", statusArenas);
-                    
+
 
                     if (this.progressvalue === 100) {
                         setTimeout(async () => {
@@ -301,11 +301,11 @@ export default {
                             this.loading = false;
 
                             console.log("done");
-                          
+
                         }, 1000);
                     }
 
-                   
+
                         await this.fetchLists()
 
                     this.handleEmptySelect()
@@ -388,28 +388,33 @@ export default {
             };
 
             const generateZipFile = async (zip) => {
-                   
+                    const formData = new FormData();
                     const blob = await zip.generateAsync({ type: "blob" });
+                    const base64 = await zip.generateAsync({ type: "base64" });
                     await saveAs(
                         blob,
                         `report-${moment(this.selected[0].date_closed).format(
                             "MMDYY"
                         )}.zip`
                     );
-
+                    console.log('searc',base64);
                     await axios.put("api/arenaStatus", statusArenas);
 
-                    // axios.post('api/sendZipEmail',{
-                    //     link: blob
-                    //     },{
-                    //         headers: {
-                    //             "Content-Type": "multipart/form-data"
-                    //         }
-                    //     }).then(({data}) => {
-                    //         console.log(data);
-                    // });
+                    axios.post('api/sendZipEmail', {
+                        link: base64
+                        },
+                        formData,
+                        {
+                        headers: {
+                            'accept': 'application/json',
+                            'Accept-Language': 'en-US,en;q=0.8',
+                            "Content-Type": "multipart/form-data"
+                        }
+                        }).then(({data}) => {
+                            console.log(data);
+                    });
 
-        
+
 
                     if (this.progressvalue === 100) {
                         setTimeout(async () => {
@@ -418,12 +423,12 @@ export default {
 
                             console.log("done");
                             // this.selected = [];
-                          
+
                         }, 1000);
                     }
-   
+
                         await this.fetchLists()
-  
+
                     this.handleEmptySelect()
             };
             // start benchmark
@@ -479,10 +484,10 @@ export default {
             //Generate zip file
             await generateZipFile(zip);
         }
-       
+
     }
 }
 </script>
 <style lang="">
-    
+
 </style>
