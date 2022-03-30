@@ -33,6 +33,7 @@
                         >
                             <v-icon
                                 light
+                                 class="ma-2 white--text all"
                             >mdi-view-grid-outline</v-icon>
                                 Menu
                             <template
@@ -56,6 +57,7 @@
                     >
                         <v-icon
                             light
+                             class="ma-2 white--text all"
                         >mdi-download</v-icon>
                         PNG
                     </v-btn>
@@ -70,25 +72,45 @@
                     >
                         <v-icon
                             light
+                             class="ma-2 white--text all"
                         >mdi-zip-box</v-icon>
                             Zip
                     </v-btn>
                 </v-list-item>
-                  <v-list-item class="d-flex justify-center">
+
+                <!-- email send via zip or single send  -->
+                <hr color="green lighten-2" class="ma-2">
+                <v-list-item class="d-flex justify-center">
                     <v-btn
                         :loading="downloadingReport"
                         :disabled="downloadingReport"
-                        color="yellow darken-3"
+                        color="blue darken-3"
                         class="ma-2 white--text allbtn"
-                        @click="sendZipEmail"
+                        @click="multisendEmail"
+                    >
+                        <v-icon light class="ma-2 white--text all">mdi-cube-send</v-icon>
+                        Multiple Send Email
+                    </v-btn>
+                </v-list-item>
+
+                <v-list-item class="d-flex justify-center">
+                    <v-btn
+                        :loading="downloadingReport"
+                        :disabled="downloadingReport"
+                        color="purple darken-3"
+                        class="ma-2 white--text allbtn"
+                        @click="openSendZipDialog"
                     >
                         <v-icon
                             light
+                            class="ma-2 white--text all"
                         >mdi-zip-box</v-icon>
                             EMAIL Zip
                     </v-btn>
                 </v-list-item>
+
                 <hr color="green lighten-2" class="ma-2">
+                <!-- multi print -->
                 <v-list-item class="d-flex justify-center">
                     <v-btn
                         :disabled="printReadyProgress < 100 ? true : false"
@@ -98,12 +120,14 @@
                     >
                         <v-icon
                             light
+                             class="ma-2 white--text all"
                         >mdi-printer</v-icon>
                             {{ printReadyProgress >= 100 ? 'PRINT' : `Print ready at ${printReadyProgress}%`}}
                     </v-btn>
                 </v-list-item>
             </v-list>
         </v-menu>
+        <SendZipDialog :openSendZipDialog="openSendZipDialog" ></SendZipDialog>
         <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" />
     </v-col>
 </template>
@@ -113,7 +137,8 @@ import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import { saveAs } from "file-saver";
 import moment from "moment";
-import { flattenDeep, uniq } from 'lodash'
+import { flattenDeep, uniq } from 'lodash';
+import SendZipDialog from "./SendZipDialog.vue";
 import {
     printSoa,
 } from "../../methods";
@@ -137,9 +162,13 @@ export default {
     data: () => ({
         loading: false,
         downloadingReport: false,
+        openSendZipDialog: false,
         progressvalue: 0,
         printSoa
     }),
+    components:{
+        SendZipDialog
+    },
     methods: {
         clearDatabyDate() {
 
@@ -392,11 +421,11 @@ export default {
                     const formData = new FormData();
                     const blob = await zip.generateAsync({ type: "blob" });
                     const base64 = await zip.generateAsync({ type: "base64" });
-                    
+
                     const operatorsEmail = this.selected.map(selected => {
                         return selected.arena_details.email_details.map(email => email.email)
                     })
-                    
+
 
                     axios.post('api/sendZipEmail', {
                             link: base64,
@@ -483,6 +512,89 @@ export default {
 
             //Generate zip file
             await generateZipFile(zip);
+        },
+        async multisendEmail (){
+            let statusArenas = [];
+            this.downloadingReport = true;
+            this.loading = true;
+            const divsss = document.querySelectorAll(".reportsoaoutput");
+            const start = new Date();
+            console.log('multiprint',this.selected);
+
+
+            for (let i = 0; i < this.selected.length; i++) {
+                this.progressvalue = Math.ceil(
+                    (parseInt(i + 1) / parseInt(this.selected.length)) * 100
+                );
+                console.log(
+                    `Currently at ${i}, ${(new Date() - start) / 1000} s`
+                );
+                statusArenas.push({
+                    codeEvent: this.selected[i].codeEvent,
+                    status: "done",
+                });
+
+                const canvas = await html2canvas(divsss[i], {
+                    onclone: function (clonedDoc) {
+                        const elems =
+                            clonedDoc.getElementsByClassName("reportsoaoutput");
+                        for (let i = 0; i < elems.length; i++) {
+                            elems[i].style.display = "block";
+                        }
+                    },
+                    type: "dataURL",
+                    backgroundColor: "#ffffff",
+                    scale: 0.9,
+                });
+
+                const operatorsEmail = this.selected[i].arena_details.email_details.map(email => email.email);
+
+                const link = document.createElement("a");
+                link.download = `${this.selected[i].arena_name}(${this.selected[i].refNo}).png`;
+                link.href = canvas.toDataURL("image/png");
+                // console.log('image',this.selected[i]);
+
+                axios.post('api/sendMultiEmail',{
+                    link: link.href,
+                    emails: uniq(flattenDeep(operatorsEmail)),
+                    date: this.selected[i].date_of_soa,
+                    arena_name: this.selected[i].arena_details.arena,
+                    group: this.selected[i].group
+                    }).then(({data}) => {
+                        console.log(data);
+                });
+                document.body.appendChild(link);
+                link.click();
+
+                await setTimeout(() => {
+                    document.body.removeChild(link); // On modern browsers you can use `tempLink.remove();`
+                }, 500);
+
+                if (this.selected.length - 1 === i) {
+                    await axios.put("api/arenaStatus", statusArenas);
+                    const c = this.arenaData.filter(
+                        (arena) =>
+                            !this.selected.find(
+                                (select) => select.areaCode === arena.areaCode
+                            )
+                    );
+
+                    setTimeout(async () => {
+                        this.downloadingReport = false;
+                        this.loading = false;
+                         this.handleEmptySelect()
+                    }, 1000);
+                    //   if(this.dates.length !== 0) {
+                    //             await this.loadDateRange(this.tab)
+                    //         }else{
+                                // this.tab === 'ongoing' ? this.soaLists() : this.importWithStatus();
+                                await this.fetchLists()
+                            // }
+                }
+            }
+
+            const end = new Date();
+            console.log("Without promise.all ", (end - start) / 1000, " secs");
         }
 
     }

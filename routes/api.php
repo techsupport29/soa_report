@@ -138,5 +138,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     //custom sending email
     //post
     Route::post('sendEmail',[App\Http\Controllers\API\EmailController::class,'SendEmail']);
+    Route::post('sendMultiEmail',[App\Http\Controllers\API\EmailController::class,'MultisendEmail']);
     Route::post('sendZipEmail',[App\Http\Controllers\API\EmailController::class,'sendZipEmail']);
 
