@@ -62,7 +62,7 @@
         methods: {
             loadActivity(){
                 axios.get('api/indexActivity').then((data)=>{
-                    console.log(data);
+                    // console.log(data);
                     this.activity = data.data;
                 });
             },

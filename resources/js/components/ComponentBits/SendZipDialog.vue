@@ -2,17 +2,22 @@
     <v-dialog
         v-model="openSendZipDialog"
         max-width="500px"
+        persistent
+        overlay-color="grey darken-3"
       >
-        <v-card>
-          <v-card-title>
-            Dialog 2
+        <v-card >
+        <v-form ref="form" class="mx-2" lazy-validation>
+        <v-card-title>
+            Enter Zip Name
           </v-card-title>
           <v-card-text>
             <v-text-field
                 v-model="zipName"
                 label="Zip Name"
+                :rules="nameRules"
                 outlined
                 dense
+                required
           ></v-text-field>
           </v-card-text>
           <v-card-actions>
@@ -20,18 +25,19 @@
             <v-btn
               color="primary"
               @click="sendZipEmail"
-              
+
             >
               Send
             </v-btn>
             <v-btn
-              color="primary"
+              color="red"
               text
               @click="zipDialogClose"
             >
               Close
             </v-btn>
           </v-card-actions>
+        </v-form>
         </v-card>
         <loading-progress :loading="loading" :progressvalue="progressvalue" />
       </v-dialog>
@@ -52,15 +58,19 @@ export default {
   data: () => ({
       loading: false,
       progressvalue: 0,
-      zipName: ""
+      zipName: "",
+      nameRules: [
+        v => !!v || 'Zip Name is required'
+      ],
   }),
   methods: {
-      zipDialogClose(){
+    zipDialogClose(){
           this.$emit('zipDialogClose', false)
-      },
-         async sendZipEmail(){
+    },
+    async sendZipEmail(){
+
+        if (this.$refs.form.validate()){
             let statusArenas = [];
-    
             this.loading = true
 
             // // -----------ZIP--------------- // // //
@@ -167,7 +177,12 @@ export default {
 
             //Generate zip file
             await generateZipFile(zip);
-        },
+            //close modal
+            this.$emit('zipDialogClose', false)
+            this.loading = false
+        }
+
+    },
   },
 };
 </script>

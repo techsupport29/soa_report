@@ -830,8 +830,8 @@ export default {
             });
         },
         removeContact(id) {
-            console.log(id);
-            console.log(this.form.area_code);
+            // console.log(id);
+            // console.log(this.form.area_code);
             axios.delete("api/deleteContact/" + id).then((data) => {
                 Fire.$emit("AfterCreate");
                 // $('#addNew').modal('hide');

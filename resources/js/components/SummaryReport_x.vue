@@ -291,7 +291,7 @@ export default {
     },
     methods: {
         async loadSummary(group, page) {
-            console.log("loadSummary>>>>>>", page);
+            // console.log("loadSummary>>>>>>", page);
             this.loading = true;
             const { data } = await axios.get(
                 `api/summaryReport?group=${group}`
@@ -303,7 +303,7 @@ export default {
         },
 
         async handlePaginate(e) {
-            console.log("handlePaginate>>>", e.page);
+            // console.log("handlePaginate>>>", e.page);
             this.pageNumber = e.page;
             await this.loadSummary(this.group, e.page);
         },
@@ -311,7 +311,7 @@ export default {
         async handlePageOptions(e) {
             localStorage.setItem("itemsPerPage", e.itemsPerPage);
             this.$emit("pageOption", e);
-            console.log("handlePageOptions>>>", e);
+            // console.log("handlePageOptions>>>", e);
             this.pageNumber = e.page;
 
             // this.paginationOption = {
@@ -323,7 +323,7 @@ export default {
             // Swicth between menu tab: deposit and replenish
             this.pageNumber = 1;
             this.group = item;
-            console.log("Change Tab", this.pageNumber, item);
+            // console.log("Change Tab", this.pageNumber, item);
             await this.loadSummary(item, this.pageNumber);
         },
         async convertToExcel(item) {
@@ -367,7 +367,7 @@ export default {
 
             const tabTitle = this.tab === 'deposit' ? 'SOA' : 'FR'
             const siteTitle = arraySheet[0]['Ref Number'].charAt(1) === 'B' ? 'BRAVO' : 'ALPHA'
-            console.log()
+
             worksheet =  XLSX.utils.json_to_sheet(arraySheet);
             delete worksheet["E2"].w;
              XLSX.utils.format_cell(worksheet["E2"]);
