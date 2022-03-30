@@ -52,18 +52,6 @@ class EmailController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
-    //     foreach ($request->all() as $data){
-
-    //         if(!Email::where('email',$data['email'])->where('area_code', $data['area_code'])->exists()) {
-    //              Email::updateOrCreate([
-    //                 'area_code' => $data['area_code'],
-    //                 'email' => $data['email']
-    //             ]);
-    //         }
-
-    //    }
 
 
         $emailImport = Email::upsert($request->all(),['area_code']);
@@ -72,7 +60,6 @@ class EmailController extends Controller
 
         return  $emailImport;
 
-    //    return true;
     }
 
     public function SendEmail(request $request){
@@ -115,23 +102,14 @@ class EmailController extends Controller
 
 
     public function sendZipEmail(request $request){
-        // dd($request->all());
-        // $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
-        // $replace = substr($request->link, 0, strpos($request->link, ',')+1);
-        // find substring fro replace here eg: data:image/png;base64,
-        // $image = str_replace($replace, '', $request->link);
-        // $image = str_replace(' ', '+', $image);
 
-        // foreach ($request->data['email_details'] as $email){
-        
-
+        foreach ($request->emails as $email){
         $data = [
-            // 'email' => $email['email'],
-            'email' => 'fsiapco@gmail.com',
-            'date' => '$request->date',
+            'email' => $email,
+            'date' => $request->date,
             'type' => "Statement of Account", //to fix
-            'arena_name' => '$request->data["arena"]',
-            'subject' => "KIOSK SALES REPORT FOR".' '.'$request->date',
+            'arena_name' => $request->operator,
+            'subject' => "KIOSK SALES REPORT FOR".' '.$request->date,
             'file' =>  $request->link
         ];
 
@@ -149,13 +127,52 @@ class EmailController extends Controller
             }
 
         });
-            // dump($email['email']);
 
-        // }
+
+        }
 
         return response()->json('Email suucessfully send');
+    }
 
-        // dd($request->all());
+    public function MultisendEmail(request $request){
+
+        $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
+        $replace = substr($request->link, 0, strpos($request->link, ',')+1);
+        // find substring fro replace here eg: data:image/png;base64,
+        $image = str_replace($replace, '', $request->link);
+        $image = str_replace(' ', '+', $image);
+            // dump($request->all());
+            foreach ($request->emails as $email){
+            $data = [
+                'group' => $request->group,
+                'email' => $email,
+                'date' => $request->date,
+                'type' => "Statement of Account", //to fix
+                'arena_name' => $request->arena_name,
+                'subject' => "KIOSK SALES REPORT FOR".' '.$request->date,
+                'file' =>  $image
+            ];
+
+            $files = [
+               base64_decode($data["file"])
+            ];
+
+
+            Mail::send('email.emailsoa', $data, function($message)use($data, $files) {
+                $message->to($data["email"])
+                        ->subject($data["subject"]);
+
+                foreach ($files as $file){
+                    $message->attachData($file, $data['arena_name'].".png",['mime'=>'image/jpg']);
+                }
+
+            });
+
+
+        }
+
+            return response()->json('Email suucessfully send');
+
     }
 
     /**
