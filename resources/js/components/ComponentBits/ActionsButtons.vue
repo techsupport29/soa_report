@@ -99,7 +99,7 @@
                         :disabled="downloadingReport"
                         color="purple darken-3"
                         class="ma-2 white--text allbtn"
-                        @click="openSendZipDialog"
+                        @click="openSendZipDialog = true"
                     >
                         <v-icon
                             light
@@ -127,7 +127,8 @@
                 </v-list-item>
             </v-list>
         </v-menu>
-        <SendZipDialog :openSendZipDialog="openSendZipDialog" ></SendZipDialog>
+        <!-- Dialog for Zip -->
+        <zip-dialog :openSendZipDialog="openSendZipDialog" :selected="selected" @zipDialogClose="handleZipDialogClose" ></zip-dialog>
         <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" />
     </v-col>
 </template>
@@ -138,7 +139,7 @@ import JSZipUtils from "jszip-utils";
 import { saveAs } from "file-saver";
 import moment from "moment";
 import { flattenDeep, uniq } from 'lodash';
-import SendZipDialog from "./SendZipDialog.vue";
+import ZipDialog from "./SendZipDialog.vue";
 import {
     printSoa,
 } from "../../methods";
@@ -167,9 +168,14 @@ export default {
         printSoa
     }),
     components:{
-        SendZipDialog
+        ZipDialog
     },
     methods: {
+        handleZipDialogClose(item){
+            this.openSendZipDialog = item;
+        },
+
+
         clearDatabyDate() {
 
             const from = this.dates[0];
@@ -394,125 +400,7 @@ export default {
             await generateZipFile(zip);
         },
 
-        async sendZipEmail(){
-            let statusArenas = [];
-            this.downloadingReport = true;
-            this.loading = true;
-
-            // // -----------ZIP--------------- // // //
-            const divsss = document.querySelectorAll(".reportsoaoutput");
-
-            const zip = new JSZip();
-
-            const urlToPromise = async (url) => {
-                return new Promise(function (resolve, reject) {
-                    JSZipUtils.getBinaryContent(url, function (err, data) {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(data);
-                            console.log(data);
-                        }
-                    });
-                });
-            };
-
-            const generateZipFile = async (zip) => {
-                    const formData = new FormData();
-                    const blob = await zip.generateAsync({ type: "blob" });
-                    const base64 = await zip.generateAsync({ type: "base64" });
-
-                    const operatorsEmail = this.selected.map(selected => {
-                        return selected.arena_details.email_details.map(email => email.email)
-                    })
-
-
-                    axios.post('api/sendZipEmail', {
-                            link: base64,
-                            emails: uniq(flattenDeep(operatorsEmail)),
-                            date: this.selected[0].date_of_soa,
-                            operator: this.selected[0].arena_details.operator
-                        },
-                        formData,
-                        {
-                        headers: {
-                            'accept': 'application/json',
-                            'Accept-Language': 'en-US,en;q=0.8',
-                            "Content-Type": "multipart/form-data"
-                        }
-                        }).then(({data}) => {
-                            console.log(data);
-                    });
-
-
-
-                    if (this.progressvalue === 100) {
-                        setTimeout(async () => {
-                            this.downloadingReport = false;
-                            this.loading = false;
-
-                            console.log("done");
-                            // this.selected = [];
-
-                        }, 1000);
-                    }
-
-                        await this.fetchLists()
-
-                    this.handleEmptySelect()
-            };
-            // start benchmark
-            const t = new Date();
-            // some xml processing
-
-            for (let i = 0; i < this.selected.length; i++) {
-                statusArenas.push({
-                    codeEvent: this.selected[i].codeEvent,
-                    status: "done",
-                });
-
-                console.log(
-                    `Currently at ${i}, ${(new Date() - t) / 1000} secs`
-                );
-
-                this.progressvalue = Math.ceil(
-                    (parseInt(i + 1) / parseInt(this.selected.length)) * 100
-                );
-
-                const canvas = await html2canvas(divsss[i], {
-                    onclone: function (clonedDoc) {
-                        const elems =
-                            clonedDoc.getElementsByClassName("reportsoaoutput");
-                        for (let i = 0; i < elems.length; i++) {
-                            elems[i].style.display = "block";
-                        }
-                    },
-                    type: "dataURL",
-                    backgroundColor: "#ffffff",
-                    scale: 0.9,
-                });
-
-                const link = document.createElement("a");
-                link.download = `${this.selected[i].arena_details.arena}.png`;
-                link.href = await canvas.toDataURL("image/png");
-                const url = link.href;
-
-                const folderName =
-                    parseFloat(this.selected[i].for_total) < 0 ? "Replenishment" : "Deposit";
-                const arenaName =
-                    (this.selected[i].arena_name.indexOf("/")) > -1
-                        ? this.selected[i].arena_name.replace(/\//g, "-")
-                        : this.selected[i].arena_name;
-                const filename = `${folderName}/${arenaName}(${this.selected[i].refNo}).png`;
-
-                await zip.file(filename, await urlToPromise(url), {
-                    binary: true,
-                }); //Create new zip file with filename and content
-            }
-
-            //Generate zip file
-            await generateZipFile(zip);
-        },
+     
         async multisendEmail (){
             let statusArenas = [];
             this.downloadingReport = true;
