@@ -7,18 +7,34 @@
       >
         <v-card >
         <v-form ref="form" class="mx-2" lazy-validation>
-        <v-card-title>
-            Enter Zip Name
+          <v-card-title>
+            Sending Zip File
           </v-card-title>
           <v-card-text>
+            <p class="caption">
+              <span class="font-weight-bold">To: </span>
+              <v-chip small v-for="receiverEmail in receiverEmails" :key="receiverEmail">{{receiverEmail}}</v-chip>
+            </p>
+             <p class="caption">
+              <span class="font-weight-bold">CC: </span>
+              <v-chip small v-for="cc in selectedCc" :key="cc.id">{{cc.email_cc}}</v-chip>
+            </p>
             <v-text-field
                 v-model="zipName"
-                label="Zip Name"
+                label="Enter Zip Name"
                 :rules="nameRules"
                 outlined
                 dense
                 required
           ></v-text-field>
+           <v-combobox
+              v-model="selectedCc"
+              :items="items"
+              item-value="email_cc"
+              item-text="email_cc"
+              label="Select CC"
+              multiple
+            ></v-combobox>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -53,7 +69,8 @@ export default {
   name: "zip-dialog",
   props: {
     openSendZipDialog: Boolean,
-    selected: Array
+    selected: Array,
+    receiverEmails: Array
   },
   data: () => ({
       loading: false,
@@ -62,6 +79,9 @@ export default {
       nameRules: [
         v => !!v || 'Zip Name is required'
       ],
+     
+      selectedCc: [],
+       items: [],
   }),
   methods: {
     zipDialogClose(){
@@ -100,10 +120,12 @@ export default {
                         return selected.arena_details.email_details.map(email => email.email)
                     })
 
+                    const emails = uniq(flattenDeep(operatorsEmail))
+                
 
                     axios.post('api/sendZipEmail', {
                             link: base64,
-                            emails: uniq(flattenDeep(operatorsEmail)),
+                            emails,
                             date: this.selected[0].date_of_soa,
                             operator: this.zipName
                         },
@@ -183,6 +205,14 @@ export default {
         }
 
     },
+    async fetchEmailsCC(){
+        const {data} = await axios.get('api/emails')
+        console.log(data)
+        this.selectedCc = data.filter(ec => ec.isUse !== 0)
+       
+        this.items = data
+    }
+
   },
 };
 </script>

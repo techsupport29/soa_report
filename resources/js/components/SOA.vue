@@ -120,7 +120,7 @@
                                     <!-- Table for ongoing soa -->
                                     <!-- ref="tableArenaOnGoing" -->
 
-                                    <table-soax
+                                    <table-soa
                                         :arenaData="arenaData"
                                         :downloadingReport="downloadingReport"
                                         @selectedSoa="handleSelected"
@@ -143,7 +143,7 @@
                                         "
                                         @loading="handlePageLoad"
                                         @pageOption="pageOption"
-                                    ></table-soax>
+                                    ></table-soa>
                                 </v-tab-item>
 
                             </v-tabs-items>
@@ -630,7 +630,6 @@ import BankBox from "./SoaComponents/BankBox.vue";
 import SignatoryBox from "./SoaComponents/SignatoryBox.vue";
 import DateRange from "./ComponentBits/DateRange.vue";
 import TableSoa from "./ComponentBits/TableSoa.vue";
-import TableSoax from "./ComponentBits/TableSoa_x.vue";
 import SoaInput from "./ComponentBits/SoaInput.vue";
 import ActionsButtons from "./ComponentBits/ActionsButtons.vue";
 import SearchSoa from "./ComponentBits/SearchSoa.vue";
@@ -663,7 +662,6 @@ export default {
         ArenaModal,
         DateRange,
         TableSoa,
-        TableSoax,
         FilterArena,
         SoaInput,
         ActionsButtons,

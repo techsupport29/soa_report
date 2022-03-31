@@ -33,6 +33,7 @@ class EmailController extends Controller
     {
         return response()->json(EmailCc::latest()->get());
     }
+
     public function StoreCCEmail(Request $request)
     {
 
@@ -44,6 +45,8 @@ class EmailController extends Controller
             'email_cc' => $request['email_cc']
         ]);
     }
+
+    
 
     public function update(Request $request,$id){
         $request->validate([

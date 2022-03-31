@@ -1,6 +1,5 @@
 <template lang="">
     <v-app>
-
         <h1 class="h2 font-weight-bold pa-8">CONFIGURE DETAILS</h1>
         <v-row dense >
             <v-col class="col-lg-6 sm-12">
