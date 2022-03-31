@@ -29,10 +29,10 @@ class ContactController extends Controller
      */
     public function index()
     {
-        
+
     }
 
- 
+
 
 
     /**
@@ -42,7 +42,7 @@ class ContactController extends Controller
      */
 
 
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,25 +51,12 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-      
-        // dd($request->all());
+
 
         $contactImport = Contact::upsert($request->all(),['area_code']);
-    //     foreach ($request->all() as $data){
-         
-    //         if(!Contact::where('contact_number',$data['contact_number'])->where('area_code', $data['area_code'])->exists()) {
-    //                 Contact::updateOrCreate([
-    //                 'area_code' => $data['area_code'],
-    //                 'contact_number' => $data['contact_number']
-    //             ]);
-    //         }
-      
-    //    }
 
-     
-        
         return  $contactImport;
-        
+
 
     }
 
@@ -107,9 +94,9 @@ class ContactController extends Controller
     {
 
 
-       
+
     }
 
-   
+
 
 }

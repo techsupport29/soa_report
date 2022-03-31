@@ -18,7 +18,7 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-        
+
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -46,12 +46,12 @@ class EmployeeController extends Controller
      */
 
 
-    
+
 
     public function selectedbyUser(Request $request, $old)
-    {   
+    {
 
-      
+
             if($old != 'undefined') {
 
                 $olded = employee::where('id',$old)->first();
@@ -65,11 +65,11 @@ class EmployeeController extends Controller
                 $newed->update([
                     'assign' => true
                 ]);
-            
+
             }
 
             return true;
-   
+
     }
 
     /**
@@ -80,14 +80,7 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-     
-        dd($request->all());
-        // $this->validate($request,[
-        //     'name' => 'required|string|max:191',
-        //     'email' => 'required|string|email|max:191|unique:users',
-        //     'group' => 'required',
-        //     'position' => 'required',
-        // ]);
+
 
         return User::create([
             'name' => $request['name'],
@@ -128,7 +121,7 @@ class EmployeeController extends Controller
             'position' => 'required',
         ]);
 
-     
+
         $position = position::create([
             'position' => $request->position
         ]);
@@ -145,7 +138,7 @@ class EmployeeController extends Controller
         return position::latest()->get();
     }
     public function updatepostionNowwith(request $request,$id){
-        
+
         $this->validate($request,[
             'position' => 'required',
         ]);
@@ -156,21 +149,21 @@ class EmployeeController extends Controller
 
         $activity_controller = new ActivitylogsController;
         $activity_controller->arenaLogs('updated',$request->position,'position',$id);
-     
+
 
         return ['message' => 'Updated the user info'];
 
     }
-    
+
 
     public function deletepostionNow($id)
     {
-  
+
         $position = position::findorfail($id);
 
         $activity_controller = new ActivitylogsController;
         $activity_controller->arenaLogs('deleted',$position->position,'position',$id);
-        
+
         $position->delete();
     }
 
@@ -206,7 +199,7 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-      
+
         $employee = employee::findOrFail($id);
         // delete the user
 

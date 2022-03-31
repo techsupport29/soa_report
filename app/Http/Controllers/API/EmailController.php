@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use Exception;
 use App\Models\User;
 use App\Models\Email;
+use App\Models\EmailCc;
 use Illuminate\Http\Request;
 use App\Exports\importExport;
 use Illuminate\Http\Response;
@@ -30,19 +31,25 @@ class EmailController extends Controller
      */
     public function index()
     {
-
+        return response()->json(EmailCc::latest()->get());
     }
+    public function StoreCCEmail(Request $request)
+    {
 
+        $request->validate([
+            'email_cc' => 'required|email|max:255',
+        ]);
 
-
+        return EmailCc::create([
+            'email_cc' => $request['email_cc']
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -52,12 +59,7 @@ class EmailController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $emailImport = Email::upsert($request->all(),['area_code']);
-
-
-
         return  $emailImport;
 
     }

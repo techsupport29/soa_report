@@ -779,7 +779,7 @@ export default {
         async importWithStatus(site, dates) {
             this.selectsited = site;
             this.selectedDated = dates;
-            console.log('SOALISTxxxxx', site)
+            // console.log('SOALISTxxxxx', site)
             // fetch data with status = done
 
             const perPage = parseInt(localStorage.getItem("itemsPerPage"));
@@ -800,7 +800,7 @@ export default {
 
         openModal(data) {
             // View SOA dialog
-            console.log(data.arena_details);
+            // console.log(data.arena_details);
             if (data.arena_details === null) {
                 $("#addNew").modal("show");
 
@@ -885,7 +885,7 @@ export default {
             else if (this.dates.length > 1 && !this.search) {
                 await this.loadDateRange();
             } else {
-                console.log("SEARCH", this.search);
+                // console.log("SEARCH", this.search);
             }
         },
         // Generate a pdf report
@@ -964,7 +964,7 @@ export default {
         async handleChangeTab(item) {
 
             // Swicth between menu tab: ongoing and converted
-            console.log('switch tab', this.selectsited);
+            // console.log('switch tab', this.selectsited);
 
             this.pageNumber = 1;
             this.signsArray = [];
@@ -1083,7 +1083,7 @@ export default {
         },
     },
     created() {
-        console.log("MOUNTED", this.perPage);
+        // console.log("MOUNTED", this.perPage);
         if (localStorage.getItem("itemsPerPage") === "NaN")
             localStorage.setItem("itemsPerPage", this.perPage);
     },

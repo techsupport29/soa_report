@@ -184,7 +184,7 @@ export default {
                 .format("YYYY-MM-DD");
 
             const tab = this.tab
-            console.log(`${tab} - ${from} - ${to}`)
+            // console.log(`${tab} - ${from} - ${to}`)
             const fromSwal = moment(this.dates[0]).format('LL');
             const toSwal = moment(this.dates[1]).format('LL');
             swal.fire({
@@ -204,7 +204,7 @@ export default {
                             tab: tab
                         })
                         .then((data) => {
-                            console.log('delete',data)
+                            // console.log('delete',data)
                             swal.fire(
                                 "Deleted!",
                                 "Your file has been deleted.",
@@ -236,9 +236,9 @@ export default {
                 this.progressvalue = Math.ceil(
                     (parseInt(i + 1) / parseInt(this.selected.length)) * 100
                 );
-                console.log(
-                    `Currently at ${i}, ${(new Date() - start) / 1000} s`
-                );
+                // console.log(
+                //     `Currently at ${i}, ${(new Date() - start) / 1000} s`
+                // );
                 statusArenas.push({
                     codeEvent: this.selected[i].codeEvent,
                     status: "done",
@@ -291,10 +291,10 @@ export default {
             }
 
             const end = new Date();
-            console.log("Without promise.all ", (end - start) / 1000, " secs");
+            // console.log("Without promise.all ", (end - start) / 1000, " secs");
         },
         async downloadZip() {
-            console.log(this.tab)
+            // console.log(this.tab)
             let statusArenas = [];
             this.downloadingReport = true;
             this.loading = true;
@@ -400,7 +400,7 @@ export default {
             await generateZipFile(zip);
         },
 
-     
+
         async multisendEmail (){
             let statusArenas = [];
             this.downloadingReport = true;

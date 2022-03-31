@@ -852,7 +852,6 @@ export default {
             this.show = false;
 
             $("#bankModal").modal("show");
-            console.log("juny gaGO", data);
             this.bankDetails = data.bank_details;
             this.Bankform.arenas_id = data.id;
             this.Bankform.area_code = data.area_code;

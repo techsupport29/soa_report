@@ -8,7 +8,7 @@
 <template>
     <v-app>
         <v-container >
-            
+
             <v-row class="mt-5">
                 <v-col class="col-md-12">
                     <v-card>
@@ -59,7 +59,7 @@
                                     id="custom-tabs-three-tabContent active show"
                                 >
                                     <v-row>
-                                       
+
                                         <v-spacer></v-spacer>
                                         <v-col>
                                             <v-text-field
@@ -100,7 +100,7 @@
                                             ref="tableDeposit"
                                         >
                                       <template v-slot:[`group.header`]="{ group, headers, toggle, isOpen }">
-                  
+
                                         <td :colspan="headers.length">
                                                 <v-row>
                                                     <v-col class="mt-2 ">
@@ -111,19 +111,19 @@
                                                                 <v-icon v-else>mdi-minus</v-icon>
                                                             </v-btn>
                                                             <span class="mx-5 font-weight-bold">{{ group | myDateSummary  }} </span>
-                                                        </div>  
-                                                     
+                                                        </div>
+
                                                     </v-col>
                                                     <v-col>
 
                                                       <div class=" float-right">
                                                         <v-tooltip top color="green">
-                                                            <template v-slot:activator="{ on, attrs }"> 
-                                                           <v-btn 
-                                                            small  
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                           <v-btn
+                                                            small
                                                             @click="convertToExcel(group, 'Deposit')"
                                                             outlined
-                                                            color="green" 
+                                                            color="green"
                                                             v-bind="attrs"
                                                             v-on="on"
                                                            >
@@ -137,10 +137,10 @@
                                                       </div>
                                                     </v-col>
                                                 </v-row>
-                                              
+
                                         </td>
                                         </template>
-                                        
+
                                              <template v-slot:[`item.areaCode`]="{ item }">
                                                <span class="font-weight-bold">{{item.areaCode }}</span>
                                             </template>
@@ -194,22 +194,22 @@
                                                     <v-row>
                                                         <v-col class="mt-2 ">
                                                             <div class=" float-left">
-                                                                
+
                                                                 <v-btn @click="toggle" x-small icon :ref="group" class="test" >
                                                                     <v-icon v-if="isOpen">mdi-plus</v-icon>
                                                                     <v-icon v-else>mdi-minus</v-icon>
                                                                 </v-btn>
                                                                 <span class="mx-5 font-weight-bold">{{ group | myDateSummary}}</span>
-                                                            </div>  
-                                                        
+                                                            </div>
+
                                                         </v-col>
                                                         <v-col>
                                                         <div class=" float-right">
-                                                            <v-btn 
-                                                                small  
+                                                            <v-btn
+                                                                small
                                                                 @click="convertToExcel(group, 'Replenish')"
                                                                 outlined
-                                                                color="green" 
+                                                                color="green"
                                                             >
                                                                 <v-icon left>
                                                                         mdi-download
@@ -218,7 +218,7 @@
                                                         </div>
                                                         </v-col>
                                                     </v-row>
-                                                
+
                                             </td>
                                         </template>
                                             <template v-slot:[`item.areaCode`]="{ item }">
@@ -247,7 +247,7 @@
                     </v-card>
                 </v-col>
 
-              
+
                 <!-- </v-col> -->
             </v-row>
             <loading-progress :loading="loading"></loading-progress>
@@ -261,7 +261,7 @@ import {
     moneyFormat
 } from "../utility";
 export default {
-    
+
     data() {
         return {
             headers: [
@@ -274,7 +274,7 @@ export default {
                 { text: "Consolidator's Commission", value: "consolidatorsCommission" },
                 { text: "Safety Fund", value: "safetyFund" },
                 { text: "Amount", value: "for_total" },
-         
+
             ],
             deposit:[],
             reflenish:[],
@@ -283,34 +283,34 @@ export default {
             filteredData:{},
             moneyFormat,
             loading: false
-        };  
+        };
     },
     methods: {
-      
+
         loadSummary() {
             this.loading = true
             axios
                 .get("api/depositeandreflenish")
                 .then(({ data }) => {
-                    
+
                     this.deposit = data.dp;
                     this.reflenish = data.rf;
                      this.loading = false
-                   
+
                 });
         },
         convertToExcel(data,deprep){
 
             const value = moment(data).format("YYYY-MM-DD LTS");
             const date = moment(data).format("MMMM-DD-YYYY");
-            console.log(value);
+            // console.log(value);
             let workbooks =  XLSX.utils.book_new();
             let worksheet = '';
             let aray = [];
             axios.get("api/convertToExcel/"+deprep+"/"+ value).then(({ data }) => (
-               
+
                 data.forEach((val) => {
-                    console.log(typeof val.for_total)
+                    // console.log(typeof val.for_total)
                     const objVal = {
                         'ID': val.id,
                         'Ref Number': val.refNo,
@@ -318,7 +318,7 @@ export default {
                         'Total Commission': moneyFormat(parseFloat(val.totalCommission)),
                         'Other Commission -M': moneyFormat(parseFloat(val.otherCommissionIntel05)+parseFloat(val.otherCommIntMob)),
                         'Consolidators commission': moneyFormat(parseFloat(val.consolidatorsCommission)+parseFloat(val.consolCommMob)),
-                        'Safety Fund' : moneyFormat(parseFloat(val.safetyFund)+parseFloat(val.safetyFundMob)), 
+                        'Safety Fund' : moneyFormat(parseFloat(val.safetyFund)+parseFloat(val.safetyFundMob)),
                         'Payment For O/Standing Balance' : moneyFormat(parseFloat(val.paymentForOutstandingBalance)+parseFloat(val.payOutsBalMob)),
                         'Amount': moneyFormat(parseFloat(val.for_total))
                     }
@@ -327,31 +327,30 @@ export default {
                 }),
 
                worksheet =  XLSX.utils.json_to_sheet(aray),
-               
+
                 XLSX.utils.book_append_sheet(workbooks,worksheet,date),
 
                 XLSX.write(workbooks,{bookType:'xlsx',type:'buffer'}),
                 XLSX.write(workbooks,{bookType:'xlsx',type:'binary'}),
-                
+
                 XLSX.writeFile(workbooks,`${deprep}-${moment(date).format('MMDDYY')}.xlsx`)
 
                 ));
-            
+
         },
 
         isOpening(item){
             let open = item
             open = false
-            console.log(open)
             return open
         }
-  
-        
+
+
     },
     created() {
 
         this.loadSummary();
     },
-     
+
 };
 </script>

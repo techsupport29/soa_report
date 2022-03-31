@@ -13,14 +13,14 @@
                                     label="Search"
                                     class="mx-4"
                                 ></v-text-field>
-						
+
 						</v-card-title>
                            	<v-card-actions class="card-tools">
                                 <v-spacer></v-spacer>
 								<v-btn color="success"
                                     elevation="2"  @click="newModal">Add New User <i class="fas fa-user-plus fa-fw"></i></v-btn>
 							</v-card-actions>
-                   
+
                             <v-data-table
                                     :headers="headers"
                                     :items="users.data"
@@ -32,7 +32,7 @@
                                 {{$moment(item.updated_at).format('LL LTS') }}
                             </template>
                             <template v-slot:[`item.actions`]="{ item }">
-                                 
+
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on, attrs }">
                                                 <v-btn
@@ -68,7 +68,7 @@
                                     </v-tooltip>
                             </template>
                             </v-data-table>
-						
+
 					</v-card>
 				</v-col>
 			</v-row>
@@ -85,9 +85,9 @@
 						<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-                    
+
 					<form @submit.prevent="editmode ? updateUser() : createUser()">
-                        
+
 						<div class="modal-body">
                              <v-text-field
                                     label="Full name"
@@ -95,7 +95,7 @@
                                     outlined
                                     dense
                                     v-model="form.name"
-                               
+
                                     :rules="[() => !!form.name || 'This field is required']"
                                     required
                                      prepend-inner-icon="mdi-account"
@@ -111,7 +111,7 @@
                                     :error-messages='usernameError'
                                     v-model="form.username"
                                     :rules="[() => !!form.username || 'This field is required']"
-                                  
+
                             ></v-text-field>
 
                             <v-autocomplete
@@ -127,7 +127,7 @@
                                     v-model="form.type"
                                     class="pb-4"
 
-                            ></v-autocomplete> 
+                            ></v-autocomplete>
 
                             <v-autocomplete
                                     v-show="form.type != 'admin'"
@@ -146,7 +146,7 @@
                                     :rules="[
                                             () => !!form.position_id || 'This field is required',
                                             ]"
-                            ></v-autocomplete>  
+                            ></v-autocomplete>
 
                             <v-select
                                 v-model="form.permission"
@@ -172,14 +172,14 @@
                                 <template v-slot:item="{  item, attrs, on }">
                                 <v-list-item v-on="on" v-bind="attrs" #default="{ active }">
                                     <v-list-item-action>
-                                        <v-checkbox 
+                                        <v-checkbox
                                         :input-value="active"
 
                                         ></v-checkbox>
                                     </v-list-item-action>
                                     <v-list-item-content @click="deletePermissions(active,item,userid)">
                                     <v-list-item-title>
-                                        
+
                                         <v-row no-gutters align="center">
                                         <span>{{ item.name }} </span>
                                         <v-spacer></v-spacer>
@@ -199,7 +199,7 @@
                                     placeholder="*****"
                                     outlined
                                     dense
-                                
+
                                     v-model="form.password"
                             ></v-text-field>
 						</div>
@@ -263,39 +263,39 @@
                     assign:'',
                     isAdmin: false,
                     permission:[],
-                  
+
                 }),
                 rules: {
                     password: []
                 },
                 checkboxRole:'',
-              
-               
-                    
-                
+
+
+
+
             }
         },
         methods: {
-           
+
             loadroles(){
                 axios.get("api/roles").then(({data}) => {
                      this.role_permission = data
-                     console.log('roles' ,data)
+                    //  console.log('roles' ,data)
                      });
             },
             loadTeams(){
                  axios.get("api/teams").then((data) => {
                      this.teams = data
-                     console.log('team' ,data)
+                    //  console.log('team' ,data)
                      });
             },
             loadPosition(){
                 axios.get('api/getposition').then((data)=>{
                     this.position = data.data;
-                    
+
                 });
             },
-        
+
             updateUser(){
 
                 this.$Progress.start();
@@ -315,7 +315,7 @@
                 });
             },
             ViewModal(user){
-                console.log('user',user);
+                // console.log('user',user);
             },
             async editModal(user){
                 console.log('editmodal>>>>>>>>>',user);
@@ -325,7 +325,7 @@
                 this.form.fill(user);
                 this.userid = user.id;
                 await this.getPermission(user.id)
-             
+
                 await this.loadroles();
 
             },
@@ -336,23 +336,23 @@
 
                     // console.log('THIS.FORM.PERMISSION', this.form.permission)
             },
-           
+
             deletePermissions(status,roleid,userid){
                 if(status == true){
                       axios.post('api/deletePermission',{
                             roleid : roleid,
                             userid : userid
                         }).then(({data})=>{
-                            console.log(data)
+                            // console.log(data)
                             const rolePerm = data.map(r => r.roles)
                             this.form.permission = rolePerm
                         })
-                    
+
                 }else{
-                      console.log('no');
+                    //   console.log('no');
                 }
-               
-              
+
+
             },
             newModal(){
                 this.editmode = false;
@@ -387,15 +387,15 @@
             loadUsers(){
                     axios.get("api/user").then((data) => {
                         this.users = data
-                        console.log('user',data.data);
+                        // console.log('user',data.data);
                         });
-                
+
             },
             createUser(){
                 this.$Progress.start();
                 this.form.post('api/user')
                 .then((data)=>{
-                    console.log(data);
+                    // console.log(data);
                     Fire.$emit('AfterCreate');
                     $('#addNew').modal('hide')
                     fire.toast({
@@ -406,7 +406,7 @@
                 })
                 .catch((error)=>{
                     this.usernameError = error.response.data.errors.username;
-                   
+
                 })
             }
         },

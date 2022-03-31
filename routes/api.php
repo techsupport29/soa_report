@@ -140,4 +140,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::post('sendEmail',[App\Http\Controllers\API\EmailController::class,'SendEmail']);
     Route::post('sendMultiEmail',[App\Http\Controllers\API\EmailController::class,'MultisendEmail']);
     Route::post('sendZipEmail',[App\Http\Controllers\API\EmailController::class,'sendZipEmail']);
+    Route::post('SaveCCEmail',[App\Http\Controllers\API\EmailController::class,'StoreCCEmail']);
 

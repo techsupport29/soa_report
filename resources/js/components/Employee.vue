@@ -10,7 +10,7 @@
     <v-app>
 		<v-container>
 			<v-row class="mt-5 is-blurred"  v-if="$gate.isAdmin()">
-            
+
 				<v-col class="col-md-12">
 					<v-card >
 						<v-card-title class="card-header">
@@ -22,14 +22,14 @@
                                     label="Search"
                                     class="mx-4"
                                 ></v-text-field>
-						
+
 						</v-card-title>
                             <v-data-table
                                     :headers="headers"
                                     :items="employee"
                                     :search="search"
                                     class="elevation-1 text-center"
-                                
+
                                 >
                                     <template v-slot:top>
                                                 <v-toolbar
@@ -41,7 +41,7 @@
                                                         inset
                                                         vertical
                                                     ></v-divider>
-                                                    <v-spacer></v-spacer> 
+                                                    <v-spacer></v-spacer>
                                                         <v-btn
                                                             color="primary"
                                                             dark
@@ -99,7 +99,7 @@
 				</v-col>
 			</v-row>
 
-            
+
 					<!-- Modal -->
 			<div class="modal fade" id="addNew" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
@@ -151,8 +151,8 @@
                                 item-text="team"
                                 v-model="form.team"
                                  class="pb-4"
-                            ></v-autocomplete> 
-                            
+                            ></v-autocomplete>
+
 
                             <v-autocomplete
                                 :items="assigns"
@@ -169,7 +169,7 @@
                                         () => !!form.group || 'This field is required',
                                         ]"
                             ></v-autocomplete>
-                           
+
 
                            <v-autocomplete
                                 :items="position"
@@ -186,7 +186,7 @@
                                  :rules="[
                                         () => !!form.position || 'This field is required',
                                         ]"
-                            ></v-autocomplete> 
+                            ></v-autocomplete>
 
 						</div>
 						<div class="modal-footer">
@@ -198,8 +198,8 @@
                         	</div>
 				</div>
 			</div>
-            
-            
+
+
 		</v-container>
 	</v-app>
 </template>
@@ -218,7 +218,7 @@
 
                     { text: '', value: 'actions', sortable: false },
                 ],
-               
+
                 editmode: false,
                 employee : [],
                 length: '',
@@ -230,7 +230,7 @@
                 ],
                 selected: [],
                 check: false,
-               
+
                 form: new Form({
                     id:'',
                     name : '',
@@ -240,7 +240,7 @@
                     position: '',
                     group:'',
                 }),
-               
+
 
             }
         },
@@ -248,7 +248,7 @@
             loadPosition(){
                 axios.get('api/getposition').then((data)=>{
                     this.position = data.data;
-                    
+
                 });
             },
            loadEmployee() {
@@ -256,8 +256,8 @@
                 .get("api/employees")
                 .then(
                     ({data}) => {
-                      
-                        
+
+
                         const selectedCompute = data.computed.filter(c => c.assign !== 0);
                         const selectedPrepared = data.prepared.filter(c => c.assign !== 0);
                          const checks = data.checked.filter(c => c.assign !== 0);
@@ -276,7 +276,7 @@
             },
             updateUser(){
                 this.$Progress.start();
-                console.log('Editing data');
+                // console.log('Editing data');
                 this.form.put('api/employees/'+this.form.id)
                 .then(() => {
                     $('#addNew').modal('hide');
@@ -304,7 +304,7 @@
                 this.editmode = false;
                 this.form.reset();
                 $('#addNew').modal('show');
-               
+
             },
             deleteUser(id){
                 swal.fire({
@@ -341,10 +341,10 @@
                             this.selected = element.assign
                         }),
                         this.selected = selected
-                       
+
                     ));
                 }
-               
+
 
 
             },
