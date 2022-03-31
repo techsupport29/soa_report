@@ -99,7 +99,7 @@
                         :disabled="downloadingReport"
                         color="purple darken-3"
                         class="ma-2 white--text allbtn"
-                        @click="openSendZipDialog = true"
+                        @click="handleZipDialogOpen"
                     >
                         <v-icon
                             light
@@ -128,7 +128,7 @@
             </v-list>
         </v-menu>
         <!-- Dialog for Zip -->
-        <zip-dialog :openSendZipDialog="openSendZipDialog" :selected="selected" @zipDialogClose="handleZipDialogClose" ></zip-dialog>
+        <zip-dialog :openSendZipDialog="openSendZipDialog" :selected="selected" @zipDialogClose="handleZipDialogClose" :receiverEmails="receiverEmails" ref="dialogZip"></zip-dialog>
         <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" />
     </v-col>
 </template>
@@ -165,7 +165,8 @@ export default {
         downloadingReport: false,
         openSendZipDialog: false,
         progressvalue: 0,
-        printSoa
+        printSoa,
+        receiverEmails: []
     }),
     components:{
         ZipDialog
@@ -173,6 +174,17 @@ export default {
     methods: {
         handleZipDialogClose(item){
             this.openSendZipDialog = item;
+        },
+
+        handleZipDialogOpen(){
+                this.openSendZipDialog = true
+                this.$refs.dialogZip.fetchEmailsCC()
+                const operatorsEmail = this.selected.map(selected => {
+                        return selected.arena_details.email_details.map(email => email.email)
+                });
+
+                this.receiverEmails = uniq(flattenDeep(operatorsEmail))
+
         },
 
 
@@ -281,12 +293,9 @@ export default {
                         this.loading = false;
                          this.handleEmptySelect()
                     }, 1000);
-                    //   if(this.dates.length !== 0) {
-                    //             await this.loadDateRange(this.tab)
-                    //         }else{
-                                // this.tab === 'ongoing' ? this.soaLists() : this.importWithStatus();
+                   
                                 await this.fetchLists()
-                            // }
+                        
                 }
             }
 
