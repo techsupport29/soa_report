@@ -31,7 +31,7 @@
                 </template>
                     <template v-slot:[`item.emailAction`]="{ item }">
 
-                            <v-tooltip bottom>
+                            <v-tooltip bottom color="primary">
                                 <template v-slot:activator="{ on, attrs }">
                                         <v-btn
                                         color="primary"
@@ -48,7 +48,7 @@
                             <span>Edit User Info</span>
                             </v-tooltip>
                             |
-                            <v-tooltip bottom>
+                            <v-tooltip bottom  color="red">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
                                     color="red"
@@ -57,12 +57,12 @@
                                     v-bind="attrs"
                                     v-on="on"
                                     class="mx-2"
-                                    @click="deletePosition(item.id)"
+                                    @click="deleteEmail(item.id)"
                                     >
                                     <i class="fa fa-trash"></i>
                                     </v-btn>
                                 </template>
-                            <span>Delete info User</span>
+                            <span>Delete Email</span>
                             </v-tooltip>
                     </template>
         </v-data-table>
@@ -148,19 +148,19 @@
                         this.errors = error.response.data.errors?.email_cc;
                 })
 
-
             },
-            // updatePosition(){
-            //     this.positionform.put('api/updateposition/'+this.positionform.id).then((data)=> {
-
-            //           Fire.$emit('AfterCreate');
-            //           Toast.fire({
-            //             icon: 'success',
-            //             title: 'Position Added in Updated'
-            //             })
-            //              $('#addPostion').modal('hide');
-            //     });
-            // },
+            updateEmail(){
+                this.ccform.put('api/emails/'+this.ccform.id).then((data)=> {
+                      Fire.$emit('AfterCreate');
+                      Toast.fire({
+                        icon: 'success',
+                        title: 'email  Updated'
+                        })
+                         $('#OpenModal').modal('hide');
+                }).catch((error) => {
+                        this.errors = error.response.data.errors?.email_cc;
+                });
+            },
             editModal(data){
                 this.editmode = true;
                 this.ccform.reset();
@@ -173,29 +173,29 @@
 
                 });
             },
-            // deletePosition(id){
-            //       swal.fire({
-            //         title: 'Are you sure?',
-            //         text: "You won't be able to revert this!",
-            //         icon: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33',
-            //         confirmButtonText: 'Yes, delete it!'
-            //         }).then((result) => {
-            //              if (result.value) {
-            //                   axios.get('api/deletePosition/'+id).then((data)=> {
-            //                         swal.fire(
-            //                             'Deleted!',
-            //                             'Your file has been deleted.',
-            //                             'success'
-            //                             )
-            //                         Fire.$emit('AfterCreate');
-            //                     });
-            //              }
-            //         })
+            deleteEmail(id){
+                  swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                         if (result.value) {
+                              this.ccform.delete('api/emails/'+id).then((data)=> {
+                                    swal.fire(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                        )
+                                    Fire.$emit('AfterCreate');
+                                });
+                         }
+                    })
 
-            // },
+            },
 
 
 

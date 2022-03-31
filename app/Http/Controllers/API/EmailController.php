@@ -45,6 +45,16 @@ class EmailController extends Controller
         ]);
     }
 
+    public function update(Request $request,$id){
+        $request->validate([
+            'email_cc' => 'required|email|max:255',
+        ]);
+
+        return EmailCc::find($id)->update([
+            'email_cc' => $request['email_cc']
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -185,9 +195,7 @@ class EmailController extends Controller
      */
     public function destroy($id)
     {
-
-
-
+        return EmailCc::find($id)->delete();
     }
 
 
