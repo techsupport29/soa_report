@@ -197,8 +197,6 @@
 
             },
 
-
-
         },
         created() {
             this.loadPosition();

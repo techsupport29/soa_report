@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 
-const sendEmailwithImage = async (details, dateEvent, codeEvent, el) => {
+const sendEmailwithImage = async (details, dateEvent, codeEvent, el,type,cc) => {
     const options = {
         type: "dataURL",
         backgroundColor: "transparent",
@@ -11,11 +11,11 @@ const sendEmailwithImage = async (details, dateEvent, codeEvent, el) => {
 
     link.download = `${details.arena}.png`;
     link.href = printCanvas.toDataURL("image/png");
-   
-
 
     axios.post('api/sendEmail',{
+        cc: cc,
         data : details,
+        group : type,
         link : link.href ,
         date : dateEvent
         }).then(({data}) => {

@@ -47,6 +47,21 @@
                 </v-tooltip>
             </template>
             <v-list >
+                 <v-list-item class="d-flex justify-center" >
+                    <v-btn
+                        :loading="downloadingReport"
+                        :disabled="downloadingReport"
+                        color="cyan accent-3"
+                        class="ma-2 white--text allbtn"
+                        @click="OpenManageCCdialog"
+                    >
+                        <v-icon
+                            light
+                             class="ma-2 white--text all"
+                        >mdi-arrange-send-to-back</v-icon>
+                        manage CC in Email
+                    </v-btn>
+                </v-list-item>
                 <v-list-item class="d-flex justify-center" >
                     <v-btn
                         :loading="downloadingReport"
@@ -128,7 +143,10 @@
             </v-list>
         </v-menu>
         <!-- Dialog for Zip -->
-        <zip-dialog :openSendZipDialog="openSendZipDialog" :selected="selected" @zipDialogClose="handleZipDialogClose" :receiverEmails="receiverEmails" ref="dialogZip"></zip-dialog>
+        <zip-dialog  :openSendZipDialog="openSendZipDialog"  :selected="selected" @zipDialogClose="handleZipDialogClose" :receiverEmails="receiverEmails" ref="dialogZip"></zip-dialog>
+
+        <!-- manageCC -->
+        <manage-cc :openCCdialog="openCCdialog" :selected="selected" @closeCCdialog="handlecloseCCdialog" :receiverEmails="receiverEmails" ref="manageCC"></manage-cc>
         <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" />
     </v-col>
 </template>
@@ -140,6 +158,7 @@ import { saveAs } from "file-saver";
 import moment from "moment";
 import { flattenDeep, uniq } from 'lodash';
 import ZipDialog from "./SendZipDialog.vue";
+import ManageCc from "./ManageCc.vue"
 import {
     printSoa,
 } from "../../methods";
@@ -158,24 +177,31 @@ export default {
         fetchLists: Function,
         loadDateRange: Function,
         handleEmptySelect: Function,
-        printReadyProgress: Number
+        printReadyProgress: Number,
     },
     data: () => ({
         loading: false,
         downloadingReport: false,
         openSendZipDialog: false,
+        openCCdialog: false,
         progressvalue: 0,
         printSoa,
-        receiverEmails: []
+        receiverEmails: [],
+        selectedCc:[]
     }),
     components:{
-        ZipDialog
+        ZipDialog,
+        ManageCc
     },
     methods: {
         handleZipDialogClose(item){
+            console.log(item);
             this.openSendZipDialog = item;
         },
-
+        handlecloseCCdialog(item){
+            console.log(item);
+            this.openCCdialog = item;
+        },
         handleZipDialogOpen(){
                 this.openSendZipDialog = true
                 this.$refs.dialogZip.fetchEmailsCC()
@@ -184,12 +210,17 @@ export default {
                 });
 
                 this.receiverEmails = uniq(flattenDeep(operatorsEmail))
-
         },
+        OpenManageCCdialog(){
+              this.openCCdialog = true
+                this.$refs.manageCC.fetchEmailsCC()
+                const operatorsEmail = this.selected.map(selected => {
+                        return selected.arena_details.email_details.map(email => email.email)
+                });
 
-
+                this.receiverEmails = uniq(flattenDeep(operatorsEmail))
+        },
         clearDatabyDate() {
-
             const from = this.dates[0];
             const to = moment(this.dates[1], "YYYY-MM-DD")
                 .add(1, "days")
@@ -293,9 +324,9 @@ export default {
                         this.loading = false;
                          this.handleEmptySelect()
                     }, 1000);
-                   
+
                                 await this.fetchLists()
-                        
+
                 }
             }
 
@@ -410,6 +441,7 @@ export default {
         },
 
 
+
         async multisendEmail (){
             let statusArenas = [];
             this.downloadingReport = true;
@@ -450,9 +482,15 @@ export default {
                 link.download = `${this.selected[i].arena_name}(${this.selected[i].refNo}).png`;
                 link.href = canvas.toDataURL("image/png");
                 // console.log('image',this.selected[i]);
+                const {data} = await axios.get('api/emails');
+                this.selectedCc = data.filter(ec => ec.isUse !== 0);
+                const EmailCC =  this.selectedCc.map(selectedCc => {
+                        return selectedCc.email_cc
+                    });
 
                 axios.post('api/sendMultiEmail',{
                     link: link.href,
+                    cc :   EmailCC,
                     emails: uniq(flattenDeep(operatorsEmail)),
                     date: this.selected[i].date_of_soa,
                     arena_name: this.selected[i].arena_details.arena,

@@ -575,7 +575,7 @@
                                                     :loading="loading"
                                                     :disabled="loading"
                                                     @click="
-                                                        sendEmail(arenaDetails)
+                                                        sendEmail(arenaDetails,depRep.depositReplenishText)
                                                     "
                                                 >
                                                     <v-icon>mdi-email</v-icon>
@@ -735,12 +735,22 @@ export default {
             scY: 0,
             selectsited: '',
             selectedDated:'',
+            EmailCC: [],
         };
     },
     methods: {
-        async sendEmail(details){
+
+        async HandlerCc(){
+            const {data} = await axios.get('api/emails')
+            this.selectedCc = data.filter(ec => ec.isUse !== 0)
+            this.EmailCC =  this.selectedCc.map(selectedCc => {
+                return selectedCc.email_cc
+            });
+
+        },
+        async sendEmail(details, type){
             const el = this.$refs.soaReport;
-            const imgdl = await sendEmailwithImage(details, this.dateEvent, this.codeEvent,el);
+            const imgdl = await sendEmailwithImage(details, this.dateEvent, this.codeEvent,el,type.title,this.EmailCC);
             if (imgdl.status === 200) {
                 this.dialog = false;
                 this.arenaDetails = {};
@@ -1081,6 +1091,7 @@ export default {
         },
     },
     created() {
+        this.HandlerCc();
         // console.log("MOUNTED", this.perPage);
         if (localStorage.getItem("itemsPerPage") === "NaN")
             localStorage.setItem("itemsPerPage", this.perPage);

@@ -141,4 +141,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::post('sendMultiEmail',[App\Http\Controllers\API\EmailController::class,'MultisendEmail']);
     Route::post('sendZipEmail',[App\Http\Controllers\API\EmailController::class,'sendZipEmail']);
     Route::post('SaveCCEmail',[App\Http\Controllers\API\EmailController::class,'StoreCCEmail']);
-
+    Route::get('isUsed/{id}',[App\Http\Controllers\API\EmailController::class,'isUsedUpdate']);
+    Route::get('getActiveCc',[App\Http\Controllers\API\EmailController::class,'getActiveCC']);

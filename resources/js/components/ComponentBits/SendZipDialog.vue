@@ -27,14 +27,6 @@
                 dense
                 required
           ></v-text-field>
-           <v-combobox
-              v-model="selectedCc"
-              :items="items"
-              item-value="email_cc"
-              item-text="email_cc"
-              label="Select CC"
-              multiple
-            ></v-combobox>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -79,7 +71,7 @@ export default {
       nameRules: [
         v => !!v || 'Zip Name is required'
       ],
-     
+
       selectedCc: [],
        items: [],
   }),
@@ -119,15 +111,17 @@ export default {
                     const operatorsEmail = this.selected.map(selected => {
                         return selected.arena_details.email_details.map(email => email.email)
                     })
-
+                    const EmailCC =  this.selectedCc.map(selectedCc => {
+                            return selectedCc.email_cc
+                        });
                     const emails = uniq(flattenDeep(operatorsEmail))
-                
 
                     axios.post('api/sendZipEmail', {
                             link: base64,
                             emails,
                             date: this.selected[0].date_of_soa,
-                            operator: this.zipName
+                            operator: this.zipName,
+                            cc: EmailCC
                         },
                         formData,
                         {
@@ -205,13 +199,14 @@ export default {
         }
 
     },
+
     async fetchEmailsCC(){
         const {data} = await axios.get('api/emails')
-        console.log(data)
         this.selectedCc = data.filter(ec => ec.isUse !== 0)
-       
+        // console.log('hey',this.items)
         this.items = data
-    }
+    },
+
 
   },
 };
