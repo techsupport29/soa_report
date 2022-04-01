@@ -33,8 +33,28 @@
               item-value="email_cc"
               item-text="email_cc"
               label="Select CC"
+              
               multiple
-            ></v-combobox>
+            >
+              <template v-slot:item="{ item, on, attrs }">
+                <v-list-item v-on="on" v-bind="attrs"  @click="handleSelectedEmail(item)">
+                  <v-list-item-icon
+                    >
+                    <v-icon>{{
+                      selectedCc.includes(item) ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'
+                    }}</v-icon>
+                  </v-list-item-icon
+                  >
+                  <v-list-item-content>
+                    <v-list-item-title
+                      v-text="item.email_cc"
+                      class="text-left"
+                    ></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+              
+            </v-combobox>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -56,6 +76,7 @@
         </v-form>
         </v-card>
         <loading-progress :loading="loading" :progressvalue="progressvalue" />
+        
       </v-dialog>
 </template>
 <script>
@@ -67,12 +88,15 @@ import { flattenDeep, uniq } from 'lodash';
 
 export default {
   name: "zip-dialog",
+
   props: {
     openSendZipDialog: Boolean,
     selected: Array,
-    receiverEmails: Array
+    receiverEmails: Array,
+    handleSendingEmail: Function
   },
   data: () => ({
+      
       loading: false,
       progressvalue: 0,
       zipName: "",
@@ -82,8 +106,12 @@ export default {
      
       selectedCc: [],
        items: [],
+   
   }),
   methods: {
+    handleSelectedEmail(item){
+      console.log(item)
+    },
     zipDialogClose(){
           this.$emit('zipDialogClose', false)
     },
@@ -91,7 +119,8 @@ export default {
 
         if (this.$refs.form.validate()){
             let statusArenas = [];
-            this.loading = true
+            // this.loading = true
+             this.handleSendingEmail()
 
             // // -----------ZIP--------------- // // //
             const divsss = document.querySelectorAll(".reportsoaoutput");
@@ -122,7 +151,7 @@ export default {
 
                     const emails = uniq(flattenDeep(operatorsEmail))
                 
-
+                   
                     axios.post('api/sendZipEmail', {
                             link: base64,
                             emails,
@@ -142,11 +171,11 @@ export default {
 
 
 
-                    if (this.progressvalue === 100) {
-                        setTimeout(async () => {
-                          this.loading = false
-                        }, 1000);
-                    }
+                    // if (this.progressvalue === 100) {
+                    //     setTimeout(async () => {
+                    //       this.loading = false
+                    //     }, 1000);
+                    // }
             };
             // start benchmark
             const t = new Date();

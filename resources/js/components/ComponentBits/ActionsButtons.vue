@@ -128,8 +128,8 @@
             </v-list>
         </v-menu>
         <!-- Dialog for Zip -->
-        <zip-dialog :openSendZipDialog="openSendZipDialog" :selected="selected" @zipDialogClose="handleZipDialogClose" :receiverEmails="receiverEmails" ref="dialogZip"></zip-dialog>
-        <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" />
+        <zip-dialog :openSendZipDialog="openSendZipDialog" :selected="selected" @zipDialogClose="handleZipDialogClose" :receiverEmails="receiverEmails" :handleSendingEmail="handleSendingEmail" ref="dialogZip"></zip-dialog>
+        <!-- <loading-progress :loading="loading" :downloadingReport="downloadingReport" :progressvalue="progressvalue" /> -->
     </v-col>
 </template>
 <script>
@@ -158,7 +158,8 @@ export default {
         fetchLists: Function,
         loadDateRange: Function,
         handleEmptySelect: Function,
-        printReadyProgress: Number
+        printReadyProgress: Number,
+        handleSendingEmail: Function
     },
     data: () => ({
         loading: false,
@@ -412,7 +413,7 @@ export default {
 
         async multisendEmail (){
             let statusArenas = [];
-            this.downloadingReport = true;
+            this.handleSendingEmail()
             this.loading = true;
             const divsss = document.querySelectorAll(".reportsoaoutput");
             const start = new Date();
