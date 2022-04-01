@@ -46,7 +46,7 @@ class EmailController extends Controller
         ]);
     }
 
-    
+
 
     public function update(Request $request,$id){
         $request->validate([
@@ -78,6 +78,7 @@ class EmailController extends Controller
     }
 
     public function SendEmail(request $request){
+
         $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
         $replace = substr($request->link, 0, strpos($request->link, ',')+1);
         // find substring fro replace here eg: data:image/png;base64,
@@ -85,10 +86,12 @@ class EmailController extends Controller
         $image = str_replace(' ', '+', $image);
 
         foreach ($request->data['email_details'] as $email){
+
         $data = [
+            'group' => $request->group,
             'email' => $email['email'],
+            'email_cc' => $request->cc,
             'date' => $request->date,
-            'type' => "Statement of Account", //to fix
             'arena_name' => $request->data['arena'],
             'subject' => "KIOSK SALES REPORT FOR".' '.$request->date,
             'file' =>  $image
@@ -98,9 +101,9 @@ class EmailController extends Controller
            base64_decode($data["file"])
         ];
 
-
         Mail::send('email.emailsoa', $data, function($message)use($data, $files) {
             $message->to($data["email"])
+                    ->cc($data['email_cc'])
                     ->subject($data["subject"]);
 
             foreach ($files as $file){
@@ -108,7 +111,6 @@ class EmailController extends Controller
             }
 
         });
-            // dump($email['email']);
 
         }
 
@@ -121,8 +123,8 @@ class EmailController extends Controller
         foreach ($request->emails as $email){
         $data = [
             'email' => $email,
+            'email_cc' => $request->cc,
             'date' => $request->date,
-            'type' => "Statement of Account", //to fix
             'arena_name' => $request->operator,
             'subject' => "KIOSK SALES REPORT FOR".' '.$request->date,
             'file' =>  $request->link
@@ -134,7 +136,9 @@ class EmailController extends Controller
 
 
         Mail::send('email.emailviazipsoa', $data, function($message)use($data, $files) {
+
             $message->to($data["email"])
+                    ->cc($data['email_cc'])
                     ->subject($data["subject"]);
 
             foreach ($files as $file){
@@ -150,7 +154,6 @@ class EmailController extends Controller
     }
 
     public function MultisendEmail(request $request){
-
         $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
         $replace = substr($request->link, 0, strpos($request->link, ',')+1);
         // find substring fro replace here eg: data:image/png;base64,
@@ -161,8 +164,8 @@ class EmailController extends Controller
             $data = [
                 'group' => $request->group,
                 'email' => $email,
+                'email_cc' => $request->cc,
                 'date' => $request->date,
-                'type' => "Statement of Account", //to fix
                 'arena_name' => $request->arena_name,
                 'subject' => "KIOSK SALES REPORT FOR".' '.$request->date,
                 'file' =>  $image
@@ -175,6 +178,7 @@ class EmailController extends Controller
 
             Mail::send('email.emailsoa', $data, function($message)use($data, $files) {
                 $message->to($data["email"])
+                        ->cc($data['email_cc'])
                         ->subject($data["subject"]);
 
                 foreach ($files as $file){
@@ -201,6 +205,12 @@ class EmailController extends Controller
         return EmailCc::find($id)->delete();
     }
 
-
+    public function isUsedUpdate( $id){
+        $email = EmailCc::find($id);
+        // dd($email->isUse);
+        $email->update([
+            'isUse' => $email->isUse === 0 ? true : false
+        ]);
+    }
 
 }
