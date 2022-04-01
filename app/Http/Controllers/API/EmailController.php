@@ -101,7 +101,8 @@ class EmailController extends Controller
            base64_decode($data["file"])
         ];
 
-        Mail::send('email.emailsoa', $data, function($message)use($data, $files) {
+
+        Mail::send($data['group'] == "Statement of Account" ? 'email.emailsoa' :' email.reflenishment' , $data, function($message)use($data, $files) {
             $message->to($data["email"])
                     ->cc($data['email_cc'])
                     ->subject($data["subject"]);
@@ -154,6 +155,7 @@ class EmailController extends Controller
     }
 
     public function MultisendEmail(request $request){
+        // dd($request->group);
         $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
         $replace = substr($request->link, 0, strpos($request->link, ',')+1);
         // find substring fro replace here eg: data:image/png;base64,
@@ -176,7 +178,7 @@ class EmailController extends Controller
             ];
 
 
-            Mail::send('email.emailsoa', $data, function($message)use($data, $files) {
+            Mail::send($data['group'] =='Deposit' ? 'email.emailsoa' :' email.reflenishment', $data, function($message)use($data, $files) {
                 $message->to($data["email"])
                         ->cc($data['email_cc'])
                         ->subject($data["subject"]);
