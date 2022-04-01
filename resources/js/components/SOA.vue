@@ -3,6 +3,7 @@
         <v-container :class="{ 'blur-content': dialog }">
             <h1 class="h3">Statement of Accounts</h1>
             <!-- Arena Modal -->
+            <email-loading v-if="sendingEmail"></email-loading>
             <arena-modal :arenaNames="arenaName" :soaLists="soaLists">
             </arena-modal>
             <v-row class="mt-3">
@@ -86,6 +87,7 @@
                                     :fetchLists="handleFetchLists"
                                     :loadDateRange="loadDateRange"
                                     :printReadyProgress="printReadyProgress"
+                                    :handleSendingEmail="handleSendingEmail"
                                 />
                             </v-row>
                         </v-card-title>
@@ -635,6 +637,8 @@ import ActionsButtons from "./ComponentBits/ActionsButtons.vue";
 import SearchSoa from "./ComponentBits/SearchSoa.vue";
 import FilterArena from "./ComponentBits/FilterArena.vue";
 import FilterSite from "./ComponentBits/FilterSite.vue";
+import EmailLoading from './ComponentBits/EmailLoading.vue'
+
 
 import {
     imageDownload,
@@ -666,7 +670,8 @@ export default {
         SoaInput,
         ActionsButtons,
         SearchSoa,
-        FilterSite
+        FilterSite,
+        EmailLoading
     },
     data() {
         return {
@@ -735,6 +740,7 @@ export default {
             scY: 0,
             selectsited: '',
             selectedDated:'',
+            sendingEmail: false,
             EmailCC: [],
         };
     },
@@ -1034,10 +1040,6 @@ export default {
             this.page = item.current_page;
         },
 
-        // filteredSite(item){
-        //     console.log(item)
-        //     this.site = item
-        // },
 
         //scrolltotop
         handleScroll() {
@@ -1054,6 +1056,12 @@ export default {
                 behavior: "smooth",
             });
         },
+        handleSendingEmail(){
+            this.sendingEmail = true;
+            setTimeout(() => {
+                this.sendingEmail = false
+            }, 5000)
+        }
     },
 
     computed: {

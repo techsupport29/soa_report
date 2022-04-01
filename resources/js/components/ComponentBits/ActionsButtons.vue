@@ -143,7 +143,7 @@
             </v-list>
         </v-menu>
         <!-- Dialog for Zip -->
-        <zip-dialog  :openSendZipDialog="openSendZipDialog"  :selected="selected" @zipDialogClose="handleZipDialogClose" :receiverEmails="receiverEmails" ref="dialogZip"></zip-dialog>
+        <zip-dialog  :openSendZipDialog="openSendZipDialog"  :selected="selected" @zipDialogClose="handleZipDialogClose" :receiverEmails="receiverEmails" :handleSendingEmail="handleSendingEmail" ref="dialogZip"></zip-dialog>
 
         <!-- manageCC -->
         <manage-cc :openCCdialog="openCCdialog" :selected="selected" @closeCCdialog="handlecloseCCdialog" :receiverEmails="receiverEmails" ref="manageCC"></manage-cc>
@@ -178,6 +178,7 @@ export default {
         loadDateRange: Function,
         handleEmptySelect: Function,
         printReadyProgress: Number,
+        handleSendingEmail: Function
     },
     data: () => ({
         loading: false,
@@ -444,7 +445,7 @@ export default {
 
         async multisendEmail (){
             let statusArenas = [];
-            this.downloadingReport = true;
+            this.handleSendingEmail()
             this.loading = true;
             const divsss = document.querySelectorAll(".reportsoaoutput");
             const start = new Date();
