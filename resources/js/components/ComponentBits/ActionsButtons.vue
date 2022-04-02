@@ -47,21 +47,35 @@
                 </v-tooltip>
             </template>
             <v-list >
-                 <v-list-item class="d-flex justify-center" >
-                    <v-btn
-                        :loading="downloadingReport"
-                        :disabled="downloadingReport"
-                        color="cyan accent-3"
-                        class="ma-2 white--text allbtn"
-                        @click="OpenManageCCdialog"
-                    >
-                        <v-icon
-                            light
-                             class="ma-2 white--text all"
-                        >mdi-arrange-send-to-back</v-icon>
-                        manage CC in Email
-                    </v-btn>
-                </v-list-item>
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-list-item class="d-flex justify-center" >
+                        <v-btn
+                            :loading="downloadingReport"
+                            :disabled="downloadingReport"
+                            color="cyan accent-3"
+                            class="ma-2 white--text allbtn"
+                            @click="OpenManageCCdialog"
+                            elevation="2"
+                            rounded
+                            v-bind="attrs"
+                            v-on="on"
+                        >
+                            <v-icon
+                                light
+                                class="ma-2 white--text all"
+                            >mdi-arrange-send-to-back</v-icon>
+                            Manage CC
+                        </v-btn>
+                    </v-list-item>
+                </template>
+            <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Manage CC in Email </span>
+            </v-tooltip>
+
+            <hr color="green lighten-2" class="ma-2">
+
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
                 <v-list-item class="d-flex justify-center" >
                     <v-btn
                         :loading="downloadingReport"
@@ -69,6 +83,10 @@
                         color="green lighten-1"
                         class="ma-2 white--text allbtn"
                         @click="multiDownloads"
+                        elevation="2"
+                        rounded
+                        v-bind="attrs"
+                        v-on="on"
                     >
                         <v-icon
                             light
@@ -77,24 +95,39 @@
                         PNG
                     </v-btn>
                 </v-list-item>
-                <v-list-item class="d-flex justify-center">
-                    <v-btn
-                        :loading="downloadingReport"
-                        :disabled="downloadingReport"
-                        color="yellow darken-3"
-                        class="ma-2 white--text allbtn"
-                        @click="downloadZip"
-                    >
-                        <v-icon
-                            light
-                             class="ma-2 white--text all"
-                        >mdi-zip-box</v-icon>
-                            Zip
-                    </v-btn>
-                </v-list-item>
+                </template>
+                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Multiple download of Image/PNG </span>
+            </v-tooltip>
 
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-list-item class="d-flex justify-center">
+                        <v-btn
+                            :loading="downloadingReport"
+                            :disabled="downloadingReport"
+                            color="yellow darken-3"
+                            class="ma-2 white--text allbtn"
+                            @click="downloadZip"
+                            elevation="2"
+                            rounded
+                            v-bind="attrs"
+                            v-on="on"
+                        >
+                            <v-icon
+                                light
+                                class="ma-2 white--text all"
+                            >mdi-zip-box</v-icon>
+                                Zip
+                        </v-btn>
+                    </v-list-item>
+                </template>
+                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Compress selected image into Zip File  </span>
+            </v-tooltip>
                 <!-- email send via zip or single send  -->
-                <hr color="green lighten-2" class="ma-2">
+            <hr color="green lighten-2" class="ma-2">
+
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
                 <v-list-item class="d-flex justify-center">
                     <v-btn
                         :loading="downloadingReport"
@@ -102,12 +135,21 @@
                         color="blue darken-3"
                         class="ma-2 white--text allbtn"
                         @click="multisendEmail"
+                        elevation="2"
+                        rounded
+                        v-bind="attrs"
+                        v-on="on"
                     >
                         <v-icon light class="ma-2 white--text all">mdi-cube-send</v-icon>
                         Multiple Send Email
                     </v-btn>
                 </v-list-item>
+                </template>
+                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Compress selected image into Zip and Send in Email  </span>
+            </v-tooltip>
 
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
                 <v-list-item class="d-flex justify-center">
                     <v-btn
                         :loading="downloadingReport"
@@ -115,31 +157,41 @@
                         color="purple darken-3"
                         class="ma-2 white--text allbtn"
                         @click="handleZipDialogOpen"
+                        elevation="2"
+                        rounded
+                        v-bind="attrs"
+                        v-on="on"
                     >
-                        <v-icon
-                            light
-                            class="ma-2 white--text all"
-                        >mdi-zip-box</v-icon>
+                        <v-icon light  class="ma-2 white--text all">mdi-zip-box</v-icon>
                             EMAIL Zip
                     </v-btn>
                 </v-list-item>
+                </template>
+                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Compress selected image into Zip and Send in Email  </span>
+            </v-tooltip>
 
-                <hr color="green lighten-2" class="ma-2">
+            <hr color="green lighten-2" class="ma-2">
                 <!-- multi print -->
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
                 <v-list-item class="d-flex justify-center">
                     <v-btn
                         :disabled="printReadyProgress < 100 ? true : false"
                         color="red accent-1"
                         class="ma-2 white--text allbtn"
                         @click="printSoa('report-soa_container')"
+                        elevation="2"
+                        rounded
+                        v-bind="attrs"
+                        v-on="on"
                     >
-                        <v-icon
-                            light
-                             class="ma-2 white--text all"
-                        >mdi-printer</v-icon>
+                        <v-icon light class="ma-2 white--text all">mdi-printer</v-icon>
                             {{ printReadyProgress >= 100 ? 'PRINT' : `Print ready at ${printReadyProgress}%`}}
                     </v-btn>
                 </v-list-item>
+                </template>
+                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Print Selected/multiple image </span>
+            </v-tooltip>
             </v-list>
         </v-menu>
         <!-- Dialog for Zip -->

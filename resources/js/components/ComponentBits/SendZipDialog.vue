@@ -13,11 +13,12 @@
           <v-card-text>
             <p class="caption">
               <span class="font-weight-bold">To: </span>
-              <v-chip small v-for="receiverEmail in receiverEmails" :key="receiverEmail">{{receiverEmail}}</v-chip>
+              <v-chip small v-for="receiverEmail in receiverEmails" :key="receiverEmail" class="ma-1 text-white" color="blue">{{receiverEmail}}</v-chip>
             </p>
              <p class="caption">
-              <span class="font-weight-bold">CC: </span>
-              <v-chip small v-for="cc in selectedCc" :key="cc.id">{{cc.email_cc}}</v-chip>
+              <span class="font-weight-bold">CC:  </span>
+              <span v-if="selectedCc == ''" cclasslass="font-weight-italic"> <em> No CC email selected yet.. </em></span>
+              <v-chip v-else small v-for="cc in selectedCc" :key="cc.id" class="ma-1 text-white" color="blue" >{{ cc.email_cc}}</v-chip>
             </p>
             <v-text-field
                 v-model="zipName"
@@ -27,13 +28,13 @@
                 dense
                 required
           ></v-text-field>
-           <v-combobox
+           <!-- <v-combobox
               v-model="selectedCc"
               :items="items"
               item-value="email_cc"
               item-text="email_cc"
               label="Select CC"
-              
+
               multiple
             >
               <template v-slot:item="{ item, on, attrs }">
@@ -53,8 +54,8 @@
                   </v-list-item-content>
                 </v-list-item>
               </template>
-              
-            </v-combobox>
+
+            </v-combobox> -->
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -75,7 +76,7 @@
           </v-card-actions>
         </v-form>
         </v-card>
-        
+
       </v-dialog>
 </template>
 <script>
@@ -95,7 +96,7 @@ export default {
     handleSendingEmail: Function
   },
   data: () => ({
-      
+
       loading: false,
       progressvalue: 0,
       zipName: "",
@@ -105,7 +106,7 @@ export default {
 
       selectedCc: [],
        items: [],
-   
+
   }),
   methods: {
     handleSelectedEmail(item){

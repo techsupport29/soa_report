@@ -4,10 +4,8 @@
             :headers="emailccHeaders"
             :items="emailcc"
             :search="search"
-            sort-by="calories"
-            class="elevation-1 ma-4"
+            class="elevation-1 ma-4">
 
-        >
             <template v-slot:top>
                 <v-toolbar
                     flat

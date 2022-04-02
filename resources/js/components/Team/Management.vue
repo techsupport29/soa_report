@@ -15,14 +15,14 @@
             <v-tabs
               color="deep-purple accent-4"
               right
-              flat                      
+              flat
             >
               <v-tab>Arenas</v-tab>
               <v-tab>Members</v-tab>
               <v-tab-item>
                 <v-data-table :items="arenaTeams" :headers="headers">
                   <template v-slot:top>
-                    <v-toolbar flat>                                        
+                    <v-toolbar flat>
                       <v-tooltip color="blue lighten-1" bottom>
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
@@ -31,7 +31,7 @@
                             v-bind="attrs"
                             v-on="on"
                             class="mx-2"
-                            @click="openArenaSelection"                                                                  
+                            @click="openArenaSelection"
                           >
                             <v-icon>mdi-stadium-variant</v-icon>
                             Add Arena
@@ -44,15 +44,15 @@
                                             <v-dialog v-model="dialogRemoveItem" max-width="500px"  persistent>
                                                     <v-card>
                                                         <v-card-title class="text-h6"> Remove {{selectedArena && selectedArena.area_code}} from {{selectedTeam && selectedTeam.name.toUpperCase()}}?</v-card-title>
-                                                    
+
                                                         <v-card-actions >
                                                             <v-spacer></v-spacer>
                                                             <v-btn color="red darken-1" text @click="dialogRemoveItem = false">Cancel</v-btn>
                                                             <v-btn color="blue darken-1" text @click="removeItemConfirm">OK</v-btn>
-                                                            
+
                                                         </v-card-actions>
                                                     </v-card>
-                                            </v-dialog>                                             
+                                            </v-dialog>
                                     </template>
 
                                 <template v-slot:[`item.team`]="{ item }">
@@ -71,9 +71,9 @@
                                             <div class="mt-4 text-h6">
                                                 Change Team
                                             </div>
-                                        
+
                                             <v-select
-                                                
+
                                                 v-model="item.team"
                                                 :items="teams"
                                                 menu-props="auto"
@@ -84,13 +84,13 @@
                                                 item-text='name'
                                                 item-value='name'
                                                 @change="handleChanged"
-                                                
+
                                             ></v-select>
-                                            
+
                                         </template>
                                     </v-edit-dialog>
                                 </template>
-                              
+
                                 <template v-slot:[`item.actions`]="{ item }">
 
                                         <v-tooltip color="error" bottom>
@@ -103,7 +103,7 @@
                                                     v-on="on"
                                                     class="mx-2"
                                                     @click="removeItem(item)"
-                                                    
+
                                                 >
                                                     <v-icon>mdi-playlist-remove</v-icon>
                                                 </v-btn>
@@ -111,18 +111,18 @@
                                             <span>Remove {{ item.name }}</span>
                                         </v-tooltip>
                                 </template>
-                               
+
                             </v-data-table>
-                         
-                           
+
+
                         </v-tab-item>
                         <!-- MEMBERS -->
                          <v-tab-item>
-                             
+
                                 <v-data-table v-model="selected" value="10"  :items="userTeams" item-key="id"  :headers="headersUser" single-select show-select @input="handleChangedSelectedUser">
                                 <template v-slot:top>
-                                    <v-toolbar flat>                                        
-                                        <v-spacer></v-spacer> 
+                                    <v-toolbar flat>
+                                        <v-spacer></v-spacer>
                                                 <v-tooltip color="blue lighten-1" bottom>
                                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn
@@ -140,16 +140,16 @@
                                                             <span>Add User to {{selectedTeam && selectedTeam.name}}</span>
                                                         </v-tooltip>
                                                 </v-toolbar>
-                                                
+
                                                    <v-dialog v-model="dialogRemoveUserItem" max-width="500px">
                                                     <v-card>
                                                     <v-card-title class="text-h6">Remove {{selectedUser && selectedUser.name}} from {{selectedTeam && selectedTeam.name}}?</v-card-title>
-                                                
+
                                                     <v-card-actions>
                                                         <v-spacer></v-spacer>
                                                         <v-btn color="red darken-1" text @click="dialogRemoveUserItem = false">Cancel</v-btn>
                                                         <v-btn color="blue darken-1" text @click="removeUserItemConfirmation">OK</v-btn>
-                                                       
+
                                                     </v-card-actions>
                                                     </v-card>
                                                 </v-dialog>
@@ -166,7 +166,7 @@
                                                 }"
                                             >
                                                 <v-simple-checkbox
-                                                    
+
                                                     :value="item.id == assignedComputed"
                                                     @change="handleChangedSelectedUser(item)"
                                                     @input="select(item)"
@@ -189,7 +189,7 @@
                                             <div class="mt-4 text-h6">
                                                 Change Team
                                             </div>
-                                           
+
                                             <v-select
                                                 :items="teams"
                                                 menu-props="auto"
@@ -202,13 +202,13 @@
                                                 :value="item"
                                                 return-object
                                                 @change="handleChangedUserTeam"
-                                               
+
                                             ></v-select>
-                                            
+
                                         </template>
                                     </v-edit-dialog>
                                 </template>
-                              
+
                                   <template v-slot:[`item.actions`]="{ item }">
                                           <v-tooltip color="error" bottom>
                                             <template v-slot:activator="{ on, attrs }">
@@ -220,7 +220,7 @@
                                                     v-on="on"
                                                     class="mx-2"
                                                     @click="removeUserItem(item)"
-                                                    
+
                                                 >
                                                     <v-icon>mdi-playlist-remove</v-icon>
                                                 </v-btn>
@@ -257,13 +257,13 @@
                                             }">
 
                           </v-data-table>
-                        
-                    </v-card-text>                           
+
+                    </v-card-text>
                     <v-card-actions>
-                        <v-spacer></v-spacer>                         
+                        <v-spacer></v-spacer>
                             <v-btn color="red darken-1" text @click="() => {addNewArenaItem = false; this.selectedArenasToTeam = []}">Cancel</v-btn>
                             <v-btn :disabled="selectedArenasToTeam < 1 ? true : false" color="blue darken-1" text @click="addArenaSelectedToTeam">ADD</v-btn>
-                            
+
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -289,7 +289,7 @@
                             color="white"
                             item-text="name"
                             label="Staffs"
-                           
+
                             return-object
                         ></v-autocomplete> -->
                          <v-data-table v-model="selectedUserToTeam"  :items="userNoTeam" :headers="headerStaffs" :search="staffSearch" :itemsPerPage="5" show-select  :footer-props="{
@@ -300,13 +300,13 @@
                                             }">
 
                           </v-data-table>
-                        
-                    </v-card-text>                           
+
+                    </v-card-text>
                     <v-card-actions>
-                        <v-spacer></v-spacer>                         
+                        <v-spacer></v-spacer>
                             <v-btn color="red darken-1" text @click="() => {addNewUserItem = false}">Cancel</v-btn>
                             <v-btn color="blue darken-1" text @click="addUserSelectedToTeam">ADD</v-btn>
-                            
+
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -469,12 +469,12 @@ export default {
       this.addNewUserItem = true;
       this.getUsersWithoutTeam();
     },
-    
+
     removeItem(item) {  // Open dialog asking to confirm if arena will be remove
       this.selectedArena = item;
       this.dialogRemoveItem = true;
     },
-   
+
     async removeItemConfirm() {  // Remove Arena to specific a team
       const code = this.selectedArena.area_code;
 
@@ -491,14 +491,14 @@ export default {
       this.selectedArena = {};
       this.dialogRemoveItem = false;
     },
-    
+
     removeUserItem(item) { // Open dialog asking to confirm if user will be remove
       this.selectedUser = item;
       this.dialogRemoveUserItem = true;
     },
-  
+
     async removeUserItemConfirmation() {   // Remove user to specific a team
-      const user = this.selectedUser; 
+      const user = this.selectedUser;
       await axios.put("api/updateUserTeam/" + user.id, {
         team_id: null,
         assign: null
@@ -515,7 +515,7 @@ export default {
       this.selectedUser = {};
       this.dialogRemoveUserItem = false;
     },
-    
+
     async getArenasWithoutTeam() { // Get all arenas without team
       const arena = await axios.get("api/arena");
       const arenaNoTeam = arena.data.filter((a) => a.team == null);
@@ -551,7 +551,7 @@ export default {
     //   this.addNewUserItem = false;
     //   Fire.$emit("AfterCreateUserTeam");
     // },
-    
+
       // // ADD multiple users to team and assigned as computed
       async addUserSelectedToTeam() {
           // let usersTeam = [];
@@ -564,7 +564,7 @@ export default {
           const teamId = this.selectedTeam.id;
           await axios.put(
             `api/updateSelectedUserToTeam/${teamId}`,
-            { 
+            {
               assign: 'computed',
               users: this.selectedUserToTeam
             }

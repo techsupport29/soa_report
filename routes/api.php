@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\EmailController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::apiResources(['contactnumbers' => App\Http\Controllers\API\ContactController::class]);
     Route::apiResources(['emails' => App\Http\Controllers\API\EmailController::class]);
     Route::apiResources(['teams' => App\Http\Controllers\API\TeamController::class]);
+    Route::apiResources(['groups' => App\Http\Controllers\API\OperatorGroupController::class]);
 
     //custom user api
     //get
@@ -143,3 +142,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::post('SaveCCEmail',[App\Http\Controllers\API\EmailController::class,'StoreCCEmail']);
     Route::get('isUsed/{id}',[App\Http\Controllers\API\EmailController::class,'isUsedUpdate']);
     Route::get('getActiveCc',[App\Http\Controllers\API\EmailController::class,'getActiveCC']);
+
+
+    //custom group
+    Route::get('getselectedgroup/{id}',[App\Http\Controllers\API\OperatorGroupController::class,'getselectedGroup']);
+    Route::get('deletegroupsselectedarena/{id}',[App\Http\Controllers\API\OperatorGroupController::class,'Deletegroupsselectedarena']);
+    Route::post('addtogroup',[App\Http\Controllers\API\OperatorGroupController::class,'Addtogroup']);
+

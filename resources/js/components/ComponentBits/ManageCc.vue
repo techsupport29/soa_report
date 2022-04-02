@@ -13,7 +13,8 @@
           <v-card-text>
              <p class="caption">
               <span class="font-weight-bold">CC: </span>
-              <v-chip small v-for="cc in selectedCc" :key="cc.id" class="ma-1 text-white" color="blue">{{cc.email_cc}}</v-chip>
+              <span v-if="selectedCc == ''" cclasslass="font-weight-italic"> <em> No CC email selected yet.. </em></span>
+              <v-chip v-else small v-for="cc in selectedCc" :key="cc.id" class="ma-1 text-white" color="blue">{{cc.email_cc}}</v-chip>
             </p>
            <v-combobox
               v-model="selectedCc"

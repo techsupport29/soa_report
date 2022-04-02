@@ -11,7 +11,7 @@ import moment from 'moment';
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api';
 import vuetify from '../plugin/vuetify'
-import LoadingProgress from "./components/ComponentBits/LoadingProgress" 
+import LoadingProgress from "./components/ComponentBits/LoadingProgress"
 
 import Form from 'vform'
 
@@ -161,6 +161,10 @@ let routes = [
         path: '/activitylogs', component: require('./components/ActivityLogs.vue').default
     },
     {
+        path: '/groupmanagement', component: require('./components/GroupManagement.vue').default
+    },
+
+    {
 
         path: '*', component: require('./components/NotFound.vue').default
     },
@@ -179,5 +183,5 @@ const app = new Vue({
     el: '#app',
     vuetify,
     router,
-   
+
 });
