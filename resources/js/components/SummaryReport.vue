@@ -257,6 +257,7 @@
 <script>
 import moment from "moment";
 import XLSX from "xlsx";
+import ExcelJS from 'exceljs';
 import {
     moneyFormat
 } from "../utility";

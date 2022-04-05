@@ -92,6 +92,7 @@
                                                                     hover,
                                                                 }"
                                                             >
+                                                             <!-- convertToExcel(item.date_of_soa) -->
                                                                 <v-btn
                                                                     color="success"
                                                                     dark
@@ -101,9 +102,7 @@
                                                                     "
                                                                     v-on="on"
                                                                     @click="
-                                                                        convertToExcel(
-                                                                            item.date_of_soa
-                                                                        )
+                                                                       convertToExcelSummary( item.date_of_soa)
                                                                     "
                                                                     :class="{
                                                                         'on-hover':
@@ -184,9 +183,7 @@
                                                                     "
                                                                     v-on="on"
                                                                     @click="
-                                                                        convertToExcel(
-                                                                            item.date_of_soa
-                                                                        )
+                                                                         convertToExcelSummary( item.date_of_soa)
                                                                     "
                                                                     :class="{
                                                                         'on-hover':
@@ -240,24 +237,14 @@
 import moment from "moment";
 import XLSX from "xlsx";
 import { moneyFormat } from "../utility";
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver'
 export default {
     data() {
         return {
             headers: [
                 { text: "Date of Event", value: "date_of_soa" },
-                { text: "", value: "action", sortable: false },
-                // { text: "Code", value: "areaCode" },
-                // { text: "Reference", value: "refNo" },
-                // { text: "Date", value: "date_of_soa" },
-                // { text: "OCBS/Arena Name", value: "arena_name" },
-                // { text: "Total Commission", value: "totalCommission" },
-                // { text: "Othe Commission -M", value: "otherCommissionIntel05" },
-                // {
-                //     text: "Consolidator's Commission",
-                //     value: "consolidatorsCommission",
-                // },
-                // { text: "Safety Fund", value: "safetyFund" },
-                // { text: "Amount", value: "for_total" },
+                { text: "", value: "action", sortable: false }
             ],
             items: [
                 {
@@ -382,6 +369,107 @@ export default {
             );
 
         },
+        convertStringToNumber (objects){
+                for (var i = 0; i < objects.length; i++) {
+                var obj = objects[i];
+                for (var prop in obj) {
+                    if (obj.hasOwnProperty(prop) && obj[prop] !== null && !isNaN(obj[prop])) {
+                    obj[prop] = +obj[prop];
+                    }
+                }
+                }
+                return objects;
+        },
+        async convertToExcelSummary(item) {
+            const value = moment(item).format("YYYY-MM-DD LTS");
+            const date = moment(item).format("MMMM-DD-YYYY");
+
+            const fontColor = (color = 'FFFFFFFF', name = 'Arial', family = 4, size = 9) => {
+                return {
+                    name,
+                    color: { argb: color },
+                    family,
+                    size,
+                    bold: true
+                }
+            }
+
+            const fillColor = (color = 'FF000000') => {
+                return {
+                    type: 'pattern',
+                    pattern:'solid',
+                    fgColor:{argb: color}
+                }
+            }
+
+
+
+            const { data } = await axios.get(
+                "api/convertToExcel/" + this.tab + "/" + value
+            );
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = await workbook.addWorksheet("Summary Report",{properties:{tabColor:{argb:'FFC0000'}}});
+            const converted = this.convertStringToNumber(data);
+
+            const convertedResult = converted.map((val, index) => ({
+                count:index + 1,
+                otherCommissionIntel05:parseFloat(val.otherCommissionIntel05) + parseFloat(val.otherCommIntMob),
+                consolidatorsCommission:parseFloat(val.consolidatorsCommission) + parseFloat(val.consolCommMob),
+                safetyFund: parseFloat(val.safetyFund) + parseFloat(val.safetyFundMob),
+                paymentForOutstandingBalance: parseFloat(val.paymentForOutstandingBalance) +parseFloat(val.payOutsBalMob),
+                ...val
+
+            }));
+
+            const tabTitle = this.tab === 'deposit' ? 'SOA' : 'FR';
+            // console.log()
+            const siteTitle = convertedResult[0].refNo.charAt(1) === 'B' ? 'BRAVO' : 'ALPHA'
+           worksheet.columns = [
+                        {header:'#' , key: 'count', width: 10 },
+                        {header:'Date of Event' , key: 'date_of_soa', width: 20 },
+                        {header:'Reference Number' , key: 'refNo', width: 20 },
+                        {header:'Arena Name / OCBS Name' , key: 'arena_name', width: 100 },
+                        {header:'Other Commission -M' , key: 'otherCommissionIntel05',width: 20},
+                        {header:'Consolidators commission' , key: 'consolidatorsCommission',width: 20},
+                        {header:'Safety Fund' , key: 'safetyFund',width: 20},
+                        {header:'Payment For O/Standing Balance' , key: 'paymentForOutstandingBalance',width: 20},
+                        {header:'Amount', key: 'for_total', width: 30 },
+            ]
+             // Custom design excel
+            const internalCheckCells = ['A1', 'B1','C1','D1','E1','F1','G1','H1','I1']
+
+            worksheet.getRow(1).height = 30;
+            internalCheckCells.forEach(cell => {
+                worksheet.getCell(cell).font = fontColor('FFFFFFFF')
+                worksheet.getCell(cell).fill = fillColor('FF000000')
+                worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
+            }),
+
+            worksheet.addRows(convertedResult);
+
+            worksheet.columns.forEach(function (column, i) {
+                column["eachCell"]({ includeEmpty: true }, function (cell) {
+                    cell.border = {
+                        top: {style:'thin'},
+                        left: {style:'thin'},
+                        bottom: {style:'thin'},
+                        right: {style:'thin'}
+                    }
+
+                });
+
+                if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
+
+            });
+
+
+            const buf = await workbook.xlsx.writeBuffer()
+            saveAs(new Blob([buf]), `${tabTitle} Summary Report_${siteTitle}-${moment(date).format("MMMM DD YYYY")}.xlsx`)
+
+
+            // console.log('check',data);
+        }
+
     },
 };
 </script>
