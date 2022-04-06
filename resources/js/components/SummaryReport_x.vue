@@ -432,7 +432,7 @@ export default {
                         {header:'Other Commission -M' , key: 'otherCommissionIntel05',width: 20},
                         {header:'Consolidators commission' , key: 'consolidatorsCommission',width: 20},
                         {header:'Safety Fund' , key: 'safetyFund',width: 20},
-                        {header:'Payment For O/Standing Balance' , key: 'paymentForOutstandingBalance',width: 20},
+                        {header:'Payment For Outstanding Balance' , key: 'paymentForOutstandingBalance',width: 20},
                         {header:'Amount', key: 'for_total', width: 30 },
             ]
              // Custom design excel
@@ -458,9 +458,18 @@ export default {
 
                 });
 
-                if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
+                // if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
+                if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '_-* #,##0.00_-;[Color3]-* #,##0.00_-;_-* "-"??_-;_-@_-'
 
             });
+
+            const endRow = worksheet.lastRow._number + 1;
+            worksheet.getCell(`D${endRow+1}`).value = 'TOTAL';
+            worksheet.getCell(`D${endRow+1}`).font = fontColor('FF000000', 'Arial Black', 2, 11);
+            worksheet.getCell(`I${endRow+1}`).value = { formula: `SUM(I2:I${endRow-1})`, date1904: false };
+            worksheet.getCell(`I${endRow+1}`).font = fontColor('FFFFFFFF', 'Arial', 2, 12);
+            worksheet.getCell(`I${endRow+1}`).fill = fillColor('FF09140D', 'Arial', 2, 12);
+            worksheet.getCell(`I${endRow+1}`).border = { bottom: { style:'double', color: {argb:'FF000000'} } };
 
 
             const buf = await workbook.xlsx.writeBuffer()
