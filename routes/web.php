@@ -20,9 +20,13 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// Route::get('/register', function () {
-//   return view('register');
-// });
+
+Route::get('/send', function () {
+    $data = [];
+    Mail::send('email.testEmail', $data, function ($message) {
+        $message->to('financekiosk@lucky8star.net');
+    });
+});
 
 // Auth::routes();
 Route::middleware('preventBackHistory')->group(function () {

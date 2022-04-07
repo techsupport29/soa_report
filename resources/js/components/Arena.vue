@@ -628,7 +628,7 @@ export default {
     methods: {
         onFileChange(event) {
             const file = event ? event : null;
-
+            // console.log(file);
             const checkfile =
                 event.name.includes("xlsx") || event.name.includes("csv");
 
@@ -644,8 +644,10 @@ export default {
                     const ws = wb.SheetNames;
 
                     const filteredWS = ws.filter(function (value, index, arr) {
-                        return value.toLowerCase() === "DETAILS".toLowerCase();
+                        return value.toLowerCase() === "SUMMARY OF OCBS DETAILS".toLowerCase();
                     });
+
+                    console.log(filteredWS);
                     filteredWS.forEach((w) => {
                         const singleSheet = wb.Sheets[w];
 
@@ -656,9 +658,10 @@ export default {
                             })
                         );
                     });
-
+                   
                     const objectKeyed = (array) => {
-                        // console.log('>x>x',array)
+
+
                         let objectKeyReplacedArray = [];
                         const keysss = array.find(
                             (k) => k.C === "ARENA NAME" || k.B === "CODE"

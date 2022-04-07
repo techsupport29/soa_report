@@ -27,6 +27,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::apiResources(['emails' => App\Http\Controllers\API\EmailController::class]);
     Route::apiResources(['teams' => App\Http\Controllers\API\TeamController::class]);
     Route::apiResources(['groups' => App\Http\Controllers\API\OperatorGroupController::class]);
+    Route::apiResources(['sidebar' => App\Http\Controllers\API\SidebarController::class]);
+
 
     //custom user api
     //get

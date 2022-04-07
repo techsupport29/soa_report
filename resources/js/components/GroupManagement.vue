@@ -100,13 +100,14 @@
                 </v-col>
                 <v-col  class="col-md-6">
                     <v-banner
-                    v-if="!viewGroup"
-                    single-line
-                    transition="slide-y-transition"
-                    >No Group selected yet</v-banner>
+                        v-if="!viewGroup"
+                        single-line
+                        transition="slide-y-transition"
+                        >No Group selected yet
+                    </v-banner>
                     <v-card v-else>
                         <v-card-title class="card-header">
-                            {{this.selectedGroup.name}}
+                            {{this.selectedGroup.name}} Arena List
                             <v-spacer></v-spacer>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
@@ -181,7 +182,7 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="openDialog = false"
+                                    @click="closeDialog()"
                                 >
                                     <v-icon medium>mdi-close</v-icon>
                                 </v-btn>
@@ -299,6 +300,11 @@ export default {
         };
     },
     methods: {
+        closeDialog(){
+            this.openDialog = false;
+            this.addNewArenaItem = false;
+            this.selectedArena = [];
+        },
         addarenaintoGroup(){
              let arenasTeam = [];
 
@@ -307,7 +313,6 @@ export default {
                 arenasTeam.push({ ...arenas });
             });
 
-            console.log(arenasTeam);
             axios.post('api/addtogroup',{
                 id : this.selectedGroup.id,
                 data : arenasTeam

@@ -163,6 +163,9 @@ let routes = [
     {
         path: '/groupmanagement', component: require('./components/GroupManagement.vue').default
     },
+    {
+        path: '/sidebar', component: require('./components/SideBar.vue').default
+    },
 
     {
 

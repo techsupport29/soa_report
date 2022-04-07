@@ -116,11 +116,11 @@ class ArenaController extends Controller
 
     public function importArena(Request $request){
 
-
+        // dd($request->all());
         $contactImport = arena::upsert($request['arenaList'], ['area_code']);
-        $activity_controller = new ActivitylogsController;
-        $activity_controller->arenaLogs('imported',$request['Uploadname'],'arena',1);
-        return  $contactImport;
+        // $activity_controller = new ActivitylogsController;
+        // $activity_controller->arenaLogs('imported',$request['Uploadname'],'arena',1);
+        // return  $contactImport;
     }
 
     /**

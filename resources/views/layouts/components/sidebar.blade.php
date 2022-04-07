@@ -11,15 +11,15 @@
 			</div>
 			<div class="info">
 			<a href="#" class="d-block">{{Auth::user()->email == null ? Auth::user()->name : Auth::user()->email }}</a>
-		
+
 			</div>
 		</div>
-	
+
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-			
+
 		@foreach ($permissions as $permission)
-			
+
 			<li class="nav-item">
 				<router-link to="{{$permission->roles->link}}" class="nav-link ">
 					<i class="nav-icon fas {{$permission->roles->icon}}">
@@ -30,7 +30,7 @@
 					@elseif ($permission->roles->name == 'Arena Details')
 					<span class="badge badge-danger right">{{$arenaCount}}</span>
 					@endif
-				
+
 				</router-link>
 			</li>
 
@@ -40,7 +40,7 @@
 					<p>Profile</p>
 				</router-link>
 			</li> --}}
-           
+
             {{-- <li class="nav-item">
 				<router-link to="/arena" class="nav-link ">
 					<i class="nav-icon fab fa-angular"></i>
@@ -57,8 +57,15 @@
 				</router-link>
 			</li> --}}
 		@endforeach
-			
-			
+
+		@if(Auth::user()->type === 'tech')
+		<li class="nav-item">
+			<router-link to="/sidebar" class="nav-link ">
+				<i class=" nav-icon  fas fa-thin fa-align-justify"></i>
+				<p>Sidebar</p>
+			</router-link>
+		</li>
+		@endif
 
 			{{-- @if(Auth::user()->type === 'tech' || Auth::user()->type === 'admin')
                 <li class="nav-item has-treeview menu-close">
@@ -76,7 +83,7 @@
                                 <p>User</p>
                             </router-link>
                         </li>
-						
+
 
 						<li class="nav-item">
 							<router-link to="/teams" class="nav-link ">
@@ -84,16 +91,16 @@
 								<p>Teams</p>
 							</router-link>
 						</li>
-					
+
 						<li class="nav-item">
 							<router-link to="/detailsconfig" class="nav-link ">
 								<i class="fa fa-cogs"></i>
 								<p>Configuration</p>
 							</router-link>
 						</li>
-					
-						
-						
+
+
+
                     </ul>
                 </li>
             @endif
