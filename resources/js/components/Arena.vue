@@ -551,6 +551,8 @@
 import { camelCase } from "lodash";
 import XLSX from "xlsx";
 import {sanitizeBank} from '../utility'
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver'
 
 export default {
     data() {
@@ -658,7 +660,7 @@ export default {
                             })
                         );
                     });
-                   
+
                     const objectKeyed = (array) => {
 
 
@@ -743,10 +745,11 @@ export default {
                     });
 
                     removeFirstObjectTitle.forEach((foh) => {
+
                         if (foh.bankName !== "" || foh.bankNumber !== "")
                             this.bankList.push({
                                 account_name: foh.accountName,
-                                bank_name: foh.bankName,
+                                bank_name: foh.bankName ,
                                 bank_number: foh.bankNumber,
                                 area_code: foh.code,
                             });
@@ -796,6 +799,7 @@ export default {
             this.fileUpload = null;
         },
         async proceedAction() {
+            console.log( this.bankList);
             this.$Progress.start();
             this.arenaLoading = true;
             await axios.post("api/importArena", {
@@ -1101,46 +1105,117 @@ export default {
                             : "";
                 });
         },
-
+         convertStringToNumber (objects){
+                for (var i = 0; i < objects.length; i++) {
+                var obj = objects[i];
+                for (var prop in obj) {
+                    if (obj.hasOwnProperty(prop) && obj[prop] !== null && !isNaN(obj[prop])) {
+                    obj[prop] = +obj[prop];
+                    }
+                }
+                }
+                return objects;
+        },
         async downloadArenaDetails() {
-            let workbooks = XLSX.utils.book_new();
-            let worksheet = "";
-            let array = [];
+            const fontColor = (color = 'FFFFFFFF', name = 'Arial', family = 4, size = 9) => {
+                return {
+                    name,
+                    color: { argb: color },
+                    family,
+                    size,
+                    bold: true
+                }
+            }
+
+            const fillColor = (color = 'FF000000') => {
+                return {
+                    type: 'pattern',
+                    pattern:'solid',
+                    fgColor:{argb: color}
+                }
+            }
+
+
+
             const current = new Date();
             const {data} = await axios.get("api/arenaToExcel");
-            // const { bankAccountName, bankName, bankNumber } = sanitizeBank(data)
 
-            const formatArenaDetails = data.map((d,index) => {
-                       const {bankAccountName, bankName, bankNumber} = sanitizeBank(d.bank_details)
+            const workbook = new ExcelJS.Workbook(data);
+            const worksheet = await workbook.addWorksheet("SUMMARY OF OCBS DETAILS",{properties:{tabColor:{argb:'FFC0000'}}});
+            const converted = this.convertStringToNumber(data);
+            console.log(converted)
 
-                       return {
-                            "NO": index + 1,
-                            "CODE": d.area_code,
-                            "ARENA NAME": d.arena,
-                            "ADDRESS": d.address,
-                            "OPERATOR'S NAME": d.operator,
-                            "CONTACT NUMBER": d.contact_details[0]?.contact_number, //to convert to string
-                            "EMAIL (SOL)": d.email_details[0]?.email, //to convert to string
-                            "ACCOUNT NAME": bankAccountName, //to convert string and get bank name
-                            "Bank NAME": bankName, //to convert string and get bank name
-                            "BANK NUMBER":bankNumber, //to convert string and get bank number
-                            "TEAM": d.team,
-                            "Complete Details?": "",
-                       }
+            const convertedResult = converted.map((val, index) => ({
+                count:index + 1,
+                contact: val.contact_details[0].contact_number,
+                email: val.email_details[0].email,
+                account_name : val.bank_details[0].account_name,
+                bankname : val.bank_details[0].bank_name,
+                banknumber : val.bank_details[0].bank_number,
+                ...val
+
+            }));
+
+           worksheet.columns = [
+                    {header:'#' , key: 'id', width: 10 },
+                    {header:'CODE' , key: 'area_code', width: 10 },
+                    {header:'ARENA NAME' , key: 'arena', width: 100 },
+                    {header:'ADDRESS' , key: 'address', width: 50 },
+                    {header:"OPERATOR'S NAME" , key: 'operator', width: 50 }, //to fix
+                    {header:"CONTACT NUMBER" , key: 'contact', width: 50 }, //to fix
+                    {header:"EMAIL" , key: 'email', width: 50 },//to fix
+                    {header:"ACCOUNT NAME" , key: 'account_name', width: 30 },//to fix
+                    {header:"Bank NAME" , key: 'bankname', width: 30 },//to fix
+                    {header:"BANK NUMBER" , key: 'banknumber', width: 30 }, //to fix
+
+            ]
+          // Custom design excel
+            const customFillColumn = (columns, fontColor, fillColor) => {
+                columns.forEach(column => {
+                    worksheet.getColumn(column).eachCell((cell) => {
+                        cell.font = fontColor
+                        cell.fill = fillColor
+                    })
+                })
+            }
+
+            const internalCheckCells = ['A1','B1','C1','D1','E1','F1','G1','H1','I1','J1']
+            const areaCodes = worksheet.getColumn('B');
+            const duplicatesAreaCode = areaCodes.values.filter((item, index) => areaCodes.values.indexOf(item) !== index);
+
+            worksheet.getRow(1).height = 30;
+            internalCheckCells.forEach(cell => {
+                worksheet.getCell(cell).font = fontColor('FFFFFFFF')
+                worksheet.getCell(cell).fill = fillColor('FF000000')
+                worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
+            }),
+
+
+
+            worksheet.addRows(convertedResult);
+
+
+            customFillColumn(['B'], fontColor('000000'), fillColor('d5d728'))
+            worksheet.columns.forEach(function (column, i) {
+                column["eachCell"]({ includeEmpty: true }, function (cell) {
+                    cell.border = {
+                        top: {style:'thin'},
+                        left: {style:'thin'},
+                        bottom: {style:'thin'},
+                        right: {style:'thin'}
+                    }
+
+                });
+            worksheet.getCell('B1').font = fontColor('FFFFFFFF')
+            worksheet.getCell('B1').fill = fillColor('FF000000')
+            // if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
+                if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '_-* #,##0.00_-;[Color3]-* #,##0.00_-;_-* "-"??_-;_-@_-'
+
             });
 
-            console.log(formatArenaDetails)
+            const buf = await workbook.xlsx.writeBuffer()
+            saveAs(new Blob([buf]), `Arena Master List-${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}.xlsx`)
 
-
-                worksheet =  XLSX.utils.json_to_sheet(formatArenaDetails),
-
-                XLSX.utils.book_append_sheet(workbooks,worksheet),
-
-                XLSX.write(workbooks,{bookType:'xlsx',type:'buffer'}),
-                XLSX.write(workbooks,{bookType:'xlsx',type:'binary'}),
-
-                XLSX.writeFile(workbooks,`Arena Master List-${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}.xlsx`)
-            // });
         },
     },
     created() {
