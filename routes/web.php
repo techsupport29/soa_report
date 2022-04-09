@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::get('/send', function () {
     $data = [];
     Mail::send('email.testEmail', $data, function ($message) {
-        $message->to('financekiosk@lucky8star.net');
+        $message->to('fsiapco@gmail.com');
     });
 });
 

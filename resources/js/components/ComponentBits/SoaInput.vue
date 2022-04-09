@@ -72,12 +72,13 @@ export default {
         this.ocbsArrayFiltered = arenaReportFiltered;
         this.isExcel = isExcel;
         this.withSite = withSite
-  
- 
-       
+
+
+
     },
 
     async proceedAction() {
+        console.log(this.ocbsArrayFiltered)
       try {
          this.$Progress.start();
         if (
@@ -100,6 +101,7 @@ export default {
 
         }
       } catch (error) {
+          console.error(error);
           this.loading = false
           Toast.fire("Error!", "Excel import denied", "error");
 

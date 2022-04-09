@@ -630,7 +630,7 @@ export default {
     methods: {
         onFileChange(event) {
             const file = event ? event : null;
-            // console.log(file);
+
             const checkfile =
                 event.name.includes("xlsx") || event.name.includes("csv");
 
@@ -645,12 +645,13 @@ export default {
 
                     const ws = wb.SheetNames;
 
-                    const filteredWS = ws.filter(function (value, index, arr) {
+                    const filteredWS = ws.filter(function (value) {
                         return value.toLowerCase() === "SUMMARY OF OCBS DETAILS".toLowerCase();
                     });
 
-                    console.log(filteredWS);
+
                     filteredWS.forEach((w) => {
+
                         const singleSheet = wb.Sheets[w];
 
                         arrayData.push(
@@ -663,7 +664,7 @@ export default {
 
                     const objectKeyed = (array) => {
 
-
+                        // console.log('array',array)
                         let objectKeyReplacedArray = [];
                         const keysss = array.find(
                             (k) => k.C === "ARENA NAME" || k.B === "CODE"
@@ -673,6 +674,7 @@ export default {
                         const headK = [...headKey];
 
                         array.map((data) => {
+
                             data = Object.assign(
                                 {},
                                 ...Object.entries(data).map(
@@ -688,11 +690,13 @@ export default {
                         });
 
                         return objectKeyReplacedArray;
+
                     };
 
                     const objk = objectKeyed(arrayData[0]);
 
-                    const toArrayContactEmail = (contactString) => {
+                       const toArrayContactEmail = (contactString) => {
+                        console.log(contactString);
                         let number = [];
                         const checkBreak = contactString
                             .toString()
@@ -735,6 +739,7 @@ export default {
                         }
                     };
 
+
                     let contactNo = [];
                     let emailList = [];
 
@@ -744,8 +749,8 @@ export default {
                         }
                     });
 
-                    removeFirstObjectTitle.forEach((foh) => {
 
+                    removeFirstObjectTitle.forEach((foh) => {
                         if (foh.bankName !== "" || foh.bankNumber !== "")
                             this.bankList.push({
                                 account_name: foh.accountName,
@@ -773,16 +778,17 @@ export default {
                                     foh.contactNumber
                                 ),
                             });
-                        if (toArrayContactEmail(foh.emailSol) !== "")
+                        if (toArrayContactEmail(foh.email) !== "")
                             emailList.push({
                                 area_code: foh.code,
-                                email: toArrayContactEmail(foh.emailSol),
-                            });
+                                email: toArrayContactEmail(foh.email),
+                        });
                     });
 
                     this.emailList = emailList;
                     this.contactNumbers = contactNo;
                     console.log("arenaliost", this.arenaList);
+                    // console.log( this.bankList);
                 };
                 reader.readAsBinaryString(file);
             } else {
@@ -811,7 +817,7 @@ export default {
             await axios.post("api/bankStore", this.bankList);
 
             Fire.$emit("AfterCreate");
-            swal.fire("Successfully!", "Excel Imported", "success");
+            Toast.fire("Successfully!", "Excel Imported", "success");
             this.$Progress.finish();
             this.arenaLoading = false;
             this.fileUpload = null;
@@ -1135,6 +1141,27 @@ export default {
                 }
             }
 
+            const border = (color) => {
+                return {
+                    top: {
+                        style:'thick',
+                        color: {argb:color}
+                        },
+                    left: {
+                        style:'thick', 
+                        color: {argb:color}
+                        },
+                    bottom: {
+                        style:'thick', 
+                        color: {argb:color}
+                        },
+                    right: {
+                        style:'thick', 
+                        color: {argb:color}
+                        }
+                }
+            }
+
 
 
             const current = new Date();
@@ -1146,12 +1173,13 @@ export default {
             console.log(converted)
 
             const convertedResult = converted.map((val, index) => ({
+
                 count:index + 1,
-                contact: val.contact_details[0].contact_number,
-                email: val.email_details[0].email,
-                account_name : val.bank_details[0].account_name,
-                bankname : val.bank_details[0].bank_name,
-                banknumber : val.bank_details[0].bank_number,
+                contact: val.contact_details.length <= 0 || val.contact_details === 0  ? null :  val.contact_details[0].contact_number,
+                email:  val.email_details.length <= 0 || val.email_details === 0  ? null : val.email_details[0].email,
+                account_name : val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].account_name,
+                bankname :  val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].bank_name,
+                banknumber :  val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].bank_number,
                 ...val
 
             }));
@@ -1185,6 +1213,7 @@ export default {
 
             worksheet.getRow(1).height = 30;
             internalCheckCells.forEach(cell => {
+                // worksheet.getCell(cell).border  = border('aa28d7')
                 worksheet.getCell(cell).font = fontColor('FFFFFFFF')
                 worksheet.getCell(cell).fill = fillColor('FF000000')
                 worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
@@ -1195,8 +1224,9 @@ export default {
             worksheet.addRows(convertedResult);
 
 
-            customFillColumn(['B'], fontColor('000000'), fillColor('d5d728'))
+            customFillColumn(['B'], fontColor('000000'), fillColor('cbe01f'))
             worksheet.columns.forEach(function (column, i) {
+
                 column["eachCell"]({ includeEmpty: true }, function (cell) {
                     cell.border = {
                         top: {style:'thin'},
@@ -1204,11 +1234,14 @@ export default {
                         bottom: {style:'thin'},
                         right: {style:'thin'}
                     }
-
+                   cell.alignment = {vertical:'middle',horizontal:'center'}
                 });
+            
             worksheet.getCell('B1').font = fontColor('FFFFFFFF')
             worksheet.getCell('B1').fill = fillColor('FF000000')
-            // if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
+
+
+                // if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
                 if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '_-* #,##0.00_-;[Color3]-* #,##0.00_-;_-* "-"??_-;_-@_-'
 
             });

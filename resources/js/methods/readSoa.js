@@ -47,7 +47,7 @@ const ExcelDateToJSDate = (serial) => {
 };
 
 const readSoa = (event, isExcel, withSite) => {
-    
+
     let arenaReportFiltered = [];
     const file = event ? event : null;
     const checkfile = event.name.includes("xlsx") || event.name.includes("csv");
@@ -94,8 +94,8 @@ const readSoa = (event, isExcel, withSite) => {
             const checkSiteExist = siteLists.some((s) =>
                 Object.values(arrayData[1][5]).includes(s)
             );
-          
-         
+
+
             if (checkSiteExist) {
                 withSite = true
                 arrayData[1].map((r) => {
@@ -233,8 +233,7 @@ const readSoa = (event, isExcel, withSite) => {
                         helper[key].safetyFundMob = o.safetyFund;
                         helper[key].otherCommIntMob = o.otherCommissionIntel05;
                         helper[key].consolCommMob = o.consolidatorsCommission;
-                        helper[key].payOutsBalMob =
-                            o.paymentForOutstandingBalance;
+                        helper[key].payOutsBalMob = o.paymentForOutstandingBalance;
                     }
 
                     return r;
@@ -262,7 +261,7 @@ const readSoa = (event, isExcel, withSite) => {
 
                 const removeKeyReportObject = filterObjectHeader.map(
                     ({ key, ...rest }) => {
-           
+
                         const type = rest.type || rest.classification;
                         const exempted = rest.exempted;
                         const totalMWBets = rest.meron + rest.wala;
@@ -296,7 +295,7 @@ const readSoa = (event, isExcel, withSite) => {
                             rest.paymentForOutstandingBalance;
                         const totalCommission = rest.totalCommission;
                         const cashLoad = rest.cashLoad;
-                        const cashWithdrawal = rest.cashWithdrawal;
+                        const cashWithdrawal =  rest.cashWithdrawal;
                         const totalOthers = rest.totalOthers;
                         const systemErrorCOArmsi = rest.systemErrorCOArmsi;
                         const depositReplenish = rest.forDepositReplenish;
