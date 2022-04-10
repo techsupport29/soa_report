@@ -1217,7 +1217,7 @@ export default {
                     ...val,
                 };
             });
-            worksheet.getRow(1).values = [
+            worksheet.getRow(2).values = [
                 "#",
                 "CODE",
                 "ARENA NAME",
@@ -1244,6 +1244,13 @@ export default {
             worksheet.addRows(convertedResult);
 
             worksheet.mergeCells("H1:K1");
+            worksheet.getCell("A1").value = "#";
+            worksheet.getCell("B1").value = "AREA CODE";
+            worksheet.getCell("C1").value = "ARENA NAME";
+            worksheet.getCell("D1").value = "ADDRESS";
+            worksheet.getCell("E1").value = "OPERATOR\'S NAME";
+            worksheet.getCell("F1").value = "CONTACT";
+            worksheet.getCell("G1").value = "EMAIL";
             worksheet.getCell("H1").value = "BANK DETAILS";
             worksheet.getCell("H2").value = "OPERATOR'S NAME";
             worksheet.getCell("I2").value = "ACCOUNT NAME";
