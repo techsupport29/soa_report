@@ -236,7 +236,7 @@
 <script>
 import moment from "moment";
 import XLSX from "xlsx";
-import { moneyFormat } from "../utility";
+import { moneyFormat, convertStringToNumber } from "../utility";
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver'
 export default {
@@ -369,17 +369,7 @@ export default {
             );
 
         },
-        convertStringToNumber (objects){
-                for (var i = 0; i < objects.length; i++) {
-                var obj = objects[i];
-                for (var prop in obj) {
-                    if (obj.hasOwnProperty(prop) && obj[prop] !== null && !isNaN(obj[prop])) {
-                    obj[prop] = +obj[prop];
-                    }
-                }
-                }
-                return objects;
-        },
+ 
         async convertToExcelSummary(item) {
             const value = moment(item).format("YYYY-MM-DD LTS");
             const date = moment(item).format("MMMM-DD-YYYY");
@@ -409,7 +399,7 @@ export default {
             );
             const workbook = new ExcelJS.Workbook();
             const worksheet = await workbook.addWorksheet("Summary Report",{properties:{tabColor:{argb:'FFC0000'}}});
-            const converted = this.convertStringToNumber(data);
+            const converted = convertStringToNumber(data);
 
             const convertedResult = converted.map((val, index) => ({
                 count:index + 1,
@@ -444,7 +434,7 @@ export default {
                 worksheet.getCell(cell).fill = fillColor('FF000000')
                 worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
             }),
-
+      
             worksheet.addRows(convertedResult);
 
             worksheet.columns.forEach(function (column, i) {

@@ -1,4 +1,4 @@
-import { numberFormat, numberUnformat, moneyFormat } from './format';
+import { numberFormat, numberUnformat, moneyFormat, convertStringToNumber } from './format';
 import mergeObject from './mergeObject';
 import valueSplit from './valueSplit';
 import toOrderBy from './toOrderBy';
@@ -14,6 +14,7 @@ export {
     toOrderBy,
     defineEmail,
     defineContact,
-    sanitizeBank
+    sanitizeBank,
+    convertStringToNumber
 
 }

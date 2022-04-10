@@ -550,7 +550,7 @@
 <script>
 import { camelCase } from "lodash";
 import XLSX from "xlsx";
-import {sanitizeBank} from '../utility'
+
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver'
 
@@ -663,9 +663,6 @@ export default {
                     });
 
                     const objectKeyed = (array) => {
-
-                        // console.log('array',array)
-                        let objectKeyReplacedArray = [];
                         const keysss = array.find(
                             (k) => k.C === "ARENA NAME" || k.B === "CODE"
                         );
@@ -673,7 +670,7 @@ export default {
                         const [...headKey] = Object.values(keysss);
                         const headK = [...headKey];
 
-                        array.map((data) => {
+                        return array.map((data) => {
 
                             data = Object.assign(
                                 {},
@@ -683,20 +680,30 @@ export default {
                                     })
                                 )
                             );
-
-                            objectKeyReplacedArray.push({
-                                ...data,
-                            });
+                            return {...data}
+                            
                         });
-
-                        return objectKeyReplacedArray;
 
                     };
 
-                    const objk = objectKeyed(arrayData[0]);
+                    // const objk = objectKeyed(arrayData[0]);
+           
+                    
+
+                    let omitNull = obj => {
+                        Object.keys(obj).filter(k => obj[k] === null || obj[k] === '').forEach(k => delete(obj[k]))
+                            return obj
+                    }
+                        const mergedRows = {...omitNull(arrayData[0][0]), ...omitNull(arrayData[0][1])}
+                        arrayData[0].splice(0, 2)
+                        
+                  
+                        const mergingData = [mergedRows].concat(arrayData[0])
+
+                        const objk = objectKeyed(mergingData)
 
                        const toArrayContactEmail = (contactString) => {
-                        console.log(contactString);
+                        // console.log(contactString);
                         let number = [];
                         const checkBreak = contactString
                             .toString()
@@ -787,7 +794,6 @@ export default {
 
                     this.emailList = emailList;
                     this.contactNumbers = contactNo;
-                    console.log("arenaliost", this.arenaList);
                     // console.log( this.bankList);
                 };
                 reader.readAsBinaryString(file);
@@ -1111,19 +1117,9 @@ export default {
                             : "";
                 });
         },
-         convertStringToNumber (objects){
-                for (var i = 0; i < objects.length; i++) {
-                var obj = objects[i];
-                for (var prop in obj) {
-                    if (obj.hasOwnProperty(prop) && obj[prop] !== null && !isNaN(obj[prop])) {
-                    obj[prop] = +obj[prop];
-                    }
-                }
-                }
-                return objects;
-        },
+
         async downloadArenaDetails() {
-            const fontColor = (color = 'FFFFFFFF', name = 'Arial', family = 4, size = 9) => {
+            const fontColor = (color = 'FFFFFFFF', name = 'Arial', family = 2, size = 9) => {
                 return {
                     name,
                     color: { argb: color },
@@ -1169,34 +1165,51 @@ export default {
 
             const workbook = new ExcelJS.Workbook(data);
             const worksheet = await workbook.addWorksheet("SUMMARY OF OCBS DETAILS",{properties:{tabColor:{argb:'FFC0000'}}});
-            const converted = this.convertStringToNumber(data);
-            console.log(converted)
 
-            const convertedResult = converted.map((val, index) => ({
-
-                count:index + 1,
+            const convertedResult = data.map((val, index) => {
+        
+              return {
+                    count:index + 1,
                 contact: val.contact_details.length <= 0 || val.contact_details === 0  ? null :  val.contact_details[0].contact_number,
                 email:  val.email_details.length <= 0 || val.email_details === 0  ? null : val.email_details[0].email,
                 account_name : val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].account_name,
                 bankname :  val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].bank_name,
                 banknumber :  val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].bank_number,
+                bankOperator :  val.operator,
                 ...val
+              }
 
-            }));
+            });
+            worksheet.getRow(1).values = [
+                '#',
+                'CODE',
+                'ARENA NAME',
+                'ADDRESS',
+                'OPERATOR\'S NAME',
+                'CONTACT NUMBER',
+                'EMAIL'
+            ]
 
            worksheet.columns = [
-                    {header:'#' , key: 'id', width: 10 },
-                    {header:'CODE' , key: 'area_code', width: 10 },
-                    {header:'ARENA NAME' , key: 'arena', width: 100 },
-                    {header:'ADDRESS' , key: 'address', width: 50 },
-                    {header:"OPERATOR'S NAME" , key: 'operator', width: 50 }, //to fix
-                    {header:"CONTACT NUMBER" , key: 'contact', width: 50 }, //to fix
-                    {header:"EMAIL" , key: 'email', width: 50 },//to fix
-                    {header:"ACCOUNT NAME" , key: 'account_name', width: 30 },//to fix
-                    {header:"Bank NAME" , key: 'bankname', width: 30 },//to fix
-                    {header:"BANK NUMBER" , key: 'banknumber', width: 30 }, //to fix
-
+                    { key: 'id', width: 10 },
+                    { key: 'area_code', width: 10 },
+                    {key: 'arena', width: 100 },
+                    { key: 'address', width: 50 },
+                    {key: 'operator', width: 50 }, //to fix
+                    {key: 'contact', width: 50 }, //to fix
+                    {key: 'email', width: 50 },//to fix
+                    {key: 'bankOperator', width: 50 },//to fix
+                    {key: 'account_name', width: 30 },//to fix
+                    {key: 'bankname', width: 30 },//to fix
+                    {key: 'banknumber', width: 30 }, //to fix
             ]
+        worksheet.mergeCells('H1:K1')
+        worksheet.getCell('H1').value = 'BANK DETAILS'
+        worksheet.getCell('H2').value = 'OPERATOR\'S NAME'
+        worksheet.getCell('I2').value = 'ACCOUNT NAME'
+        worksheet.getCell('J2').value = 'BANK NAME'
+        worksheet.getCell('K2').value = 'BANK NUMBER'
+
           // Custom design excel
             const customFillColumn = (columns, fontColor, fillColor) => {
                 columns.forEach(column => {
@@ -1207,24 +1220,7 @@ export default {
                 })
             }
 
-            const internalCheckCells = ['A1','B1','C1','D1','E1','F1','G1','H1','I1','J1']
-            const areaCodes = worksheet.getColumn('B');
-            const duplicatesAreaCode = areaCodes.values.filter((item, index) => areaCodes.values.indexOf(item) !== index);
 
-            worksheet.getRow(1).height = 30;
-            internalCheckCells.forEach(cell => {
-                // worksheet.getCell(cell).border  = border('aa28d7')
-                worksheet.getCell(cell).font = fontColor('FFFFFFFF')
-                worksheet.getCell(cell).fill = fillColor('FF000000')
-                worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
-            }),
-
-
-
-            worksheet.addRows(convertedResult);
-
-
-            customFillColumn(['B'], fontColor('000000'), fillColor('cbe01f'))
             worksheet.columns.forEach(function (column, i) {
 
                 column["eachCell"]({ includeEmpty: true }, function (cell) {
@@ -1237,14 +1233,42 @@ export default {
                    cell.alignment = {vertical:'middle',horizontal:'center'}
                 });
             
-            worksheet.getCell('B1').font = fontColor('FFFFFFFF')
-            worksheet.getCell('B1').fill = fillColor('FF000000')
-
-
-                // if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
-                if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '_-* #,##0.00_-;[Color3]-* #,##0.00_-;_-* "-"??_-;_-@_-'
-
+                worksheet.getCell('B1').font = fontColor('FFFFFFFF')
+                worksheet.getCell('B1').fill = fillColor('FF000000')
             });
+
+            const headerCells = ['A','B','C','D','E','F','G']
+        
+            // worksheet.getRow(1).height = 30;
+            headerCells.forEach(cell => {
+                worksheet.getCell(`${cell}1`).border  = border('FFFFFFFF')
+                worksheet.getCell(`${cell}1`).font = fontColor('FFFFFFFF')
+                worksheet.getCell(`${cell}1`).fill = fillColor('FF000000')
+                worksheet.getCell(`${cell}1`).alignment = {vertical:'middle',horizontal:'center'}
+
+                worksheet.mergeCells(`${cell}1:${cell}2`)
+            }),
+
+            worksheet.getCell('H1').fill = fillColor('FFFFE1EA')
+            worksheet.getCell('H1').font = fontColor('FF000000')
+
+            const bankDetailsCellHeader = ['H2','I2','J2','K2']
+            bankDetailsCellHeader.forEach(cell => {
+                worksheet.getCell(cell).border  = border('FFFFFFFF')
+                worksheet.getCell(cell).fill = fillColor('FF000000')
+                worksheet.getCell(cell).font = fontColor('FFFFFFFF')
+                worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
+            })
+           
+
+
+            worksheet.addRows(convertedResult);
+
+       
+
+
+            // customFillColumn(['B'], fontColor('000000'), fillColor('cbe01f'))
+ 
 
             const buf = await workbook.xlsx.writeBuffer()
             saveAs(new Blob([buf]), `Arena Master List-${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}.xlsx`)
