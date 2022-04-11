@@ -343,6 +343,7 @@ export default {
         },
         getallGroups(){
             axios.get('api/groups').then(({data})=>{
+                console.log(data)
                 this.operatorGroups = data
             });
         },
@@ -418,6 +419,7 @@ export default {
 
             axios.get('api/getselectedgroup/' + item.id).then(({data})=> {
                 data.forEach((element)=>{
+                    console.log(element)
                     this.groupHasArena = element.hasgroup
                     })
             });

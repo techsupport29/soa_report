@@ -722,15 +722,11 @@ export default {
                     const objk = objectKeyed(mergingData);
 
                     const toArrayContactEmail = (contactString) => {
-                        // console.log(contactString);
+              
                         let number = [];
-                        const checkBreak = contactString
-                            .toString()
-                            .includes("\r\n");
+                        const checkBreak = contactString?.toString().includes("\r\n");
 
-                        const checkForwardSlash = contactString
-                            .toString()
-                            .includes("/");
+                        const checkForwardSlash = contactString?.toString().includes("/");
 
                         if (contactString != null) {
                             if (checkBreak) {
@@ -780,31 +776,35 @@ export default {
                                 account_name: foh.accountName,
                                 bank_name: foh.bankName,
                                 bank_number: foh.bankNumber,
-                                area_code: foh.code,
+                                area_code: foh.areaCode,
                             });
+
+                            console.log(foh)
 
                         this.arenaList.push({
                             arena:
                                 foh.arenaName.indexOf("~") > -1
                                     ? foh.arenaName.replace(/\~/g, "/")
                                     : foh.arenaName,
-                            area_code: foh.code,
+                            area_code: foh.areaCode,
                             address: foh.address,
                             operator: foh.operatorsName,
                             team: foh.team && foh.team.toLowerCase(),
                             contact_number: "xxxxxxx",
                         });
 
-                        if (toArrayContactEmail(foh.contactNumber) !== "")
+                        console.log(foh)
+
+                        if (toArrayContactEmail(foh.contact) !== "")
                             contactNo.push({
-                                area_code: foh.code,
+                                area_code: foh.areaCode,
                                 contact_number: toArrayContactEmail(
-                                    foh.contactNumber
+                                    foh.contact
                                 ),
                             });
                         if (toArrayContactEmail(foh.email) !== "")
                             emailList.push({
-                                area_code: foh.code,
+                                area_code: foh.areaCode,
                                 email: toArrayContactEmail(foh.email),
                             });
                     });
