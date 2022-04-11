@@ -1,6 +1,7 @@
 <template>
     <v-app>
         <v-container>
+            <soa-card />
             <v-row
                 class="mt-5 is-blurred flex-column flex-md-row"
                 v-if="$gate.isAdminTech()"

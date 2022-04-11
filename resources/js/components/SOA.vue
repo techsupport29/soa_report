@@ -154,7 +154,7 @@
                 </v-col>
                 <v-col>
                     <!-- SOA Container for PNG multiple Download and multiple print -->
-                    <div
+                    <!-- <div
                         class="report-soa_container mx-auto d-flex flex-column"
                         id="report-soa_container"
                     >
@@ -297,7 +297,8 @@
                                 </v-card-text>
                             </v-card>
                         </div>
-                    </div>
+                    </div> -->
+                    <soa-card :selected="selected"></soa-card>
                 </v-col>
                 <v-dialog
                     v-model="dialog"
@@ -638,6 +639,7 @@ import SearchSoa from "./ComponentBits/SearchSoa.vue";
 import FilterArena from "./ComponentBits/FilterArena.vue";
 import FilterSite from "./ComponentBits/FilterSite.vue";
 import EmailLoading from './ComponentBits/EmailLoading.vue'
+import SoaCard from './SoaComponents/SoaCard.vue'
 
 
 import {
@@ -671,7 +673,8 @@ export default {
         ActionsButtons,
         SearchSoa,
         FilterSite,
-        EmailLoading
+        EmailLoading,
+        SoaCard
     },
     data() {
         return {
