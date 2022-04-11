@@ -10,8 +10,12 @@ class ArenaHasGroup extends Model
     use HasFactory;
     protected $guarded = [];
 
-    // public function group(){
-    //     return $this->belongsTo('App\Models\OperatorGroups','group_id');
-    // }
+    public function arenaDetials(){
+        return $this->belongsTo('App\Models\arena','area_code','area_code');
+    }
+
+    public function SoaDetails(){
+        return $this->hasOne('App\Models\import', 'areaCode','area_code');
+    }
 
 }

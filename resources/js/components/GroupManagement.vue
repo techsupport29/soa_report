@@ -44,7 +44,25 @@
                         <template v-slot:[`item.count`]="{ item }">
                            <strong> {{item.hasgroup.length}}</strong>
                         </template>
+                        <template v-slot:[`item.email`]="{ item }">
+                           <i>{{item.email.length === 0  ? 'No Email yet' : item.email}}</i>
+                        </template>
                          <template v-slot:[`item.actions`]="{ item }">
+                                <v-tooltip color="green" bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                            color="green"
+                                            icon
+                                            dark
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click="SendOption(item)"
+                                        >
+                                            <v-icon>mdi-at</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Send Option for {{ item.name }}</span>
+                                </v-tooltip>
                                 <v-tooltip color="primary" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
@@ -99,16 +117,35 @@
                     </v-card>
                 </v-col>
                 <v-col  class="col-md-6">
+
                     <v-banner
                         v-if="!viewGroup"
                         single-line
                         transition="slide-y-transition"
                         >No Group selected yet
                     </v-banner>
+
+
+
                     <v-card v-else>
                         <v-card-title class="card-header">
                             {{this.selectedGroup.name}} Arena List
                             <v-spacer></v-spacer>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                            color="deep-purple lighten-2"
+                                            dark
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            class="mx-2"
+                                            @click="sendZipEmail"
+                                        >
+                                            <v-icon>mdi-email-box</v-icon> Send Email
+                                        </v-btn>
+                                    </template>
+                                    <span>Send Email to   {{this.selectedGroup.name}}</span>
+                                </v-tooltip>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
@@ -198,8 +235,17 @@
                             placeholder="GOFW"
                             outlined
                             required
-                            :error-messages="errors"
+                            :error-messages="errors.name"
                             prepend-inner-icon="mdi-account-group"
+                        ></v-text-field>
+                        <v-text-field
+                            v-model="group.email"
+                            label="Email Address"
+                            placeholder="johndoe@gmail.com"
+                            outlined
+                            required
+                            :error-messages="errors.email"
+                            prepend-inner-icon="mdi-email"
                         ></v-text-field>
                     </v-card-text>
                     <v-card-actions class="justify-end">
@@ -254,6 +300,8 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
+
+
         </v-container>
     </v-app>
 </template>
@@ -268,6 +316,7 @@ export default {
         return {
             headers: [
                 { text: "Group Name", value: "name" },
+                {text: "Email", value:'email'},
                 { text: "No. of Arenas", value: "count" },
                 { text: "", value: "actions", sortable: false },
             ],
@@ -292,14 +341,21 @@ export default {
             selectedArena:[],
             operatorGroups:[],
             groupHasArena:[],
-            errors:[],
+            errors:{
+                name:"",
+                email:'',
+            },
             group: {
                 id:"",
                 name: "",
+                email:'',
             },
         };
     },
     methods: {
+        sendZipEmail(){
+            console.log( this.selectedGroup.hasgroup)
+        },
         closeDialog(){
             this.openDialog = false;
             this.addNewArenaItem = false;
@@ -325,25 +381,17 @@ export default {
                 this.openAddArenaDialog = false
                 this.viewGroup = false
             });
-                // const team = this.selectedTeam.name;
-                // await axios.put(
-                //     `api/updateSelectedArenaToTeam/${team}`,
-                //     this.selectedArenasToTeam
-                // );
-                // Fire.$emit("AfterCreateArenaTeam");
-                // Fire.$emit("AfterAddSelected");
-
-                // this.addNewArenaItem = false;
-                // this.selectedArenasToTeam = [];
         },
         getAllArena(){
             axios.get('api/import').then(({data})=>{
                 this.arena = data;
+
             });
         },
         getallGroups(){
             axios.get('api/groups').then(({data})=>{
                 this.operatorGroups = data
+
             });
         },
 
@@ -364,7 +412,10 @@ export default {
                 this.openDialog = false;
                 Fire.$emit("AfterCreate");
             }).catch((error) => {
-                this.errors = error.response.data.errors?.name;
+
+                this.errors.name = error.response.data.errors?.name;
+                this.errors.email = error.response.data.errors?.email;
+
             });
         },
         updateGroupModal(item){
@@ -375,7 +426,8 @@ export default {
         },
         updateGroups(){
             axios.put('api/groups/' + this.group.id,{
-                name : this.group.name
+                name : this.group.name,
+                email : this.group.email
             }).then((data) => {
                 Toast.fire({
                     icon: "success",
@@ -384,7 +436,9 @@ export default {
                 this.openDialog = false;
                 Fire.$emit("AfterCreate");
             }).catch((error) => {
-                this.errors = error.response.data.errors?.name;
+                this.errors.name = error.response.data.errors?.name;
+                this.errors.email = error.response.data.errors?.email;
+
             });
         },
          deleteGroupModal(id){
@@ -419,6 +473,7 @@ export default {
             axios.get('api/getselectedgroup/' + item.id).then(({data})=> {
                 data.forEach((element)=>{
                     this.groupHasArena = element.hasgroup
+                    console.log(element)
                     })
             });
 

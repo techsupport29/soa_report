@@ -18,11 +18,14 @@ class OperatorGroupController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
+            'email' => 'required|email',
         ]);
 
         $team = OperatorGroups::create([
             'name' => $request['name'],
+            'email' => $request['email'],
         ]);
+
 
 
 
@@ -32,12 +35,14 @@ class OperatorGroupController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
+            'email' => 'required|email',
         ]);
 
         // $this->arena($id,'update',$request->team);
 
         $group = OperatorGroups::findOrFail($id)->update([
             'name' => $request->name,
+            'email' => $request->email,
         ]);
     }
 
@@ -53,7 +58,7 @@ class OperatorGroupController extends Controller
 
     public function getselectedGroup($id){
 
-        return response()->json(OperatorGroups::with(['Hasgroup'])->whereId($id)->get());
+        return response()->json(OperatorGroups::with(['Hasgroup.SoaDetails.arenaDetails.EmailDetails'])->whereId($id)->get());
     }
 
     public function Deletegroupsselectedarena($id){
