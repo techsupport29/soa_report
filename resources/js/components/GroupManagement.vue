@@ -50,21 +50,6 @@
                            <strong> {{item.hasgroup.length}}</strong>
                         </template>
                          <template v-slot:[`item.actions`]="{ item }">
-                                <v-tooltip color="green" bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                            color="green"
-                                            icon
-                                            dark
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            @click="SendOption(item)"
-                                        >
-                                            <v-icon>mdi-at</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>Send Option for {{ item.name }}</span>
-                                </v-tooltip>
                                 <v-tooltip color="primary" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
@@ -130,10 +115,24 @@
                     <v-card v-else>
                         <v-card-title class="card-header">
                             {{ this.selectedGroup.name }} Arena List
-
                             <v-spacer></v-spacer>
-                            <v-btn @click="openEmail">EMAIL</v-btn>
-                            <v-spacer></v-spacer>
+                              <v-tooltip bottom color="green">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                        color="green"
+                                        dark
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        class="mx-2"
+                                        @click="openEmail"
+                                    >
+                                        <v-icon>mdi-at</v-icon> Send Email
+                                    </v-btn>
+                                </template>
+                                <span
+                                    >Send Email Zip to {{ this.selectedGroup.email }}</span
+                                >
+                            </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
@@ -362,10 +361,18 @@
                                                     'on-hover': hover,
                                                 }"
                                             >
-                                                Export
+                                                Send
                                             </v-btn>
                                         </template>
-                                        <span>Export to Excel</span>
+                                        <span>
+                                            Send Email to
+                                            <ul >
+                                                <li v-for="code in areaCodesname" :key="code">
+                                                    {{code}}
+                                                </li>
+                                            </ul>
+                                           <!-- {{areaCodesname}} -->
+                                        </span>
                                     </v-tooltip>
                                 </div>
                             </td>
@@ -427,6 +434,7 @@ export default {
             dates: [],
             openEmailDialog: false,
             moment,
+            areaCodesname:[],
         };
     },
     methods: {
@@ -454,10 +462,8 @@ export default {
                     });
                     this.openAddArenaDialog = false;
                     this.viewGroup = false;
+                    Fire.$emit("AfterCreate");
                 });
-                this.openAddArenaDialog = false
-                this.viewGroup = false
-
         },
         getAllArena() {
             axios.get("api/import").then(({ data }) => {
@@ -562,7 +568,8 @@ export default {
         async openEmail() {
             this.openEmailDialog = true;
             const { data } = await axios.get(`api/summaryReport?group=Deposit`);
-
+            const areaCodes = this.groupHasArena.map((item) => item.area_code);
+            this.areaCodesname = areaCodes;
             this.dates = data;
         },
         async sendingEmail(item) {
@@ -572,6 +579,8 @@ export default {
                 .format("YYYY-MM-DD LTS");
 
             const areaCodes = this.groupHasArena.map((item) => item.area_code);
+
+            this.areaCodesname = areaCodes;
              const { data } = await axios.post(`api/fetchSoaByOperatorGroup`, {
                  areaCodes,
                  from,
@@ -611,6 +620,116 @@ export default {
                 }
             });
         },
+        sendZipEmail(){
+                let statusArenas = [];
+                // this.loading = true
+                this.handleSendingEmail()
+
+                // // -----------ZIP--------------- // // //
+                const divsss = document.querySelectorAll(".reportsoaoutput");
+
+                const zip = new JSZip();
+
+                const urlToPromise = async (url) => {
+                    return new Promise(function (resolve, reject) {
+                        JSZipUtils.getBinaryContent(url, function (err, data) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(data);
+                                console.log(data);
+                            }
+                        });
+                    });
+                };
+
+                const generateZipFile = async (zip) => {
+                        const formData = new FormData();
+                        // const blob = await zip.generateAsync({ type: "blob" });
+                        const base64 = await zip.generateAsync({ type: "base64" });
+
+                        const operatorsEmail = this.selected.map(selected => {
+                            return selected.arena_details.email_details.map(email => email.email)
+                        })
+                        const EmailCC =  this.selectedCc.map(selectedCc => {
+                                return selectedCc.email_cc
+                            });
+                        const emails = uniq(flattenDeep(operatorsEmail))
+                        axios.post('api/sendZipEmail', {
+                                link: base64,
+                                emails,
+                                date: this.selected[0].date_of_soa,
+                                operator: this.zipName,
+                                cc: EmailCC
+                            },
+                            formData,
+                            {
+                            headers: {
+                                'accept': 'application/json',
+                                'Accept-Language': 'en-US,en;q=0.8',
+                                "Content-Type": "multipart/form-data"
+                            }
+                            }).then(({data}) => {
+                                console.log(data);
+                        });
+
+                };
+                // start benchmark
+                const t = new Date();
+                // some xml processing
+
+                for (let i = 0; i < this.selected.length; i++) {
+                    statusArenas.push({
+                        codeEvent: this.selected[i].codeEvent,
+                        status: "done",
+                    });
+
+                    console.log(
+                        `Currently at ${i}, ${(new Date() - t) / 1000} secs`
+                    );
+
+                    this.progressvalue = Math.ceil(
+                        (parseInt(i + 1) / parseInt(this.selected.length)) * 100
+                    );
+
+                    const canvas = await html2canvas(divsss[i], {
+                        onclone: function (clonedDoc) {
+                            const elems =
+                                clonedDoc.getElementsByClassName("reportsoaoutput");
+                            for (let i = 0; i < elems.length; i++) {
+                                elems[i].style.display = "block";
+                            }
+                        },
+                        type: "dataURL",
+                        backgroundColor: "#ffffff",
+                        scale: 0.9,
+                    });
+
+                    const link = document.createElement("a");
+                    link.download = `${this.selected[i].arena_details.arena}.png`;
+                    link.href = await canvas.toDataURL("image/png");
+                    const url = link.href;
+
+                    const folderName =
+                        parseFloat(this.selected[i].for_total) < 0 ? "Replenishment" : "Deposit";
+                    const arenaName =
+                        (this.selected[i].arena_name.indexOf("/")) > -1
+                            ? this.selected[i].arena_name.replace(/\//g, "-")
+                            : this.selected[i].arena_name;
+                    const filename = `${folderName}/${arenaName}(${this.selected[i].refNo}).png`;
+
+                    await zip.file(filename, await urlToPromise(url), {
+                        binary: true,
+                    }); //Create new zip file with filename and content
+                }
+
+                //Generate zip file
+                await generateZipFile(zip);
+                //close modal
+                this.$emit('zipDialogClose', false)
+                this.loading = false
+            }
+
     },
     created() {
         this.getallGroups();
@@ -618,6 +737,20 @@ export default {
         Fire.$on("AfterCreate", () => {
             this.getallGroups();
         });
+
+        Fire.$on("GetallArena", () => {
+            this.getAllArena();
+        });
     },
 };
 </script>
+<style>
+ul {
+  list-style: none;
+}
+
+ul li:before {
+  content: '✓';
+
+}
+</style>

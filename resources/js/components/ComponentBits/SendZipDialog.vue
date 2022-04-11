@@ -28,34 +28,8 @@
                 dense
                 required
           ></v-text-field>
-           <!-- <v-combobox
-              v-model="selectedCc"
-              :items="items"
-              item-value="email_cc"
-              item-text="email_cc"
-              label="Select CC"
 
-              multiple
-            >
-              <template v-slot:item="{ item, on, attrs }">
-                <v-list-item v-on="on" v-bind="attrs"  @click="handleSelectedEmail(item)">
-                  <v-list-item-icon
-                    >
-                    <v-icon>{{
-                      selectedCc.includes(item) ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'
-                    }}</v-icon>
-                  </v-list-item-icon
-                  >
-                  <v-list-item-content>
-                    <v-list-item-title
-                      v-text="item.email_cc"
-                      class="text-left"
-                    ></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
 
-            </v-combobox> -->
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -170,13 +144,6 @@ export default {
                             console.log(data);
                     });
 
-
-
-                    // if (this.progressvalue === 100) {
-                    //     setTimeout(async () => {
-                    //       this.loading = false
-                    //     }, 1000);
-                    // }
             };
             // start benchmark
             const t = new Date();
