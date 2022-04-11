@@ -48,9 +48,6 @@
                         <template v-slot:[`item.count`]="{ item }">
                            <strong> {{item.hasgroup.length}}</strong>
                         </template>
-                        <template v-slot:[`item.email`]="{ item }">
-                           <i>{{item.email.length === 0  ? 'No Email yet' : item.email}}</i>
-                        </template>
                          <template v-slot:[`item.actions`]="{ item }">
                                 <v-tooltip color="green" bottom>
                                     <template v-slot:activator="{ on, attrs }">
