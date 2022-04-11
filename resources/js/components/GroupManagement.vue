@@ -370,22 +370,27 @@
                                             >
                                                 Send
                                             </v-btn>
-                                        
+
                                         </template>
                                         <div class="text-dark">
-                                             <label>    Send Email to : </label><br>
-
+                                             <label>Send Email to : </label><br>
                                             <div style="border:1px solid black;" >
                                                 <p class="ma-4"> <strong>{{selectedEmail}}</strong></p>
                                             </div>
+                                             <label>CC Email : </label><br>
+
+                                            <div style="border:1px solid black;" >
+                                                <span class="mr-1" v-for="cc in emailcc" :key="cc"> "{{cc}}",</span>
+                                            </div>
+
                                             <label> Arena List : </label><br>
                                             <div style="border:1px solid black;">
-                                                <span>  {{areaCodesname}} </span><br>
+                                                <span v-for="code in areaCodesname" :key="code">  {{code}}, </span><br>
                                             </div>
 
                                         </div>
                                     </v-tooltip>
-                            
+
                                 </div>
                             </td>
                         </tr>
@@ -461,11 +466,20 @@ export default {
             groupOperatorsArena: [],
             progressvalue: 0,
             loading: false,
-            
+            emailcc:[],
             selectedEmail:'',
         };
     },
     methods: {
+        ManageCC(){
+            axios.get('api/emails').then(({data})=>{
+                // this.emailcc = data.data;
+               this.emailcc =  data.map(sCc => {
+                            return sCc.email_cc
+                    });
+                    console.log( this.emailcc )
+            });
+        },
         closeDialog() {
             this.openDialog = false;
             this.addNewArenaItem = false;
@@ -533,6 +547,7 @@ export default {
             this.editMode = true;
             this.openDialog = true;
             this.group.name = item.name;
+            this.group.email = item.email;
             this.group.id = item.id;
         },
         updateGroups(){
@@ -600,7 +615,7 @@ export default {
             this.areaCodesname = areaCodes;
             this.dates = data;
         },
-       
+
         RemoveToGroup(id) {
             swal.fire({
                 title: "Are you sure?",
@@ -635,10 +650,8 @@ export default {
             });
         },
         async downloadZip(selected) {
-          
-            // console.log(this.tab)
-            // let statusArenas = [];
-            // this.downloadingReport = true;
+
+
             this.loading = true;
 
             // // -----------ZIP--------------- // // //
@@ -670,35 +683,30 @@ export default {
                         )}.zip`
                     );
 
-                    // const operatorsEmail = selected.map(s => {
-                    //     return s.arena_details.email_details.map(email => email.email)
-                    // })
-                    // const EmailCC =  selectedCc.map(sCc => {
-                    //         return sCc.email_cc
-                    // });
-                    // const emails = uniq(flattenDeep(operatorsEmail))
-                    // axios.post('api/sendZipEmail', {
-                    //         link: base64,
-                    //         emails,
-                    //         date: selected[0].date_of_soa,
-                    //         operator: this.zipName,
-                    //         cc: EmailCC
-                    //     },
-                    //     formData,
-                    //     {
-                    //     headers: {
-                    //         'accept': 'application/json',
-                    //         'Accept-Language': 'en-US,en;q=0.8',
-                    //         "Content-Type": "multipart/form-data"
-                    //     }
-                    //     }).then(({data}) => {
-                    //         console.log(data);
-                    // });
+
+
+                    axios.post('api/sendZipEmail', {
+                            link: base64,
+                            email: this.selectedEmail,
+                            date: selected[0].date_of_soa,
+                            arena: this.selectedGroup.name,
+                            cc: this.emailcc
+                        },
+                        formData,
+                        {
+                        headers: {
+                            'accept': 'application/json',
+                            'Accept-Language': 'en-US,en;q=0.8',
+                            "Content-Type": "multipart/form-data"
+                        }
+                        }).then(({data}) => {
+                            console.log(data);
+                    });
 
 
                       if (this.progressvalue === 100) {
                         setTimeout(async () => {
-                        
+
                             this.loading = false;
 
                             console.log("done");
@@ -706,7 +714,7 @@ export default {
                         }, 1000);
                     }
 
-        
+
 
             };
             // start benchmark
@@ -714,7 +722,7 @@ export default {
             // some xml processing
 
             for (let i = 0; i < selected.length; i++) {
-                
+
 
                 console.log(
                     `Currently at ${i}, ${(new Date() - t) / 1000} secs`
@@ -744,7 +752,7 @@ export default {
 
                 const folderName =
                     parseFloat(selected[i].for_total) < 0 ? "Replenishment" : "Deposit";
-        
+
                 const arenaName =
                     (selected[i].arena_name.indexOf("/")) > -1
                         ? selected[i].arena_name.replace(/\//g, "-")
@@ -775,18 +783,16 @@ export default {
                  from,
                  to
              })
-             console.log(data)
             this.groupOperatorsArena = data
 
             setTimeout(() => {
-               
                 this.downloadZip(data)
             }, 3000)
-                
-            
-           
-     
-           
+
+
+
+
+
 
         },
 
@@ -794,6 +800,7 @@ export default {
     created() {
         this.getallGroups();
         this.getAllArena();
+        this.ManageCC();
         Fire.$on("AfterCreate", () => {
             this.getallGroups();
         });

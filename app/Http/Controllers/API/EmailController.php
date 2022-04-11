@@ -121,12 +121,11 @@ class EmailController extends Controller
 
     public function sendZipEmail(request $request){
 
-        foreach ($request->emails as $email){
         $data = [
-            'email' => $email,
+            'email' => $request->email,
             'email_cc' => $request->cc,
             'date' => $request->date,
-            'arena_name' => $request->operator,
+            'arena_name' => $request->arena,
             'subject' => "KIOSK SALES REPORT FOR".' '.$request->date,
             'file' =>  $request->link
         ];
@@ -149,7 +148,6 @@ class EmailController extends Controller
         });
 
 
-        }
 
         return response()->json('Email suucessfully send');
     }
