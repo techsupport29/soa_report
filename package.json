@@ -13,6 +13,7 @@
         "@babel/core": "^7.15.0",
         "@babel/preset-env": "^7.15.0",
         "@fortawesome/fontawesome-free": "^5.15.4",
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
         "@vue/composition-api": "^1.4.0-beta.0",
         "admin-lte": "^3.0.0-alpha.2",
         "crypto-js": "^4.1.1",

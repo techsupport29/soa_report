@@ -134,41 +134,20 @@
                         :disabled="downloadingReport"
                         color="blue darken-3"
                         class="ma-2 white--text allbtn"
-                        @click="multisendEmail"
-                        elevation="2"
-                        rounded
-                        v-bind="attrs"
-                        v-on="on"
-                    >
-                        <v-icon light class="ma-2 white--text all">mdi-cube-send</v-icon>
-                        Multiple Send Email
-                    </v-btn>
-                </v-list-item>
-                </template>
-                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Compress selected image into Zip and Send in Email  </span>
-            </v-tooltip>
-
-            <v-tooltip left>
-                <template v-slot:activator="{ on, attrs }">
-                <v-list-item class="d-flex justify-center">
-                    <v-btn
-                        :loading="downloadingReport"
-                        :disabled="downloadingReport"
-                        color="purple darken-3"
-                        class="ma-2 white--text allbtn"
                         @click="handleZipDialogOpen"
                         elevation="2"
                         rounded
                         v-bind="attrs"
                         v-on="on"
                     >
-                        <v-icon light  class="ma-2 white--text all">mdi-zip-box</v-icon>
-                            EMAIL Zip
+                        <v-icon light class="ma-2 white--text all">mdi-zip-box</v-icon>
+                         EMAIL Zip
                     </v-btn>
                 </v-list-item>
                 </template>
                 <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Compress selected image into Zip and Send in Email  </span>
             </v-tooltip>
+
 
             <hr color="green lighten-2" class="ma-2">
                 <!-- multi print -->
