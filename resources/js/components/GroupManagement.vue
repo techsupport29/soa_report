@@ -281,7 +281,7 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="openDialog = false"
+                                    @click="openAddArenaDialog = false"
                                 >
                                     <v-icon medium>mdi-close</v-icon>
                                 </v-btn>
@@ -289,10 +289,17 @@
                             <span>Close Modal</span>
                         </v-tooltip>
                     </v-toolbar>
+                       <v-text-field
+                            v-model="searchArena"
+                            append-icon="mdi-magnify"
+                            label="Search Arena"
+                            class="mx-4"
+                        ></v-text-field>
                     <v-data-table
                         v-model="selectedArena"
                         :headers="SelectArenaheaders"
                         :items="arena"
+                        :search="searchArena"
                         show-select
                         :loading="false"
                         class="elevation-1"
@@ -305,6 +312,7 @@
                             text
                             @click="
                                 () => {
+                                    openAddArenaDialog = false;
                                     addNewArenaItem = false;
                                     this.selectedArena = [];
                                 }
@@ -337,7 +345,7 @@
                             </td>
                             <td>
                                 <div class="d-flex justify-end">
-                                    <v-tooltip top color="primary">
+                                    <v-tooltip top color="white">
                                         <template
                                             v-slot:activator="{
                                                 on,
@@ -346,7 +354,7 @@
                                             }"
                                         >
                                             <v-btn
-                                                color="success"
+                                                color="green"
                                                 dark
                                                 small
                                                 v-bind="attrs"
@@ -364,15 +372,18 @@
                                             </v-btn>
                                         
                                         </template>
-                                        <span>
-                                            Send Email to
-                                            <ul >
-                                                <li v-for="code in areaCodesname" :key="code">
-                                                    {{code}}
-                                                </li>
-                                            </ul>
-                                           <!-- {{areaCodesname}} -->
-                                        </span>
+                                        <div class="text-dark">
+                                             <label>    Send Email to : </label><br>
+
+                                            <div style="border:1px solid black;" >
+                                                <p class="ma-4"> <strong>{{selectedEmail}}</strong></p>
+                                            </div>
+                                            <label> Arena List : </label><br>
+                                            <div style="border:1px solid black;">
+                                                <span>  {{areaCodesname}} </span><br>
+                                            </div>
+
+                                        </div>
                                     </v-tooltip>
                             
                                 </div>
@@ -423,7 +434,7 @@ export default {
             ],
             search: "",
             searchgroup: "",
-
+            searchArena:'',
             openDialog: false,
             openAddArenaDialog: false,
             editMode: false,
@@ -451,6 +462,7 @@ export default {
             progressvalue: 0,
             loading: false,
             
+            selectedEmail:'',
         };
     },
     methods: {
@@ -574,7 +586,7 @@ export default {
         openViewGroup(item) {
             this.viewGroup = true;
             this.selectedGroup = item;
-
+            this.selectedEmail = item.email;
             axios.get("api/getselectedgroup/" + item.id).then(({ data }) => {
                 data.forEach((element) => {
                     this.groupHasArena = element.hasgroup;
@@ -608,7 +620,9 @@ export default {
                                 "Your file has been deleted.",
                                 "success"
                             );
+                            Fire.$emit("AfterCreate");
                             this.viewGroup = false;
+
                         })
                         .catch(() => {
                             swal.fire(
@@ -790,9 +804,12 @@ export default {
     },
 };
 </script>
-<style>
+<style scoped>
 ul {
   list-style: none;
+  height: 100px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 ul li:before {
