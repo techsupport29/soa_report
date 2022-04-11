@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Models\ArenaHasGroup;
 use App\Models\OperatorGroups;
+use App\Models\import;
 use App\Http\Controllers\Controller;
 
 class OperatorGroupController extends Controller
@@ -76,6 +77,14 @@ class OperatorGroupController extends Controller
             ]);
 
         }
+    }
+
+    // GET IMPORTS BASED ON GROUP AND DATE
+
+    public function fetchSoaByOperatorGroup(Request $request){
+        // dd($request->all());
+        $soa = import::with(['BankDetails','arenaDetails.BankDetails', 'arenaDetails.EmailDetails'])->whereIn('areaCode', $request->areaCodes)->whereBetween('date_of_soa',[$request->from, $request->to])->get();
+        return $soa;
     }
 
 }

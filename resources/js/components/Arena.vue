@@ -103,8 +103,14 @@
                                     }}</span>
                                 </template>
                                 <template v-slot:[`item.bank`]="{ item }">
-
-                                    <v-tooltip top :color="item.bank_details.length == 0 ? 'gray' : 'green'">
+                                    <v-tooltip
+                                        top
+                                        :color="
+                                            item.bank_details.length == 0
+                                                ? 'gray'
+                                                : 'green'
+                                        "
+                                    >
                                         <template
                                             v-slot:activator="{ on, attrs }"
                                         >
@@ -112,13 +118,22 @@
                                                 icon
                                                 v-bind="attrs"
                                                 v-on="on"
-                                                :color="item.bank_details.length == 0 ? 'gray' : 'green'"
+                                                :color="
+                                                    item.bank_details.length ==
+                                                    0
+                                                        ? 'gray'
+                                                        : 'green'
+                                                "
                                                 @click="openBankModel(item)"
                                             >
                                                 <v-icon small>mdi-bank</v-icon>
                                             </v-btn>
                                         </template>
-                                        <span>{{item.bank_details.length== 0 ? 'No bank Details Available' : 'Bank Information'}}</span>
+                                        <span>{{
+                                            item.bank_details.length == 0
+                                                ? "No bank Details Available"
+                                                : "Bank Information"
+                                        }}</span>
                                     </v-tooltip>
                                 </template>
 
@@ -550,28 +565,32 @@
 <script>
 import { camelCase } from "lodash";
 import XLSX from "xlsx";
-import {sanitizeBank} from '../utility'
-import ExcelJS from 'exceljs';
-import { saveAs } from 'file-saver'
+
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 export default {
     data() {
         return {
             headers: [
-                { text: "#", value: "index" ,sortable: false },
-                { text: "Code", value: "area_code"  ,sortable: false},
-                { text: "Arena Name", value: "arena" ,sortable: false },
-                { text: "Operator", value: "operator" , sortable: false},
-                { text: "Team", value: "team" ,sortable: false },
-                { text: "Bank Details", value: "bank" ,sortable: false},
+                { text: "#", value: "index", sortable: false },
+                { text: "Code", value: "area_code", sortable: false },
+                { text: "Arena Name", value: "arena", sortable: false },
+                { text: "Operator", value: "operator", sortable: false },
+                { text: "Team", value: "team", sortable: false },
+                { text: "Bank Details", value: "bank", sortable: false },
                 { text: "", value: "actions", sortable: false },
             ],
 
             Bankheaders: [
-                { text: "Account Name", value: "account_name",sortable: false },
-                { text: "Bank Name", value: "bank_name" ,sortable: false },
-                { text: "Bank Number", value: "bank_number",sortable: false },
-                { text: "Modify", value: "modify" ,sortable: false },
+                {
+                    text: "Account Name",
+                    value: "account_name",
+                    sortable: false,
+                },
+                { text: "Bank Name", value: "bank_name", sortable: false },
+                { text: "Bank Number", value: "bank_number", sortable: false },
+                { text: "Modify", value: "modify", sortable: false },
                 { text: "", value: "actions", sortable: false },
             ],
             activityHeaders: [
@@ -646,12 +665,13 @@ export default {
                     const ws = wb.SheetNames;
 
                     const filteredWS = ws.filter(function (value) {
-                        return value.toLowerCase() === "SUMMARY OF OCBS DETAILS".toLowerCase();
+                        return (
+                            value.toLowerCase() ===
+                            "SUMMARY OF OCBS DETAILS".toLowerCase()
+                        );
                     });
 
-
                     filteredWS.forEach((w) => {
-
                         const singleSheet = wb.Sheets[w];
 
                         arrayData.push(
@@ -663,9 +683,6 @@ export default {
                     });
 
                     const objectKeyed = (array) => {
-
-                        // console.log('array',array)
-                        let objectKeyReplacedArray = [];
                         const keysss = array.find(
                             (k) => k.C === "ARENA NAME" || k.B === "CODE"
                         );
@@ -673,8 +690,7 @@ export default {
                         const [...headKey] = Object.values(keysss);
                         const headK = [...headKey];
 
-                        array.map((data) => {
-
+                        return array.map((data) => {
                             data = Object.assign(
                                 {},
                                 ...Object.entries(data).map(
@@ -683,28 +699,34 @@ export default {
                                     })
                                 )
                             );
-
-                            objectKeyReplacedArray.push({
-                                ...data,
-                            });
+                            return { ...data };
                         });
-
-                        return objectKeyReplacedArray;
-
                     };
 
-                    const objk = objectKeyed(arrayData[0]);
+                    // const objk = objectKeyed(arrayData[0]);
 
-                       const toArrayContactEmail = (contactString) => {
-                        console.log(contactString);
+                    let omitNull = (obj) => {
+                        Object.keys(obj)
+                            .filter((k) => obj[k] === null || obj[k] === "")
+                            .forEach((k) => delete obj[k]);
+                        return obj;
+                    };
+                    const mergedRows = {
+                        ...omitNull(arrayData[0][0]),
+                        ...omitNull(arrayData[0][1]),
+                    };
+                    arrayData[0].splice(0, 2);
+
+                    const mergingData = [mergedRows].concat(arrayData[0]);
+
+                    const objk = objectKeyed(mergingData);
+
+                    const toArrayContactEmail = (contactString) => {
+              
                         let number = [];
-                        const checkBreak = contactString
-                            .toString()
-                            .includes("\r\n");
+                        const checkBreak = contactString?.toString().includes("\r\n");
 
-                        const checkForwardSlash = contactString
-                            .toString()
-                            .includes("/");
+                        const checkForwardSlash = contactString?.toString().includes("/");
 
                         if (contactString != null) {
                             if (checkBreak) {
@@ -739,7 +761,6 @@ export default {
                         }
                     };
 
-
                     let contactNo = [];
                     let emailList = [];
 
@@ -749,14 +770,13 @@ export default {
                         }
                     });
 
-
                     removeFirstObjectTitle.forEach((foh) => {
                         if (foh.bankName !== "" || foh.bankNumber !== "")
                             this.bankList.push({
                                 account_name: foh.accountName,
-                                bank_name: foh.bankName ,
+                                bank_name: foh.bankName,
                                 bank_number: foh.bankNumber,
-                                area_code: foh.code,
+                                area_code: foh.areaCode,
                             });
 
                         this.arenaList.push({
@@ -764,30 +784,29 @@ export default {
                                 foh.arenaName.indexOf("~") > -1
                                     ? foh.arenaName.replace(/\~/g, "/")
                                     : foh.arenaName,
-                            area_code: foh.code,
+                            area_code: foh.areaCode,
                             address: foh.address,
                             operator: foh.operatorsName,
                             team: foh.team && foh.team.toLowerCase(),
                             contact_number: "xxxxxxx",
                         });
 
-                        if (toArrayContactEmail(foh.contactNumber) !== "")
+                        if (toArrayContactEmail(foh.contact) !== "")
                             contactNo.push({
-                                area_code: foh.code,
+                                area_code: foh.areaCode,
                                 contact_number: toArrayContactEmail(
-                                    foh.contactNumber
+                                    foh.contact
                                 ),
                             });
                         if (toArrayContactEmail(foh.email) !== "")
                             emailList.push({
-                                area_code: foh.code,
+                                area_code: foh.areaCode,
                                 email: toArrayContactEmail(foh.email),
-                        });
+                            });
                     });
 
                     this.emailList = emailList;
                     this.contactNumbers = contactNo;
-                    console.log("arenaliost", this.arenaList);
                     // console.log( this.bankList);
                 };
                 reader.readAsBinaryString(file);
@@ -805,7 +824,7 @@ export default {
             this.fileUpload = null;
         },
         async proceedAction() {
-            console.log( this.bankList);
+            console.log(this.bankList);
             this.$Progress.start();
             this.arenaLoading = true;
             await axios.post("api/importArena", {
@@ -1111,144 +1130,209 @@ export default {
                             : "";
                 });
         },
-         convertStringToNumber (objects){
-                for (var i = 0; i < objects.length; i++) {
-                var obj = objects[i];
-                for (var prop in obj) {
-                    if (obj.hasOwnProperty(prop) && obj[prop] !== null && !isNaN(obj[prop])) {
-                    obj[prop] = +obj[prop];
-                    }
-                }
-                }
-                return objects;
-        },
+
         async downloadArenaDetails() {
-            const fontColor = (color = 'FFFFFFFF', name = 'Arial', family = 4, size = 9) => {
+            const fontColor = (
+                color = "FFFFFFFF",
+                name = "Arial",
+                family = 2,
+                size = 9
+            ) => {
                 return {
                     name,
                     color: { argb: color },
                     family,
                     size,
-                    bold: true
-                }
-            }
+                    bold: true,
+                };
+            };
 
-            const fillColor = (color = 'FF000000') => {
+            const fillColor = (color = "FF000000") => {
                 return {
-                    type: 'pattern',
-                    pattern:'solid',
-                    fgColor:{argb: color}
-                }
-            }
+                    type: "pattern",
+                    pattern: "solid",
+                    fgColor: { argb: color },
+                };
+            };
 
             const border = (color) => {
                 return {
                     top: {
-                        style:'thick',
-                        color: {argb:color}
-                        },
+                        style: "thick",
+                        color: { argb: color },
+                    },
                     left: {
-                        style:'thick', 
-                        color: {argb:color}
-                        },
+                        style: "thick",
+                        color: { argb: color },
+                    },
                     bottom: {
-                        style:'thick', 
-                        color: {argb:color}
-                        },
+                        style: "thick",
+                        color: { argb: color },
+                    },
                     right: {
-                        style:'thick', 
-                        color: {argb:color}
-                        }
-                }
-            }
-
-
+                        style: "thick",
+                        color: { argb: color },
+                    },
+                };
+            };
 
             const current = new Date();
-            const {data} = await axios.get("api/arenaToExcel");
+            const { data } = await axios.get("api/arenaToExcel");
 
             const workbook = new ExcelJS.Workbook(data);
-            const worksheet = await workbook.addWorksheet("SUMMARY OF OCBS DETAILS",{properties:{tabColor:{argb:'FFC0000'}}});
-            const converted = this.convertStringToNumber(data);
-            console.log(converted)
+            const worksheet = await workbook.addWorksheet(
+                "SUMMARY OF OCBS DETAILS",
+                { properties: { tabColor: { argb: "FF8FD5A6" } } }
+            );
 
-            const convertedResult = converted.map((val, index) => ({
+            const convertedResult = data.map((val, index) => {
+                return {
+                    count: index + 1,
+                    contact:
+                        val.contact_details.length <= 0 ||
+                        val.contact_details === 0
+                            ? null
+                            : val.contact_details[0].contact_number,
+                    email:
+                        val.email_details.length <= 0 || val.email_details === 0
+                            ? null
+                            : val.email_details[0].email,
+                    account_name:
+                        val.bank_details.length <= 0 || val.bank_details === 0
+                            ? null
+                            : val.bank_details[0].account_name,
+                    bankname:
+                        val.bank_details.length <= 0 || val.bank_details === 0
+                            ? null
+                            : val.bank_details[0].bank_name,
+                    banknumber:
+                        val.bank_details.length <= 0 || val.bank_details === 0
+                            ? null
+                            : val.bank_details[0].bank_number,
+                    bankOperator: val.operator,
+                    ...val,
+                };
+            });
+            worksheet.getRow(2).values = [
+                "#",
+                "CODE",
+                "ARENA NAME",
+                "ADDRESS",
+                "OPERATOR'S NAME",
+                "CONTACT NUMBER",
+                "EMAIL",
+            ];
 
-                count:index + 1,
-                contact: val.contact_details.length <= 0 || val.contact_details === 0  ? null :  val.contact_details[0].contact_number,
-                email:  val.email_details.length <= 0 || val.email_details === 0  ? null : val.email_details[0].email,
-                account_name : val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].account_name,
-                bankname :  val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].bank_name,
-                banknumber :  val.bank_details.length <= 0 || val.bank_details === 0  ? null : val.bank_details[0].bank_number,
-                ...val
-
-            }));
-
-           worksheet.columns = [
-                    {header:'#' , key: 'id', width: 10 },
-                    {header:'CODE' , key: 'area_code', width: 10 },
-                    {header:'ARENA NAME' , key: 'arena', width: 100 },
-                    {header:'ADDRESS' , key: 'address', width: 50 },
-                    {header:"OPERATOR'S NAME" , key: 'operator', width: 50 }, //to fix
-                    {header:"CONTACT NUMBER" , key: 'contact', width: 50 }, //to fix
-                    {header:"EMAIL" , key: 'email', width: 50 },//to fix
-                    {header:"ACCOUNT NAME" , key: 'account_name', width: 30 },//to fix
-                    {header:"Bank NAME" , key: 'bankname', width: 30 },//to fix
-                    {header:"BANK NUMBER" , key: 'banknumber', width: 30 }, //to fix
-
-            ]
-          // Custom design excel
-            const customFillColumn = (columns, fontColor, fillColor) => {
-                columns.forEach(column => {
-                    worksheet.getColumn(column).eachCell((cell) => {
-                        cell.font = fontColor
-                        cell.fill = fillColor
-                    })
-                })
-            }
-
-            const internalCheckCells = ['A1','B1','C1','D1','E1','F1','G1','H1','I1','J1']
-            const areaCodes = worksheet.getColumn('B');
-            const duplicatesAreaCode = areaCodes.values.filter((item, index) => areaCodes.values.indexOf(item) !== index);
-
-            worksheet.getRow(1).height = 30;
-            internalCheckCells.forEach(cell => {
-                // worksheet.getCell(cell).border  = border('aa28d7')
-                worksheet.getCell(cell).font = fontColor('FFFFFFFF')
-                worksheet.getCell(cell).fill = fillColor('FF000000')
-                worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
-            }),
-
-
+            worksheet.columns = [
+                { key: "id", width: 10 },
+                { key: "area_code", width: 10 },
+                { key: "arena", width: 100 },
+                { key: "address", width: 50 },
+                { key: "operator", width: 50 }, //to fix
+                { key: "contact", width: 50 }, //to fix
+                { key: "email", width: 50 }, //to fix
+                { key: "bankOperator", width: 50 }, //to fix
+                { key: "account_name", width: 30 }, //to fix
+                { key: "bankname", width: 30 }, //to fix
+                { key: "banknumber", width: 30 }, //to fix
+            ];
 
             worksheet.addRows(convertedResult);
 
+            worksheet.mergeCells("H1:K1");
+            worksheet.getCell("A1").value = "#";
+            worksheet.getCell("B1").value = "AREA CODE";
+            worksheet.getCell("C1").value = "ARENA NAME";
+            worksheet.getCell("D1").value = "ADDRESS";
+            worksheet.getCell("E1").value = "OPERATOR\'S NAME";
+            worksheet.getCell("F1").value = "CONTACT";
+            worksheet.getCell("G1").value = "EMAIL";
+            worksheet.getCell("H1").value = "BANK DETAILS";
+            worksheet.getCell("H2").value = "OPERATOR'S NAME";
+            worksheet.getCell("I2").value = "ACCOUNT NAME";
+            worksheet.getCell("J2").value = "BANK NAME";
+            worksheet.getCell("K2").value = "BANK NUMBER";
 
-            customFillColumn(['B'], fontColor('000000'), fillColor('cbe01f'))
+            // Custom design excel
+            const customFillColumn = (columns, fontColor, fillColor) => {
+                columns.forEach((column) => {
+                    worksheet.getColumn(column).eachCell((cell) => {
+                        cell.font = fontColor;
+                        cell.fill = fillColor;
+                        cell.border = {
+                            top: {
+                                style: "thick",
+                                color: { argb: "FF000000" },
+                            },
+                            left: {
+                                style: "thick",
+                                color: { argb: "FF000000" },
+                            },
+                            bottom: {
+                                style: "thick",
+                                color: { argb: "FF000000" },
+                            },
+                            right: {
+                                style: "thick",
+                                color: { argb: "FF000000" },
+                            },
+                        };
+                    });
+                });
+            };
+
             worksheet.columns.forEach(function (column, i) {
-
                 column["eachCell"]({ includeEmpty: true }, function (cell) {
                     cell.border = {
-                        top: {style:'thin'},
-                        left: {style:'thin'},
-                        bottom: {style:'thin'},
-                        right: {style:'thin'}
-                    }
-                   cell.alignment = {vertical:'middle',horizontal:'center'}
+                        top: { style: "thin" },
+                        left: { style: "thin" },
+                        bottom: { style: "thin" },
+                        right: { style: "thin" },
+                    };
+                    cell.alignment = {
+                        vertical: "middle",
+                        horizontal: "center",
+                    };
                 });
-            
-            worksheet.getCell('B1').font = fontColor('FFFFFFFF')
-            worksheet.getCell('B1').fill = fillColor('FF000000')
-
-
-                // if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '#,##0.00;[Red]\-#,##0.00'
-                if(column.letter !== 'A' || !isNaN(column.key)) column.numFmt = '_-* #,##0.00_-;[Color3]-* #,##0.00_-;_-* "-"??_-;_-@_-'
-
             });
 
-            const buf = await workbook.xlsx.writeBuffer()
-            saveAs(new Blob([buf]), `Arena Master List-${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}.xlsx`)
+            const headerCells = ["A", "B", "C", "D", "E", "F", "G"];
 
+            // worksheet.getRow(1).height = 30;
+            headerCells.forEach((cell) => {
+                worksheet.getCell(`${cell}1`).border = border("FFFFFFFF");
+                worksheet.getCell(`${cell}1`).font = fontColor("FFFFFFFF");
+                worksheet.getCell(`${cell}1`).fill = fillColor("FF000000");
+                worksheet.getCell(`${cell}1`).alignment = {
+                    vertical: "middle",
+                    horizontal: "center",
+                };
+
+                worksheet.mergeCells(`${cell}1:${cell}2`);
+            }),
+                (worksheet.getCell("H1").fill = fillColor("FFFFE1EA"));
+            worksheet.getCell("H1").font = fontColor("FF000000");
+
+            const bankDetailsCellHeader = ["H2", "I2", "J2", "K2"];
+            bankDetailsCellHeader.forEach((cell) => {
+                worksheet.getCell(cell).border = border("FFFFFFFF");
+                worksheet.getCell(cell).fill = fillColor("FF000000");
+                worksheet.getCell(cell).font = fontColor("FFFFFFFF");
+                worksheet.getCell(cell).alignment = {
+                    vertical: "middle",
+                    horizontal: "center",
+                };
+            });
+
+            customFillColumn(["B"], fontColor("000000"), fillColor("cbe01f"));
+
+            const buf = await workbook.xlsx.writeBuffer();
+            saveAs(
+                new Blob([buf]),
+                `Arena Master List-${current.getDate()}/${
+                    current.getMonth() + 1
+                }/${current.getFullYear()}.xlsx`
+            );
         },
     },
     created() {
