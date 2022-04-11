@@ -2,6 +2,7 @@
     <div
         class="report-soa_container mx-auto d-flex flex-column"
         id="report-soa_container"
+      
     >
         <div
             v-for="item in selected"
