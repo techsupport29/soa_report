@@ -779,8 +779,6 @@ export default {
                                 area_code: foh.areaCode,
                             });
 
-                            console.log(foh)
-
                         this.arenaList.push({
                             arena:
                                 foh.arenaName.indexOf("~") > -1
@@ -792,8 +790,6 @@ export default {
                             team: foh.team && foh.team.toLowerCase(),
                             contact_number: "xxxxxxx",
                         });
-
-                        console.log(foh)
 
                         if (toArrayContactEmail(foh.contact) !== "")
                             contactNo.push({

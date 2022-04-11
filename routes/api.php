@@ -80,6 +80,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::get('convertToExcel/{group}/{data}', [App\Http\Controllers\API\ImportController::class, 'ConvertToExcel']);
     //post
     Route::post('clearfilterbydate', [App\Http\Controllers\API\ImportController::class, 'Clearfilterbydate']);
+ 
     //put
     Route::put('arenaStatus', [App\Http\Controllers\API\ImportController::class, 'arenastatus']);
 
@@ -150,4 +151,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::get('getselectedgroup/{id}',[App\Http\Controllers\API\OperatorGroupController::class,'getselectedGroup']);
     Route::get('deletegroupsselectedarena/{id}',[App\Http\Controllers\API\OperatorGroupController::class,'Deletegroupsselectedarena']);
     Route::post('addtogroup',[App\Http\Controllers\API\OperatorGroupController::class,'Addtogroup']);
+    Route::post('fetchSoaByOperatorGroup', [App\Http\Controllers\API\OperatorGroupController::class, 'fetchSoaByOperatorGroup']);
 
