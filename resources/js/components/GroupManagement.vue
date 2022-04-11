@@ -564,11 +564,10 @@ export default {
             this.viewGroup = true;
             this.selectedGroup = item;
 
-            axios.get('api/getselectedgroup/' + item.id).then(({data})=> {
-                data.forEach((element)=>{
-                    this.groupHasArena = element.hasgroup
-                    console.log(element)
-                    })
+            axios.get("api/getselectedgroup/" + item.id).then(({ data }) => {
+                data.forEach((element) => {
+                    this.groupHasArena = element.hasgroup;
+                });
             });
         },
         async openEmail() {
