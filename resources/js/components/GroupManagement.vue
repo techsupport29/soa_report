@@ -445,8 +445,7 @@ export default {
                 arenasTeam.push({ ...arenas });
             });
 
-            axios
-                .post("api/addtogroup", {
+            axios.post("api/addtogroup", {
                     id: this.selectedGroup.id,
                     data: arenasTeam,
                 })
@@ -460,7 +459,7 @@ export default {
                 });
                 this.openAddArenaDialog = false
                 this.viewGroup = false
-            });
+
         },
         getAllArena() {
             axios.get("api/import").then(({ data }) => {
@@ -484,8 +483,7 @@ export default {
             this.openAddArenaDialog = true;
         },
         createGroups() {
-            axios
-                .post("api/groups", this.group)
+            axios.post("api/groups", this.group)
                 .then((data) => {
                     Toast.fire({
                         icon: "success",
@@ -495,15 +493,8 @@ export default {
                     Fire.$emit("AfterCreate");
                 })
                 .catch((error) => {
-                    this.errors = error.response.data.errors?.name;
-                });
-                this.openDialog = false;
-                Fire.$emit("AfterCreate");
-            }).catch((error) => {
-
-                this.errors.name = error.response.data.errors?.name;
+                     this.errors.name = error.response.data.errors?.name;
                 this.errors.email = error.response.data.errors?.email;
-
             });
         },
         updateGroupModal(item) {
@@ -589,7 +580,7 @@ export default {
                  to
              });
             console.log(data)
-         
+
         },
         RemoveToGroup(id) {
             swal.fire({
