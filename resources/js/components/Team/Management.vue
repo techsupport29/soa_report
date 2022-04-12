@@ -59,7 +59,7 @@
                                     <v-edit-dialog
                                     :return-value.sync="item.team"
                                     large
-                                     persistent
+                                    persistent
                                     @save="save(item)"
                                     @cancel="cancel"
                                     @open="open"
@@ -529,28 +529,7 @@ export default {
       this.userNoTeam = users.data;
     },
 
-    // async addArenaToTeam() {
-    //   this.addSelectedArenaTeamItem.team = this.selectedTeam.name;
-    //   await axios.put(
-    //     "api/updateArenaTeam/" + this.addSelectedArenaTeamItem.area_code,
-    //     { team: this.selectedTeam.name }
-    //   );
-    //   this.addNewArenaItem = false;
 
-    //   //   let arrayArena = this.arenaTeams;
-    //   //   arrayArena.push(this.addSelectedArenaTeamItem);
-    //   Fire.$emit("AfterCreateArenaTeam");
-    //   // this.$emit("update:arenaTeams", arrayArena);
-    // },
-
-    // async addUserToTeam() {
-    //   this.addSelectedUserTeamItem.team = this.selectedTeam.name;
-    //   const user = this.addSelectedUserTeamItem;
-    //   const team_id = this.selectedTeam.id;
-    //   await axios.put("api/updateUserTeam/" + user.id, { team_id });
-    //   this.addNewUserItem = false;
-    //   Fire.$emit("AfterCreateUserTeam");
-    // },
 
       // // ADD multiple users to team and assigned as computed
       async addUserSelectedToTeam() {

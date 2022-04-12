@@ -8,8 +8,8 @@
                 >
                     <v-card-text>
                         {{
-                           downloadingReport && progressText 
-                                ? `${progressText} ${progressvalue}`
+                           downloadingReport && progressText
+                                ? `${progressText}`
                                 : downloadingReport
                                 ? "Downloading..."
                                 : "Please stand by"
@@ -62,5 +62,5 @@ export default {
 }
 </script>
 <style lang="">
-    
+
 </style>

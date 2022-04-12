@@ -123,9 +123,9 @@
                                         v-bind="attrs"
                                         v-on="on"
                                         class="mx-2"
-                                        @click="openEmail"
+                                        @click="openEmail()"
                                     >
-                                        <v-icon>mdi-at</v-icon> Send Email
+                                        <v-icon>mdi-at</v-icon> Pick Date
                                     </v-btn>
                                 </template>
                                 <span
@@ -304,6 +304,22 @@
                         :loading="false"
                         class="elevation-1"
                     >
+                    <template v-slot:item="{item, isSelected, select}">
+                             <tr>
+                                <td>
+                                    <v-simple-checkbox
+                                        :value="isSelected"
+                                        :readonly="item.disabled"
+                                        :disabled="item.arena_details ? false : true"
+                                        @input="select($event)"
+                                    ></v-simple-checkbox>
+                                </td>
+                                <td>
+                                    {{item.arena_name}}
+                                </td>
+
+                            </tr>
+                    </template>
                     </v-data-table>
 
                     <v-card-actions class="justify-end">
@@ -384,8 +400,10 @@
                                             </div>
 
                                             <label> Arena List : </label><br>
+
                                             <div style="border:1px solid black;">
-                                                <span v-for="code in areaCodesname" :key="code">  {{code}}, </span><br>
+                                                <span v-if="areaCodesname.length == 0 "> <i></i></span>
+                                                <span v-else v-for="code in areaCodesname" :key="code">  {{code }}, </span><br>
                                             </div>
 
                                         </div>
@@ -398,7 +416,7 @@
                 </v-data-table>
             </v-dialog>
             <soa-card :selected="groupOperatorsArena"></soa-card>
-            <loading-progress :loading="loading" :progressvalue="progressvalue" />
+            <loading-progress :loading="loading" :progressvalue="progressvalue" :downloadingReport="downloadingReport" progressText="Sending Email.. Don't Touch me Not.." />
         </v-container>
     </v-app>
 </template>
@@ -461,23 +479,25 @@ export default {
             },
             dates: [],
             openEmailDialog: false,
+
             moment,
             areaCodesname:[],
             groupOperatorsArena: [],
             progressvalue: 0,
             loading: false,
+            downloadingReport:false,
             emailcc:[],
             selectedEmail:'',
         };
     },
     methods: {
+
         ManageCC(){
             axios.get('api/emails').then(({data})=>{
                 // this.emailcc = data.data;
                this.emailcc =  data.map(sCc => {
                             return sCc.email_cc
                     });
-                    console.log( this.emailcc )
             });
         },
         closeDialog() {
@@ -653,6 +673,7 @@ export default {
 
 
             this.loading = true;
+            this.downloadingReport = true;
 
             // // -----------ZIP--------------- // // //
             const divsss = document.querySelectorAll(".reportsoaoutput");
@@ -708,6 +729,7 @@ export default {
                         setTimeout(async () => {
 
                             this.loading = false;
+                            this.downloadingReport = false
 
                             console.log("done");
 
@@ -785,12 +807,9 @@ export default {
              })
             this.groupOperatorsArena = data
 
-            setTimeout(() => {
-                this.downloadZip(data)
-            }, 3000)
-
-
-
+            process.nextTick(() =>{
+                 this.downloadZip(data);
+            })
 
 
 

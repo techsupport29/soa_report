@@ -322,7 +322,6 @@ class importController extends Controller
         $soaSummaryReport = import::with(['BankDetails','arenaDetails.BankDetails'])->where('group', $group);
 
         if($request->has('per_page')) {
-
             return $soaSummaryReport->select('date_of_soa')->distinct()->orderBy('date_of_soa', 'DESC')->paginate($request->input('per_page'));
         } else {
             return $soaSummaryReport->select('date_of_soa')->distinct()->orderBy('date_of_soa', 'DESC')->get();

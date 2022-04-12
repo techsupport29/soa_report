@@ -22,7 +22,7 @@
         @page-count="handlePageCount"
         :server-items-length="total"
         @pagination="handlePaginate"
-         @update:options="handlePageOptions"
+        @update:options="handlePageOptions"
         @toggle-select-all="selectAllToggle"
         @input="singleSelected"
     >
