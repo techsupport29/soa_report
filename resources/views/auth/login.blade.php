@@ -21,7 +21,7 @@
                     </span>
 
                     <div class="wrap-input100 validate-input m-b-20" data-validate="Enter Username or Email">
-                        <input  type="text"  placeholder="Username or mail"
+                        <input  type="text"  placeholder="Username or Email"
                         class="input100{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
                         name="login" value="{{ old('username') ?: old('email') }}" required autofocu>
                         <span class="focus-input100"></span>
