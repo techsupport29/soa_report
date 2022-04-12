@@ -82,8 +82,8 @@ class OperatorGroupController extends Controller
     // GET IMPORTS BASED ON GROUP AND DATE
 
     public function fetchSoaByOperatorGroup(Request $request){
-        // dd($request->all());
-        $soa = import::with(['BankDetails','arenaDetails.BankDetails', 'arenaDetails.EmailDetails'])->whereIn('areaCode', $request->areaCodes)->whereBetween('date_of_soa',[$request->from, $request->to])->get();
+    
+        $soa = import::with(['BankDetails','arenaDetails.BankDetails', 'arenaDetails.EmailDetails'])->whereIn('areaCode', $request->areaCodes)->where('date_of_soa',$request->from)->get();
         return $soa;
     }
 

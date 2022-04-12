@@ -120,7 +120,7 @@ class EmailController extends Controller
 
 
     public function sendZipEmail(request $request){
-
+       
         $data = [
             'email' => $request->email,
             'email_cc' => $request->cc,

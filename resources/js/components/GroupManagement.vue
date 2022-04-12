@@ -671,7 +671,8 @@ export default {
         },
         async downloadZip(selected) {
 
-
+            console.log('test',selected[0].date_of_soa);
+            // if
             this.loading = true;
             this.downloadingReport = true;
 
@@ -699,17 +700,17 @@ export default {
                     const blob = await zip.generateAsync({ type: "blob" });
                     await saveAs(
                         blob,
-                        `report-${moment(selected[0].date_closed).format(
+                        `report-${moment(selected[0].date_of_soa).format(
                             "MMDYY"
                         )}.zip`
                     );
 
 
-
+                    const send_date = moment(selected[0].date_of_soa).format('MMMM D, YYYY');
                     axios.post('api/sendZipEmail', {
                             link: base64,
                             email: this.selectedEmail,
-                            date: selected[0].date_of_soa,
+                            date: send_date,
                             arena: this.selectedGroup.name,
                             cc: this.emailcc
                         },
@@ -790,7 +791,7 @@ export default {
             await generateZipFile(zip);
         },
 
-         async sendingEmail(item) {
+        async sendingEmail(item) {
             this.loading = true;
             const from = item
             const to = moment(item, "YYYY-MM-DD LTS")
