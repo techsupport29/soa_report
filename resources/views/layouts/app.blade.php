@@ -31,8 +31,8 @@
 
 	</head>
 		<body >
-			<div id="app" style="height: 50vh !important; border: 1px solid green" >
-				<main style="height: 50vh !important; border: 1px solid green">
+			<div id="app" >
+				<main >
 					@yield('content')
 				</main>
 			</div>
