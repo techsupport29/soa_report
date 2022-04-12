@@ -671,7 +671,6 @@ export default {
         },
         async downloadZip(selected) {
 
-            console.log('test',selected[0].date_of_soa);
             // if
             this.loading = true;
             this.downloadingReport = true;
