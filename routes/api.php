@@ -152,4 +152,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::get('deletegroupsselectedarena/{id}',[App\Http\Controllers\API\OperatorGroupController::class,'Deletegroupsselectedarena']);
     Route::post('addtogroup',[App\Http\Controllers\API\OperatorGroupController::class,'Addtogroup']);
     Route::post('fetchSoaByOperatorGroup', [App\Http\Controllers\API\OperatorGroupController::class, 'fetchSoaByOperatorGroup']);
+    Route::get('groupSoaSummaryReport', [App\Http\Controllers\API\OperatorGroupController::class, 'groupSoaSummaryReport']);
 

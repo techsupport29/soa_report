@@ -329,6 +329,8 @@ class importController extends Controller
     }
 
 
+
+
     public function summaryDateRange(Request $request, $from, $to){
         $group = $request->query('group');
         $summaryDateRange = import::with(['BankDetails','arenaDetails.BankDetails'])->where('group', ucfirst($group))->whereBetween('date_of_soa',[$from, $to])->orderBy('date_of_soa', 'DESC')->orderBy('areaCode', 'ASC');

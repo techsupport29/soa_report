@@ -45,10 +45,10 @@
                             :items="operatorGroups"
                             class="elevation-1 text-center"
                         >
-                        <template v-slot:[`item.count`]="{ item }">
-                           <strong> {{item.hasgroup.length}}</strong>
-                        </template>
-                         <template v-slot:[`item.actions`]="{ item }">
+                            <template v-slot:[`item.count`]="{ item }">
+                                <strong> {{ item.hasgroup.length }}</strong>
+                            </template>
+                            <template v-slot:[`item.actions`]="{ item }">
                                 <v-tooltip color="primary" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
@@ -100,8 +100,7 @@
                         </v-data-table>
                     </v-card>
                 </v-col>
-                <v-col  class="col-md-6">
-
+                <v-col class="col-md-6">
                     <v-banner
                         v-if="!viewGroup"
                         single-line
@@ -109,13 +108,11 @@
                         >No Group selected yet
                     </v-banner>
 
-
-
                     <v-card v-else>
                         <v-card-title class="card-header">
                             {{ this.selectedGroup.name }} Arena List
                             <v-spacer></v-spacer>
-                              <v-tooltip bottom color="green">
+                            <v-tooltip bottom color="green">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
                                         color="green"
@@ -129,7 +126,8 @@
                                     </v-btn>
                                 </template>
                                 <span
-                                    >Send Email Zip to {{ this.selectedGroup.email }}</span
+                                    >Send Email Zip to
+                                    {{ this.selectedGroup.email }}</span
                                 >
                             </v-tooltip>
                             <v-tooltip bottom>
@@ -289,12 +287,12 @@
                             <span>Close Modal</span>
                         </v-tooltip>
                     </v-toolbar>
-                       <v-text-field
-                            v-model="searchArena"
-                            append-icon="mdi-magnify"
-                            label="Search Arena"
-                            class="mx-4"
-                        ></v-text-field>
+                    <v-text-field
+                        v-model="searchArena"
+                        append-icon="mdi-magnify"
+                        label="Search Arena"
+                        class="mx-4"
+                    ></v-text-field>
                     <v-data-table
                         v-model="selectedArena"
                         :headers="SelectArenaheaders"
@@ -305,8 +303,8 @@
                         class="elevation-1"
                         @toggle-select-all="selectAllToggle"
                     >
-                    <template v-slot:item="{item, isSelected, select}">
-                             <tr>
+                        <template v-slot:item="{ item, isSelected, select }">
+                            <tr>
                                 <td>
                                     <v-simple-checkbox
                                         :value="isSelected"
@@ -318,9 +316,8 @@
                                 <td>
                                     {{item.arena}}
                                 </td>
-
                             </tr>
-                    </template>
+                        </template>
                     </v-data-table>
 
                     <v-card-actions class="justify-end">
@@ -349,10 +346,48 @@
             <!-- SOA DATES -->
             <v-dialog
                 transition="dialog-bottom-transition"
-                max-width="600"
+                max-width="800"
                 v-model="openEmailDialog"
             >
-                <v-data-table :headers="headerDialogEmail" :items="dates">
+                <v-expansion-panels>
+                    <v-expansion-panel
+                        v-for="item in dates"
+                        :key="item.i"
+                        @click="handleExpand(item)"
+                    >
+                        <v-expansion-panel-header>
+                            {{ moment(item, 'YYYY-MM-DD').format("LL") }}
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <v-col>
+                                <v-row>
+                                    <v-spacer></v-spacer>
+                                    <v-btn @click="sendingEmail">EMAIL</v-btn>
+                                </v-row>
+                                <v-row>
+                                    <v-data-table
+                                        :headers="headerImports"
+                                        :items="groupOperatorsArena"
+                                    >
+                                        <template
+                                            v-slot:[`item.actions`]="{ item }"
+                                        >
+                                            <v-btn
+                                                color="primary"
+                                                class="mx-2"
+                                                dark
+                                                @click="viewItemImport(item)"
+                                            >
+                                                View
+                                            </v-btn>
+                                        </template>
+                                    </v-data-table>
+                                </v-row>
+                            </v-col>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+                <!-- <v-data-table :headers="headerDialogEmail" :items="dates">
                     <template v-slot:item="{ item }">
                         <tr>
                             <td>
@@ -414,10 +449,50 @@
                             </td>
                         </tr>
                     </template>
-                </v-data-table>
+                </v-data-table> -->
             </v-dialog>
-            <soa-card :selected="groupOperatorsArena"></soa-card>
-            <loading-progress :loading="loading" :progressvalue="progressvalue" :downloadingReport="downloadingReport" progressText="Sending Email.. Don't Touch me Not.." />
+            <v-dialog
+                v-model="soaDialogItem"
+                transition="dialog-bottom-transition"
+                content-class="my-custom-dialog"
+                scrollable
+                persistent
+                width="auto"
+                
+            >
+            <v-sheet height="100%" class="pa-2 overflow-x-hidden">
+                 <v-col>
+                    <v-row>
+                        <v-spacer></v-spacer>
+                        <v-chip
+                            small
+                            class="ma-2"
+                            close
+                            color="red"
+                            text-color="white"
+                        
+                            @click="soaDialogItem = false"
+                        >
+                            Close
+                        </v-chip>
+                    </v-row>
+                    <v-row>
+                        <div class="mx-auto">
+                            <soa-card :item="soaItem"></soa-card>
+                        </div>
+                        
+                    </v-row>
+                </v-col>
+            </v-sheet>
+               
+            </v-dialog>
+            <soa-cards :selected="groupOperatorsArena"></soa-cards>
+            <loading-progress
+                :loading="loading"
+                :progressvalue="progressvalue"
+                :downloadingReport="downloadingReport"
+                progressText="Sending Email.. Don't Touch me Not.."
+            />
         </v-container>
     </v-app>
 </template>
@@ -429,12 +504,14 @@ import html2canvas from "html2canvas";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import { saveAs } from "file-saver";
-import { flattenDeep, uniq } from 'lodash';
-import SoaCard from './SoaComponents/SoaCard.vue'
+import { flattenDeep, uniq } from "lodash";
+import SoaCards from "./SoaComponents/SoaCards.vue";
+import SoaCard from "./SoaComponents/SoaCard.vue";
 
 export default {
     components: {
-        SoaCard
+        SoaCards,
+        SoaCard,
     },
     data() {
         return {
@@ -444,8 +521,15 @@ export default {
             ],
             headers: [
                 { text: "Group Name", value: "name" },
-                {text: "Email", value:'email'},
+                { text: "Email", value: "email" },
                 { text: "No. of Arenas", value: "count" },
+                { text: "", value: "actions", sortable: false },
+            ],
+            headerImports: [
+                { text: "#", value: "id" },
+                { text: "Area Code", value: "areaCode", sortable: false },
+                { text: "Reference #", value: "refNo", sortable: false },
+                { text: "Arena Name", value: "arena_name", sortable: false },
                 { text: "", value: "actions", sortable: false },
             ],
             Groupheaders: [
@@ -457,31 +541,31 @@ export default {
             ],
             search: "",
             searchgroup: "",
-            searchArena:'',
+            searchArena: "",
             openDialog: false,
             openAddArenaDialog: false,
             editMode: false,
             viewGroup: false,
             addNewArenaItem: false,
-            arena:[],
-            selectedGroup:[],
-            selectedArena:[],
-            operatorGroups:[],
-            groupHasArena:[],
-            errors:{
-                name:"",
-                email:'',
+            arena: [],
+            selectedGroup: [],
+            selectedArena: [],
+            operatorGroups: [],
+            groupHasArena: [],
+            errors: {
+                name: "",
+                email: "",
             },
             group: {
                 id: "",
                 name: "",
-                email:'',
+                email: "",
             },
             dates: [],
             openEmailDialog: false,
 
             moment,
-            areaCodesname:[],
+            areaCodesname: [],
             groupOperatorsArena: [],
             progressvalue: 0,
             loading: false,
@@ -489,6 +573,8 @@ export default {
             emailcc:[],
             selectedItems: [],
             selectedEmail:'',
+            soaDialogItem: false,
+            soaItem: {}
         };
     },
     methods: {
@@ -546,9 +632,9 @@ export default {
         ManageCC(){
             axios.get('api/emails').then(({data})=>{
                 // this.emailcc = data.data;
-               this.emailcc =  data.map(sCc => {
-                            return sCc.email_cc
-                    });
+                this.emailcc = data.map((sCc) => {
+                    return sCc.email_cc;
+                });
             });
         },
         closeDialog() {
@@ -564,7 +650,8 @@ export default {
                 arenasTeam.push({ ...arenas });
             });
 
-            axios.post("api/addtogroup", {
+            axios
+                .post("api/addtogroup", {
                     id: this.selectedGroup.id,
                     data: arenasTeam,
                 })
@@ -584,10 +671,9 @@ export default {
                 this.arena = data;
             });
         },
-        getallGroups(){
-            axios.get('api/groups').then(({data})=>{
-                this.operatorGroups = data
-
+        getallGroups() {
+            axios.get("api/groups").then(({ data }) => {
+                this.operatorGroups = data;
             });
         },
 
@@ -600,7 +686,8 @@ export default {
             this.openAddArenaDialog = true;
         },
         createGroups() {
-            axios.post("api/groups", this.group)
+            axios
+                .post("api/groups", this.group)
                 .then((data) => {
                     Toast.fire({
                         icon: "success",
@@ -610,9 +697,9 @@ export default {
                     Fire.$emit("AfterCreate");
                 })
                 .catch((error) => {
-                     this.errors.name = error.response.data.errors?.name;
-                this.errors.email = error.response.data.errors?.email;
-            });
+                    this.errors.name = error.response.data.errors?.name;
+                    this.errors.email = error.response.data.errors?.email;
+                });
         },
         updateGroupModal(item) {
             this.editMode = true;
@@ -621,22 +708,24 @@ export default {
             this.group.email = item.email;
             this.group.id = item.id;
         },
-        updateGroups(){
-            axios.put('api/groups/' + this.group.id,{
-                name : this.group.name,
-                email : this.group.email
-            }).then((data) => {
-                Toast.fire({
-                    icon: "success",
-                    title: "Team Updated in successfully",
+        updateGroups() {
+            axios
+                .put("api/groups/" + this.group.id, {
+                    name: this.group.name,
+                    email: this.group.email,
+                })
+                .then((data) => {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Team Updated in successfully",
+                    });
+                    this.openDialog = false;
+                    Fire.$emit("AfterCreate");
+                })
+                .catch((error) => {
+                    this.errors.name = error.response.data.errors?.name;
+                    this.errors.email = error.response.data.errors?.email;
                 });
-                this.openDialog = false;
-                Fire.$emit("AfterCreate");
-            }).catch((error) => {
-                this.errors.name = error.response.data.errors?.name;
-                this.errors.email = error.response.data.errors?.email;
-
-            });
         },
         deleteGroupModal(id) {
             swal.fire({
@@ -681,10 +770,12 @@ export default {
         },
         async openEmail() {
             this.openEmailDialog = true;
-            const { data } = await axios.get(`api/summaryReport?group=Deposit`);
+            const { data } = await axios.get(`api/groupSoaSummaryReport`);
             const areaCodes = this.groupHasArena.map((item) => item.area_code);
             this.areaCodesname = areaCodes;
-            this.dates = data;
+            const uniqDate = data.map(item => moment(item.date_of_soa).format('YYYY-MM-DD'))
+            console.log(uniqDate)
+            this.dates = uniq(uniqDate);
         },
 
         RemoveToGroup(id) {
@@ -708,7 +799,6 @@ export default {
                             );
                             Fire.$emit("AfterCreate");
                             this.viewGroup = false;
-
                         })
                         .catch(() => {
                             swal.fire(
@@ -721,7 +811,6 @@ export default {
             });
         },
         async downloadZip(selected) {
-
             // if
             this.loading = true;
             this.downloadingReport = true;
@@ -745,58 +834,56 @@ export default {
             };
 
             const generateZipFile = async (zip) => {
-                    const formData = new FormData();
-                    const base64 = await zip.generateAsync({ type: "base64" });
-                    const blob = await zip.generateAsync({ type: "blob" });
-                    await saveAs(
-                        blob,
-                        `report-${moment(selected[0].date_of_soa).format(
-                            "MMDYY"
-                        )}.zip`
-                    );
+                const formData = new FormData();
+                const base64 = await zip.generateAsync({ type: "base64" });
+                const blob = await zip.generateAsync({ type: "blob" });
+                await saveAs(
+                    blob,
+                    `report-${moment(selected[0].date_of_soa).format(
+                        "MMDYY"
+                    )}.zip`
+                );
 
-
-                    const send_date = moment(selected[0].date_of_soa).format('MMMM D, YYYY');
-                    axios.post('api/sendZipEmail', {
+                const send_date = moment(selected[0].date_of_soa).format(
+                    "MMMM D, YYYY"
+                );
+                axios
+                    .post(
+                        "api/sendZipEmail",
+                        {
                             link: base64,
                             email: this.selectedEmail,
                             date: send_date,
                             arena: this.selectedGroup.name,
-                            cc: this.emailcc
+                            cc: this.emailcc,
                         },
                         formData,
                         {
-                        headers: {
-                            'accept': 'application/json',
-                            'Accept-Language': 'en-US,en;q=0.8',
-                            "Content-Type": "multipart/form-data"
+                            headers: {
+                                accept: "application/json",
+                                "Accept-Language": "en-US,en;q=0.8",
+                                "Content-Type": "multipart/form-data",
+                            },
                         }
-                        }).then(({data}) => {
-                            console.log(data);
+                    )
+                    .then(({ data }) => {
+                        console.log(data);
                     });
 
+                if (this.progressvalue === 100) {
+                    setTimeout(async () => {
+                        this.loading = false;
+                        this.downloadingReport = false;
 
-                      if (this.progressvalue === 100) {
-                        setTimeout(async () => {
-
-                            this.loading = false;
-                            this.downloadingReport = false
-
-                            console.log("done");
-
-                        }, 1000);
-                    }
-
-
-
+                        console.log("done");
+                    }, 1000);
+                }
             };
             // start benchmark
             const t = new Date();
             // some xml processing
 
             for (let i = 0; i < selected.length; i++) {
-
-
                 console.log(
                     `Currently at ${i}, ${(new Date() - t) / 1000} secs`
                 );
@@ -817,17 +904,23 @@ export default {
                     backgroundColor: "#ffffff",
                     scale: 0.9,
                 });
-                console.log(selected[i])
+                console.log(selected[i]);
                 const link = document.createElement("a");
-                link.download = `${selected[i].arena_details ? selected[i].arena_details.arena : selected[i].arena_name}.png`;
+                link.download = `${
+                    selected[i].arena_details
+                        ? selected[i].arena_details.arena
+                        : selected[i].arena_name
+                }.png`;
                 link.href = await canvas.toDataURL("image/png");
                 const url = link.href;
 
                 const folderName =
-                    parseFloat(selected[i].for_total) < 0 ? "Replenishment" : "Deposit";
+                    parseFloat(selected[i].for_total) < 0
+                        ? "Replenishment"
+                        : "Deposit";
 
                 const arenaName =
-                    (selected[i].arena_name.indexOf("/")) > -1
+                    selected[i].arena_name.indexOf("/") > -1
                         ? selected[i].arena_name.replace(/\//g, "-")
                         : selected[i].arena_name;
                 const filename = `${folderName}/${arenaName}(${selected[i].refNo}).png`;
@@ -840,29 +933,50 @@ export default {
             //Generate zip file
             await generateZipFile(zip);
         },
-
-        async sendingEmail(item) {
-            this.loading = true;
-            const from = item
-            const to = moment(item, "YYYY-MM-DD LTS")
+        async handleExpand(item) {
+            console.log("Hello", item);
+            const from = item;
+            const to = moment(item, "YYYY-MM-DD")
                 .add(1, "days")
-                .format("YYYY-MM-DD LTS");
+                .format("YYYY-MM-DD");
 
             const areaCodes = this.groupHasArena.map((item) => item.area_code);
 
             this.areaCodesname = areaCodes;
-            const {data} = await axios.post(`api/fetchSoaByOperatorGroup`, {
-                 areaCodes,
-                 from,
-                 to
-             })
-            this.groupOperatorsArena = data
-
-            process.nextTick(() =>{
-                 this.downloadZip(data);
-            })
+            const { data } = await axios.post(`api/fetchSoaByOperatorGroup`, {
+                areaCodes,
+                from,
+                to,
+            });
+            console.log(data);
+            this.groupOperatorsArena = data;
+        },
+        async viewItemImport(item) {
+            this.soaDialogItem = true;
+            this.soaItem = item;
         },
 
+        async sendingEmail(item) {
+            this.loading = true;
+            // const from = item
+            // const to = moment(item, "YYYY-MM-DD LTS")
+            //     .add(1, "days")
+            //     .format("YYYY-MM-DD LTS");
+
+            // const areaCodes = this.groupHasArena.map((item) => item.area_code);
+
+            // this.areaCodesname = areaCodes;
+            // const {data} = await axios.post(`api/fetchSoaByOperatorGroup`, {
+            //      areaCodes,
+            //      from,
+            //      to
+            //  })
+            // this.groupOperatorsArena = data
+
+            process.nextTick(() => {
+                this.downloadZip(this.groupOperatorsArena);
+            });
+        },
     },
     created() {
         this.getallGroups();
@@ -880,14 +994,13 @@ export default {
 </script>
 <style scoped>
 ul {
-  list-style: none;
-  height: 100px;
-  overflow-x: hidden;
-  overflow-y: scroll;
+    list-style: none;
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 ul li:before {
-  content: '✓';
-
+    content: "✓";
 }
 </style>
