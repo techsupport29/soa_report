@@ -457,9 +457,10 @@
                 content-class="my-custom-dialog"
                 scrollable
                 persistent
-                width="800px"
+                width="auto"
+                
             >
-            <v-card>
+            <v-sheet height="100%" class="pa-2 overflow-x-hidden">
                  <v-col>
                     <v-row>
                         <v-spacer></v-spacer>
@@ -476,10 +477,13 @@
                         </v-chip>
                     </v-row>
                     <v-row>
-                        <soa-card :item="soaItem"></soa-card>
+                        <div class="mx-auto">
+                            <soa-card :item="soaItem"></soa-card>
+                        </div>
+                        
                     </v-row>
                 </v-col>
-            </v-card>
+            </v-sheet>
                
             </v-dialog>
             <soa-cards :selected="groupOperatorsArena"></soa-cards>
@@ -569,6 +573,8 @@ export default {
             emailcc:[],
             selectedItems: [],
             selectedEmail:'',
+            soaDialogItem: false,
+            soaItem: {}
         };
     },
     methods: {
