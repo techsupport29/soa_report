@@ -10,7 +10,7 @@
                 <v-toolbar
                     flat
                 >
-                    <v-toolbar-title class="font-weight-bold">Carbon copy in Email</v-toolbar-title>
+                    <v-toolbar-title class="font-weight-bold">CARBON COPY IN EMAIL</v-toolbar-title>
                         <v-divider
                         class="mx-4"
                         inset
@@ -70,8 +70,8 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add  Position</h5>
-                    <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update Position</h5>
+                    <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add  CC in Email</h5>
+                    <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update CC in Email</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -81,7 +81,7 @@
                             <v-text-field
                                 prepend-inner-icon="mdi-email"
                                 label="Enter Email Address"
-                                placeholder="user position"
+                                placeholder="Add cc Email"
                                 outlined
                                 dense
                                 :error-messages="errors"

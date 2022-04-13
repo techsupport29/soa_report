@@ -301,6 +301,7 @@
                         show-select
                         :loading="false"
                         class="elevation-1"
+                        @toggle-select-all="selectAllToggle"
                     >
                         <template v-slot:item="{ item, isSelected, select }">
                             <tr>
@@ -308,14 +309,12 @@
                                     <v-simple-checkbox
                                         :value="isSelected"
                                         :readonly="item.disabled"
-                                        :disabled="
-                                            item.arena_details ? false : true
-                                        "
+                                        :disabled="item.bank_details.length == 0 || item.email_details.length == 0 ? true : false"
                                         @input="select($event)"
                                     ></v-simple-checkbox>
                                 </td>
                                 <td>
-                                    {{ item.arena_name }}
+                                    {{item.arena}}
                                 </td>
                             </tr>
                         </template>
@@ -535,7 +534,6 @@ export default {
             ],
             SelectArenaheaders: [
                 { text: "Arena/OCBS Name", value: "arena_name" },
-                { text: "", value: "actions", sortable: false },
             ],
             search: "",
             searchgroup: "",
@@ -567,16 +565,66 @@ export default {
             groupOperatorsArena: [],
             progressvalue: 0,
             loading: false,
-            downloadingReport: false,
-            emailcc: [],
-            selectedEmail: "",
-            soaItem: {},
-            soaDialogItem: false,
+            downloadingReport:false,
+            emailcc:[],
+            selectedItems: [],
+            selectedEmail:'',
         };
     },
     methods: {
-        ManageCC() {
-            axios.get("api/emails").then(({ data }) => {
+        // Select all imports with arena details
+        selectAllToggle(props) {
+
+            let dis = 0;
+
+            this.selectedItems = props.items;
+
+            props.items.map((x) => {
+
+                if (x.bank_details.length == 0 || x.email_details.length == 0) dis += 1;
+            });
+            console.log(props.items.length - dis);
+
+            if (this.selectedArena != props.items.length - dis) {
+
+                this.selectedArena = [];
+
+                const self = this;
+
+                props.items.forEach((item) => {
+
+                    if (item.bank_details.length !== 0  && item.email_details.length !== 0 ) {
+                        self.selectedArena.push(item);
+                    }
+                });
+                // this.$emit('selectedSoa', this.selectedArena)
+            } else {
+                console.log('false');
+                this.selectedArena = []
+                this.$emit('selectedArena', [])
+            };
+        },
+        resetTable(){
+            console.log('xxxRESETxxxx')
+            this.selected = []
+        },
+        singleSelected(item){
+            this.$emit('selectedSoa', item)
+        },
+
+        async handlePaginate(e){
+              this.pagePosition  = e.page
+                // console.log('Tabbbbb>>>>', this.tab)
+                  this.$emit('loading', true)
+                    await this.fetchLists(localStorage.getItem('site'));
+                    this.$emit('loading', false)
+
+
+
+
+        },
+        ManageCC(){
+            axios.get('api/emails').then(({data})=>{
                 // this.emailcc = data.data;
                 this.emailcc = data.map((sCc) => {
                     return sCc.email_cc;
@@ -612,7 +660,8 @@ export default {
                 });
         },
         getAllArena() {
-            axios.get("api/import").then(({ data }) => {
+            axios.get("api/arena").then(({ data }) => {
+                console.log(data);
                 this.arena = data;
             });
         },
