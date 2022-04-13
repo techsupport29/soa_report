@@ -1,5 +1,17 @@
 <template lang="">
-      <v-card ref="soaReport">
+    <div
+        class="report-soa_container mx-auto d-flex flex-column"
+        id="report-soa_container"
+      
+    >
+        <div
+            v-for="item in selected"
+            :key="item.codeEvent"
+            class="reportsoaoutput"
+            id="reportsoaoutput"
+        >
+            <soa-card :item="item"></soa-card>
+            <!-- <v-card ref="soaReport">
                 <v-card-title
                     class="text-h5 text-center font-weight-medium d-flex justify-center align-center pdf-title"
                 >
@@ -105,56 +117,21 @@
                         "
                     />
                 </v-card-text>
-            </v-card>
+            </v-card> -->
+        </div>
+    </div>
 </template>
 <script>
-import moment from 'moment'
-import DateSOA from './DateSOA.vue'
-import ArenaDetails from './ArenaDetails.vue'
-import ComputeBox from './ComputeBox.vue'
-import BankBox from './BankBox.vue'
-import {
-    computationSoa,
-} from "../../methods";
-import {
-    numberUnformat,
-    moneyFormat,
-    defineEmail,
-    defineContact,
-} from "../../utility";
+import SoaCard from './SoaCard.vue'
+
 export default {
-    name: 'soa-card',
+    name: 'soa-cards',
     components: {
-        DateSOA,
-        ArenaDetails,
-        ComputeBox,
-        BankBox
+        SoaCard,
     },
     props: {
-        item: Object
+        selected: Array,
     },
-     data: () => ({
-        computationSoa,
-        defineEmail,
-        defineContact,
-        moment,
-        commission_percent: 0.02,
-        bankAccounts: [],
-    }),
-    methods: {
-        loadBankDetails() {
-            // Load Company Bank Details
-            axios.get("api/Companybanks").then(({ data }) => {
-                this.bankAccounts = data;
-            });
-        },
-    },
-    created(){
-       this.loadBankDetails()
-    }
-
-}
+};
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>

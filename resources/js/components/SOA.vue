@@ -298,7 +298,7 @@
                             </v-card>
                         </div>
                     </div> -->
-                    <soa-card :selected="selected"></soa-card>
+                    <soa-cards :selected="selected"></soa-cards>
                 </v-col>
                 <v-dialog
                     v-model="dialog"
@@ -639,7 +639,7 @@ import SearchSoa from "./ComponentBits/SearchSoa.vue";
 import FilterArena from "./ComponentBits/FilterArena.vue";
 import FilterSite from "./ComponentBits/FilterSite.vue";
 import EmailLoading from './ComponentBits/EmailLoading.vue'
-import SoaCard from './SoaComponents/SoaCard.vue'
+import SoaCards from './SoaComponents/SoaCards.vue'
 
 
 import {
@@ -674,7 +674,7 @@ export default {
         SearchSoa,
         FilterSite,
         EmailLoading,
-        SoaCard
+        SoaCards
     },
     data() {
         return {
