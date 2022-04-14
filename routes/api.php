@@ -80,7 +80,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::get('convertToExcel/{group}/{data}', [App\Http\Controllers\API\ImportController::class, 'ConvertToExcel']);
     //post
     Route::post('clearfilterbydate', [App\Http\Controllers\API\ImportController::class, 'Clearfilterbydate']);
- 
+
     //put
     Route::put('arenaStatus', [App\Http\Controllers\API\ImportController::class, 'arenastatus']);
 

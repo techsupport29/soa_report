@@ -82,12 +82,12 @@ class OperatorGroupController extends Controller
     // GET IMPORTS BASED ON GROUP AND DATE
     public function groupSoaSummaryReport(Request $request) {
         return import::with(['BankDetails','arenaDetails.BankDetails'])->select('date_of_soa')->groupBy('date_of_soa')->orderBy('date_of_soa', 'DESC')->get();
-        
+
     }
 
     public function fetchSoaByOperatorGroup(Request $request){
-     
-        $soa = import::with(['BankDetails','arenaDetails.BankDetails', 'arenaDetails.EmailDetails'])->whereIn('areaCode', $request->areaCodes)->whereBetween('date_of_soa',[$request->from, $request->to])->get();
+
+        $soa = import::with(['BankDetails','arenaDetails.BankDetails', 'arenaDetails.EmailDetails','arenaDetails.ContactDetails'])->whereIn('areaCode', $request->areaCodes)->whereBetween('date_of_soa',[$request->from, $request->to])->get();
         return $soa;
     }
 

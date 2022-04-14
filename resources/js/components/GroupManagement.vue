@@ -120,7 +120,7 @@
                                         v-bind="attrs"
                                         v-on="on"
                                         class="mx-2"
-                                        @click="openEmail()"
+                                        @click="openEmail(selectedGroup)"
                                     >
                                         <v-icon>mdi-at</v-icon> Pick Date
                                     </v-btn>
@@ -356,19 +356,44 @@
                         @click="handleExpand(item)"
                     >
                         <v-expansion-panel-header>
-                            {{ moment(item, 'YYYY-MM-DD').format("LL") }}
+                           <strong>{{ moment(item, 'YYYY-MM-DD').format("LL") }}</strong>
                         </v-expansion-panel-header>
+
                         <v-expansion-panel-content>
-                            <v-col>
                                 <v-row>
-                                    <v-spacer></v-spacer>
-                                    <v-btn @click="sendingEmail">EMAIL</v-btn>
+                                    <v-col>
+                                        <div>
+                                        <strong>Send to : </strong> <br>
+                                            <span class="pl-5">{{sendto}}</span>
+                                        <br>
+                                        <strong>CC to : </strong> <br>
+                                            <span class="pl-5" v-for="cc in emailcc" :key="cc">{{cc}},<br></span>
+                                        </div>
+
+                                    </v-col>
+                                    <!-- <v-spacer></v-spacer> -->
+                                    <v-col class="text-right">
+                                        <v-btn  elevation="2"
+                                                small class="text-white"
+                                                color="green"
+                                                @click="sendingEmail"
+                                        >
+                                            <v-icon>mdi-email-send</v-icon>&nbsp; EMAIL
+                                        </v-btn>
+                                    </v-col>
+
                                 </v-row>
                                 <v-row>
                                     <v-data-table
                                         :headers="headerImports"
                                         :items="groupOperatorsArena"
                                     >
+                                        <template
+                                            v-slot:[`item.id`]="{ index }"
+                                        >
+                                            {{ index+ 1}}
+
+                                        </template>
                                         <template
                                             v-slot:[`item.actions`]="{ item }"
                                         >
@@ -383,73 +408,10 @@
                                         </template>
                                     </v-data-table>
                                 </v-row>
-                            </v-col>
+
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
-                <!-- <v-data-table :headers="headerDialogEmail" :items="dates">
-                    <template v-slot:item="{ item }">
-                        <tr>
-                            <td>
-                                <h6 class="ma-0 font-weight-black">
-                                    {{ moment(item.date_of_soa).format("LL") }}
-                                </h6>
-                            </td>
-                            <td>
-                                <div class="d-flex justify-end">
-                                    <v-tooltip top color="white">
-                                        <template
-                                            v-slot:activator="{
-                                                on,
-                                                attrs,
-                                                hover,
-                                            }"
-                                        >
-                                            <v-btn
-                                                color="green"
-                                                dark
-                                                small
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                @click="
-                                                    sendingEmail(
-                                                        item.date_of_soa
-                                                    )
-                                                "
-                                                :class="{
-                                                    'on-hover': hover,
-                                                }"
-                                            >
-                                                Send
-                                            </v-btn>
-
-                                        </template>
-                                        <div class="text-dark">
-                                             <label>Send Email to : </label><br>
-                                            <div style="border:1px solid black;" >
-                                                <p class="ma-4"> <strong>{{selectedEmail}}</strong></p>
-                                            </div>
-                                             <label>CC Email : </label><br>
-
-                                            <div style="border:1px solid black;" >
-                                                <span class="mr-1" v-for="cc in emailcc" :key="cc"> "{{cc}}",</span>
-                                            </div>
-
-                                            <label> Arena List : </label><br>
-
-                                            <div style="border:1px solid black;">
-                                                <span v-if="areaCodesname.length == 0 "> <i></i></span>
-                                                <span v-else v-for="code in areaCodesname" :key="code">  {{code }}, </span><br>
-                                            </div>
-
-                                        </div>
-                                    </v-tooltip>
-
-                                </div>
-                            </td>
-                        </tr>
-                    </template>
-                </v-data-table> -->
             </v-dialog>
             <v-dialog
                 v-model="soaDialogItem"
@@ -458,7 +420,7 @@
                 scrollable
                 persistent
                 width="auto"
-                
+
             >
             <v-sheet height="100%" class="pa-2 overflow-x-hidden">
                  <v-col>
@@ -470,7 +432,7 @@
                             close
                             color="red"
                             text-color="white"
-                        
+
                             @click="soaDialogItem = false"
                         >
                             Close
@@ -480,11 +442,11 @@
                         <div class="mx-auto">
                             <soa-card :item="soaItem"></soa-card>
                         </div>
-                        
+
                     </v-row>
                 </v-col>
             </v-sheet>
-               
+
             </v-dialog>
             <soa-cards :selected="groupOperatorsArena"></soa-cards>
             <loading-progress
@@ -552,6 +514,7 @@ export default {
             selectedArena: [],
             operatorGroups: [],
             groupHasArena: [],
+            sendto:'',
             errors: {
                 name: "",
                 email: "",
@@ -768,7 +731,9 @@ export default {
                 });
             });
         },
-        async openEmail() {
+        async openEmail(item) {
+            console.log('item',item);
+            this.sendto = item.email;
             this.openEmailDialog = true;
             const { data } = await axios.get(`api/groupSoaSummaryReport`);
             const areaCodes = this.groupHasArena.map((item) => item.area_code);
