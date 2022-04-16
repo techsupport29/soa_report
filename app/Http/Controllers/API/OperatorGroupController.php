@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\import;
 use Illuminate\Http\Request;
 use App\Models\ArenaHasGroup;
 use App\Models\OperatorGroups;
-use App\Models\import;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\ActivitylogsController;
 
 class OperatorGroupController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+
+    }
+
     public function index(){
         return response()->json(OperatorGroups::with(['Hasgroup'])->latest()->get());
     }
@@ -22,13 +30,15 @@ class OperatorGroupController extends Controller
             'email' => 'required|email',
         ]);
 
-        $team = OperatorGroups::create([
+        $group = OperatorGroups::create([
             'name' => $request['name'],
             'email' => $request['email'],
         ]);
 
+        // dd($group->name);
 
-
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('created',$group->name,'group',$group->id);
 
     }
 
@@ -45,6 +55,9 @@ class OperatorGroupController extends Controller
             'name' => $request->name,
             'email' => $request->email,
         ]);
+
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('updated',$group->name,'group',$group->id);
     }
 
     public function destroy($id)
@@ -52,6 +65,13 @@ class OperatorGroupController extends Controller
 
         $group =  OperatorGroups::findOrFail($id);
         $hasarena =  ArenaHasGroup::where('group_id',$group->id);
+
+        if(!$group || !$hasarena){
+            return false;
+        }
+
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('deleted',$group->name,'group',$group->id);
 
         $hasarena->delete();
         $group->delete();
@@ -65,6 +85,9 @@ class OperatorGroupController extends Controller
     public function Deletegroupsselectedarena($id){
 
         $group =  ArenaHasGroup::findOrFail($id);
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('deleted arena in',$group->name,'group',$group->id);
+
         $group->delete();
     }
 
@@ -72,11 +95,15 @@ class OperatorGroupController extends Controller
 
         foreach($request->data as $area_code){
             $addarena = ArenaHasGroup::updateOrCreate([
-                'area_code' => $area_code['areaCode'],
+                'area_code' => $area_code['area_code'],
                 'group_id' => $request->id
             ]);
 
+            $activity_controller = new ActivitylogsController;
+            $activity_controller->arenaLogs('Add arena',$area_code['area_code'],'group',$addarena->id);
         }
+
+
     }
 
     // GET IMPORTS BASED ON GROUP AND DATE

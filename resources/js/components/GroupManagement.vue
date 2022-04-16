@@ -287,12 +287,14 @@
                             <span>Close Modal</span>
                         </v-tooltip>
                     </v-toolbar>
+
                     <v-text-field
                         v-model="searchArena"
                         append-icon="mdi-magnify"
-                        label="Search Arena"
+                        label="Search Area Code"
                         class="mx-4"
                     ></v-text-field>
+
                     <v-data-table
                         v-model="selectedArena"
                         :headers="SelectArenaheaders"
@@ -303,6 +305,7 @@
                         class="elevation-1"
                         @toggle-select-all="selectAllToggle"
                     >
+
                         <template v-slot:item="{ item, isSelected, select }">
                             <tr>
                                 <td>
@@ -312,6 +315,9 @@
                                         :disabled="item.bank_details.length == 0 || item.email_details.length == 0 ? true : false"
                                         @input="select($event)"
                                     ></v-simple-checkbox>
+                                </td>
+                                <td>
+                                    {{item.area_code}}
                                 </td>
                                 <td>
                                     {{item.arena}}
@@ -499,6 +505,7 @@ export default {
                 { text: "", value: "actions", sortable: false },
             ],
             SelectArenaheaders: [
+                { text: "Area Code", value: "area_code" },
                 { text: "Arena/OCBS Name", value: "arena_name" },
             ],
             search: "",
@@ -626,11 +633,12 @@ export default {
                     this.openAddArenaDialog = false;
                     this.viewGroup = false;
                     Fire.$emit("AfterCreate");
+                    console.log('data',data);
                 });
         },
         getAllArena() {
             axios.get("api/arena").then(({ data }) => {
-                console.log(data);
+                console.log('data',data)
                 this.arena = data;
             });
         },
@@ -642,8 +650,10 @@ export default {
 
         openModal() {
             this.group.name = null;
+            this.group.email = null;
             this.editMode = false;
             this.openDialog = true;
+            this.viewGroup = false;
         },
         openArenaModal() {
             this.openAddArenaDialog = true;

@@ -276,7 +276,6 @@
             }
         },
         methods: {
-
             loadroles(){
                 axios.get("api/roles").then(({data}) => {
                      this.role_permission = data

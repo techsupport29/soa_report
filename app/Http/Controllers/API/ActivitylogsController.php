@@ -34,7 +34,7 @@ class ActivitylogsController extends Controller
     public function arenaLogs($description,$properties,$model,$subject_id){
 
         $activity =  DB::connection('mysql2')->table('activityslogs')->insert([
-             'log_name'     => Auth::user()->name,
+             'log_name'     => Auth::user() == null ? 'admin' : Auth::user()->name,
              'description'  => $description,
              'subject_type' => $model,
              'subject_id'   => $subject_id,
