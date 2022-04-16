@@ -56,9 +56,14 @@ class EmailController extends Controller
             'email_cc' => 'required|email|max:255',
         ]);
 
-        return EmailCc::find($id)->update([
+        $update = EmailCc::find($id);
+        $update->update([
             'email_cc' => $request['email_cc']
         ]);
+
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('updated',$request->emailcc,'emailcc',$id);
+        
     }
 
     /**
@@ -205,7 +210,10 @@ class EmailController extends Controller
      */
     public function destroy($id)
     {
-        return EmailCc::find($id)->delete();
+        $deleteEmail = EmailCc::find($id);
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('deleted',$deleteEmail->email,'email',$deleteEmail->id);
+        $deleteEmail->delete();
     }
 
     public function isUsedUpdate( $id){
