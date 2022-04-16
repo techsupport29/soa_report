@@ -41,9 +41,12 @@ class EmailController extends Controller
             'email_cc' => 'required|email|max:255',
         ]);
 
-        return EmailCc::create([
+        $emailcc = EmailCc::create([
             'email_cc' => $request['email_cc']
         ]);
+
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('created',$emailcc->email_cc,'emailcc',$emailcc->id);
     }
 
 
