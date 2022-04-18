@@ -56,8 +56,8 @@ class OperatorGroupController extends Controller
             'email' => $request->email,
         ]);
 
-        $activity_controller = new ActivitylogsController;
-        $activity_controller->arenaLogs('updated',$group->name,'group',$group->id);
+        // $activity_controller = new ActivitylogsController;
+        // $activity_controller->arenaLogs('updated',$request->email,'group',$group->id);
     }
 
     public function destroy($id)

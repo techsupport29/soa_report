@@ -23,9 +23,12 @@ Route::get('/', function () {
 
 Route::get('/send', function () {
     $data = [];
-    Mail::send('email.testEmail', $data, function ($message) {
-        $message->to('fsiapco@gmail.com');
+  Mail::send('email.testEmail', $data, function ($message) {
+        $message->to('fernando.siapco@lucky8star.net');
     });
+
+      return "Email send";
+    
 });
 
 // Auth::routes();
