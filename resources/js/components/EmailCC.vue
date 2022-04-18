@@ -96,7 +96,7 @@
                     <div class="modal-footer">
                         <v-btn type="button" color="error" elevation="2" data-dismiss="modal">Close</v-btn>
                         <v-btn v-show="editmode" type="submit" color="primary" elevation="2">Update</v-btn>
-                        <v-btn v-show="!editmode" type="submit" color="success"  elevation="2">Create</v-btn>
+                        <v-btn v-show="!editmode" type="submit" color="success"  elevation="2">Add Email</v-btn>
                     </div>
                     </form>
                 </div>

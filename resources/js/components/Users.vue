@@ -17,8 +17,8 @@
 						</v-card-title>
                            	<v-card-actions class="card-tools">
                                 <v-spacer></v-spacer>
-								<v-btn color="success"
-                                    elevation="2"  @click="newModal">Add New User <i class="fas fa-user-plus fa-fw"></i></v-btn>
+								<v-btn style="padding:10px;" color="success"
+                                    elevation="2"  @click="newModal">Add New User<i style="padding:5px" class="fas fa-user-plus fa-fw"> </i></v-btn>
 							</v-card-actions>
 
                             <v-data-table
@@ -199,7 +199,7 @@
                                     placeholder="*****"
                                     outlined
                                     dense
-
+                                    :error-messages='passwordError'
                                     v-model="form.password"
                             ></v-text-field>
 						</div>
@@ -405,7 +405,7 @@
                 })
                 .catch((error)=>{
                     this.usernameError = error.response.data.errors.username;
-
+                    this.passwordError = error.response.data.errors.password;
                 })
             }
         },

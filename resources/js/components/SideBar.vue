@@ -23,7 +23,7 @@
                             class="mb-2 bg-success"
                             @click="openModalSidebar()"
                         >
-                        Add New Position
+                        Add New Sidebar
                         </v-btn>
                 </v-toolbar>
                 </template>
