@@ -96,7 +96,8 @@ class TeamController extends Controller
         $this->arena($id,'delete',null);
         $team =  Team::findOrFail($id);
         
-        $this->teamactivity('updated',$team->name,'team',$id);
+        $activity_controller = new ActivitylogsController;
+        $activity_controller->arenaLogs('deleted',$team->team,'team',$id);
 
         $team->delete();
     }

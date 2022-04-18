@@ -105,9 +105,6 @@ class ArenaController extends Controller
             ]);
         }
 
-
-
-
         $activity_controller = new ActivitylogsController;
         $activity_controller->arenaLogs('created',$arena->arena,'arena',$arena->id);
 
@@ -159,6 +156,7 @@ class ArenaController extends Controller
     public function deleteEmail($id){
         $email = Email::findOrFail($id);
         $this->Arenaactivity('deleted',$email->email,'arena',$id);
+        
         $email->delete();
 
 
