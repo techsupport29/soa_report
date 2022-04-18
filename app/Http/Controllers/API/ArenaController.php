@@ -241,11 +241,6 @@ class ArenaController extends Controller
             Contact::where('area_code',$request['area_code'])->delete();
         }
 
-
-
-
-
-
         $this->Arenaactivity('updated',$arenas->arena,'arena',$arenas->id);
         return ['message' => 'Updated the arena details'];
     }

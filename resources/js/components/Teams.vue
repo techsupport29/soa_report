@@ -19,7 +19,8 @@
                                             class="mx-2"
                                             @click="openNewTeam"
                                         >
-                                            <v-icon
+                                        Add New Team
+                                            <v-icon style="padding:5px"
                                                 >mdi-account-multiple-plus</v-icon
                                             >
                                         </v-btn>

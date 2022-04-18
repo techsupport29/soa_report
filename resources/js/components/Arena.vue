@@ -463,12 +463,11 @@
                                 <v-text-field
                                     label="Arena Name"
                                     outlined
+                                    required
                                     v-model="form.arena"
                                     :rules="[
-                                        () =>
-                                            !!form.arena ||
-                                            'This field is required',
-                                    ]"
+                                        () => !! form.arena || 'This field is required',
+                                        ]"
                                     :error-messages="errors.areaCode"
                                 ></v-text-field>
 
@@ -485,6 +484,7 @@
                                         'is-invalid':
                                             form.errors.has('address'),
                                     }"
+                                    required
                                 ></v-text-field>
 
                                 <v-text-field
@@ -497,6 +497,7 @@
                                             !!form.operator ||
                                             'This field is required',
                                     ]"
+                                    required
                                 ></v-text-field>
 
                                 <v-combobox
@@ -1122,6 +1123,7 @@ export default {
                     this.$Progress.finish();
                 })
                 .catch((e) => {
+                    this.$Progress.fail();
                     this.errors.areaCode =
                         e.response.data.message.includes(
                             "Integrity constraint"

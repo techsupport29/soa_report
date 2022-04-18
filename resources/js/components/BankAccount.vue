@@ -186,7 +186,7 @@
                                 type="submit"
                                 color="success"
                                 elevation="2"
-                                >Create</v-btn
+                                >Add Bank</v-btn
                             >
                         </div>
                     </form>

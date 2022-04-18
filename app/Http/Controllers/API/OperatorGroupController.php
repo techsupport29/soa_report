@@ -51,7 +51,8 @@ class OperatorGroupController extends Controller
 
         // $this->arena($id,'update',$request->team);
 
-        $group = OperatorGroups::findOrFail($id)->update([
+        $group = OperatorGroups::findOrFail($id);
+        $group->update([
             'name' => $request->name,
             'email' => $request->email,
         ]);
