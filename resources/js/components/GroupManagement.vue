@@ -289,17 +289,17 @@
                     </v-toolbar>
 
                     <v-text-field
-                        v-model="searchArena"
+                        v-model="searchArenaDetials"
                         append-icon="mdi-magnify"
                         label="Search Area Code"
                         class="mx-4"
+                        @keyup="searchArena"
                     ></v-text-field>
 
                     <v-data-table
                         v-model="selectedArena"
                         :headers="SelectArenaheaders"
                         :items="arena"
-                        :search="searchArena"
                         show-select
                         :loading="false"
                         class="elevation-1"
@@ -507,10 +507,11 @@ export default {
             SelectArenaheaders: [
                 { text: "Area Code", value: "area_code" },
                 { text: "Arena/OCBS Name", value: "arena_name" },
+                { text: "", value: "actions", sortable: false },
             ],
             search: "",
             searchgroup: "",
-            searchArena: "",
+            searchArenaDetials: "",
             openDialog: false,
             openAddArenaDialog: false,
             editMode: false,
@@ -548,6 +549,18 @@ export default {
         };
     },
     methods: {
+
+        //custom filter
+        searchArena(){
+             axios.post("api/addArenaSearch",{
+                   param:  this.searchArenaDetials
+             }).then(({data}) => {
+                this.arena = data;
+                console.log('filter',this.arena)
+
+            });
+         
+        },
         // Select all imports with arena details
         selectAllToggle(props) {
 
@@ -637,8 +650,7 @@ export default {
                 });
         },
         getAllArena() {
-            axios.get("api/arena").then(({ data }) => {
-                console.log('data',data)
+            axios.get("api/arena").then(({data}) => {
                 this.arena = data;
             });
         },
@@ -957,6 +969,7 @@ export default {
         this.getallGroups();
         this.getAllArena();
         this.ManageCC();
+        this.searchArena();
         Fire.$on("AfterCreate", () => {
             this.getallGroups();
         });

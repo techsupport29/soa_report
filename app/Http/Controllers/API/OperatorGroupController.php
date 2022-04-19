@@ -8,6 +8,11 @@ use App\Models\ArenaHasGroup;
 use App\Models\OperatorGroups;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\ActivitylogsController;
+use App\Models\arena;
+use App\Models\Email;
+use App\Models\Contact;
+use App\Models\BankAccount;
+use App\Models\Activitylogs;
 
 class OperatorGroupController extends Controller
 {
@@ -117,6 +122,21 @@ class OperatorGroupController extends Controller
 
         $soa = import::with(['BankDetails','arenaDetails.BankDetails', 'arenaDetails.EmailDetails','arenaDetails.ContactDetails'])->whereIn('areaCode', $request->areaCodes)->whereBetween('date_of_soa',[$request->from, $request->to])->get();
         return $soa;
+    }
+
+    public function AddArenaSearch(Request $request){
+        return  arena::with([
+            'ContactDetails',
+            'EmailDetails',
+            'BankDetails.BankActivity' => function ($q){
+               return $q->where('description','updated')->latest();
+            }
+         ])->where('arena','LIKE',"%{$request->param}%")
+        ->orWhere('area_code','LIKE',"%{$request->param}%")  
+        ->get();
+
+      
+        // dd($arenafilter);
     }
 
 }
