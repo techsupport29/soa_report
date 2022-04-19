@@ -2,13 +2,18 @@
     <v-col class="col-md-2">
         <v-select
             :items="arenaItemsSelection"
+            color="#8DA90B"
             label="Filter arena"
             dense
             outlined
             item-text="text"
             item-value="key"
             @change="handleSelectionFilterArena"
-        ></v-select>
+        >
+           <template v-slot:prepend-inner>        
+                <v-icon outlined dark color="#8DA90B">mdi-filter</v-icon> 
+            </template>
+        </v-select>
         <loading-progress :loading="loading" />
     </v-col>
 </template>

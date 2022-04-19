@@ -12,7 +12,7 @@
     background-image: url('/image/backgound_body.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    
+
 }
 
 .login-box {
@@ -85,7 +85,7 @@ input:focus {
 
 label {
   margin-bottom: 0px;
-  
+
 }
 
 .form-control-label {
@@ -188,6 +188,17 @@ tr.v-data-table__selected {
   background: rgba(237,112,110,.1) !important;
 }
 
-
+.router-link-exact-active{
+    /* background-color: #C7DF8B; */
+    background: rgb(192,194,6);
+    background: linear-gradient(280deg, rgba(192,194,6,0) 0%, rgba(130,194,6,0.14889705882352944) 100%);
+    color:#8DA90B;
+}
+ .router-link-exact-active > .nav-icon  {
+    color:#8DA90B !important;
+}
+.router-link-exact-active > .custom-text {
+    color:#8DA90B !important;
+}
 
 /*# sourceMappingURL=custom.css.map */

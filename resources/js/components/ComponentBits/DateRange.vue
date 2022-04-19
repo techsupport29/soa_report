@@ -8,20 +8,28 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            color="#8DA90B"
         >
             <template v-slot:activator="{ on, attrs }">
                 <v-text-field
+                        color="#8DA90B"
+                        background-color="bg-white cleaar-shadow caption"
                         v-model="dateRangeText"
                         outlined
                         dense
                         label="Select Date Range"
-                        prepend-icon="mdi-calendar"
+                        prepend-inner-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
                         v-on="on"
                         clearable
                         @click:clear="handleClear"
-                    ></v-text-field>
+                    >
+                    <template v-slot:prepend-inner>        
+                        <v-icon outlined dark color="#8DA90B">mdi-calendar</v-icon> 
+                    </template>
+                    
+                    </v-text-field>
             </template>
             <v-date-picker
                 v-model="dates"
@@ -142,6 +150,6 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
+<style scoped>
+    .v-date-picker-table .v-btn { color: green };
 </style>

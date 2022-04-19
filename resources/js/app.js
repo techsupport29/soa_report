@@ -13,6 +13,7 @@ import VueCompositionAPI from '@vue/composition-api';
 import vuetify from '../plugin/vuetify'
 import LoadingProgress from "./components/ComponentBits/LoadingProgress"
 
+
 import Form from 'vform'
 
 import {
@@ -115,7 +116,6 @@ Vue.component(AlertError.name, AlertError)
 Vue.component(AlertErrors.name, AlertErrors)
 Vue.component(AlertSuccess.name, AlertSuccess)
 Vue.component('pagination', require('laravel-vue-pagination'));
-
 
 let routes = [
     {

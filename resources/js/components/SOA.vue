@@ -1,7 +1,8 @@
 <template>
     <v-app>
         <v-container :class="{ 'blur-content': dialog }">
-            <h1 class="h3">Statement of Accounts</h1>
+            <p class="custom-text">
+                Statement of Accounts</p>
             <!-- Arena Modal -->
             <email-loading v-if="sendingEmail"></email-loading>
             <arena-modal :arenaNames="arenaName" :soaLists="soaLists">
@@ -11,6 +12,7 @@
                     <v-row>
                         <!-- DATE RANGE -->
                         <date-range
+                     
                             @depositReplenish="handleFilterDate"
                             :soaLists="soaLists"
                             @dates="getDates"
@@ -68,12 +70,29 @@
                                 <v-col class="col-md-6">
                                     <v-switch
                                         v-model="switchPrepared"
-                                        :label="`Signatory ${
-                                            switchPrepared ? 'On' : 'Off'
-                                        }`"
+                                        color="#8DA90B"
+                                        inset
                                         @change="handleSwitchSignatory"
-                                    ></v-switch>
+                                        flat
+                                        dense
+                                    >
+                                    <template v-slot:label>
+                                        <span :style="[
+                                                    switchPrepared ? {'color':'#8DA90B'} : ''
+                                                     ]">
+                                            Signatory {{switchPrepared ? 'On' : 'Off' }}
+                                        </span>
+                                    </template>
+                                    </v-switch>
                                 </v-col>
+                                <v-col class="col-md-6">
+                                   <!-- <div>
+                                       test
+                                    </div> -->
+
+            
+                                </v-col>
+                               
                                 <!-- Downloads and Clear Buttons -->
                                 <actions-buttons
                                     :selected="selected"
@@ -1137,5 +1156,15 @@ export default {
     position: fixed;
     bottom: 7%;
     right: 20px;
+}
+.custom-text{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 34px;
+    color:#8DA90B;
+}.
+.v-input__slot .v-label{
+    color:red !important;
 }
 </style>

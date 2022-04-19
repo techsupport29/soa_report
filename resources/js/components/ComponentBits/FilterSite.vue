@@ -2,6 +2,7 @@
     <v-col class="col-md-2">
         <v-select
             :items="siteItemsSelection"
+            color="#8DA90B"
             label="Select Site"
             dense
             outlined
@@ -9,7 +10,11 @@
             item-value="key"
             v-model="selectChange"
             @change="handleSelectSite"
-        ></v-select>
+        >
+        <template v-slot:prepend-inner>        
+                <v-icon outlined dark color="#8DA90B">mdi-checkbox-multiple-marked</v-icon> 
+        </template>
+        </v-select>
         <loading-progress :loading="loading" />
     </v-col>
 </template>

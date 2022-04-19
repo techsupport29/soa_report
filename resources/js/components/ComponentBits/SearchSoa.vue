@@ -1,18 +1,22 @@
 <template lang="">
       <v-col class="col-md-2">
-                            <v-text-field
-                                v-model="search"
-                                outlined
-                                dense
-                                append-icon="mdi-magnify"
-                                label="Search"
-                                color="primary darken-2"
-                                clearable
-                                @click:append="handleSearch"
-                                @click:clear="handleClear"
-                             
-                                v-on:keyup.enter="handleSearch"
-                            ></v-text-field>
+                    <v-text-field
+                        v-model="search"
+                       
+                        outlined
+                        dense
+                        label="Search"
+                        color="#8DA90B"
+                        clearable
+                        @click:append="handleSearch"
+                        @click:clear="handleClear"
+                        
+                        v-on:keyup.enter="handleSearch"
+                    >
+                    <template v-slot:prepend-inner>        
+                        <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                    </template>
+                    </v-text-field>
                         </v-col>
 </template>
 <script>

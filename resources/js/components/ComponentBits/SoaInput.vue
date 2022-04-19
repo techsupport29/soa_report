@@ -4,21 +4,21 @@
             outlined
             dense
             v-model="fileUpload"
-            color="deep-purple accent-4"
+            color="#8DA90B"
             label="File input"
             placeholder="Select your file"
             :clearable="false"
-            append-icon="mdi-file-import"
+      
             @change="onFileChange($event)"
         >
-            <template v-slot:append>
+            <template  v-slot:append>
                 <v-tooltip bottom color="success">
                     <template v-slot:activator="{ on }">
                         <v-icon
                             large
                             :disabled="!isExcel"
                             v-on="on"
-                            color="green darken-3"
+                            color="#8DA90B"
                             style="cursor: pointer"
                             @click="proceedAction"
                         >

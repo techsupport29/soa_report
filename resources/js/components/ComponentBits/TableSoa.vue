@@ -36,6 +36,36 @@
                 @update:options="handlePageOptions"
             />
         </template>
+
+      
+        <template  v-slot:header.date_of_soa="{ header }">
+            <div style="font-size:16px;">
+                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                <span style="color:#8DA90B; " > {{ header.text }} </span>
+            </div>
+        </template>
+
+         <template  v-slot:header.areaCode="{ header }">
+            <div style="font-size:16px;">
+                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                <span style="color:#8DA90B"> {{ header.text }} </span>
+            </div>
+        </template>
+
+         <template  v-slot:header.refNo="{ header }">
+            <div style="font-size:16px;">
+                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                <span style="color:#8DA90B"> {{ header.text }} </span>
+            </div>
+        </template>
+
+         <template  v-slot:header.arena_name="{ header }">
+            <div style="font-size:16px;">
+                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                <span style="color:#8DA90B"> {{ header.text }} </span>
+            </div>
+        </template>
+     
         <template v-slot:item="{item, isSelected, select}">
             <tr>
                 <td>
@@ -63,7 +93,8 @@
                         <v-tooltip top color="primary">
                             <template v-slot:activator="{ on, attrs, hover }">
                                 <v-btn
-                                    color="primary"
+                                    
+                                    color="#0B2EA9"
                                     dark
                                     small
                                     v-bind="attrs"
@@ -73,7 +104,7 @@
                                     'on-hover': hover,
                                     }"
                                     :disabled="downloadingReport"
-                                    class='mr-2'
+                                    class='mr-2 custom-button'
                                 >
                                     View
                                     <!-- <v-icon>mdi-eye</v-icon> -->
@@ -84,7 +115,8 @@
                         <v-tooltip top color="red">
                             <template v-slot:activator="{ on, attrs, hover }">
                                 <v-btn
-                                    color="red"
+                                    color="#FF1313"
+                                    class="custom-button"
                                     dark
                                     small
                                     v-bind="attrs"
@@ -134,10 +166,10 @@ export default {
     },
     data: () => ({
         headers: [
-            { text: "Date", value: "date_of_soa" ,sortable: false },
-            { text: "Area Code", value: "areaCode", sortable: false  },
-            { text: "Reference #", value: "refNo", sortable: false  },
-            { text: "Arena Name", value: "arena_name" ,sortable: false },
+            { text: "Date", value: "date_of_soa" , icon: 'mdi-calendar',sortable: false },
+            { text: "Area Code", value: "areaCode",  icon: 'mdi-map-marker-radius',sortable: false  },
+            { text: "Reference #", value: "refNo", icon: 'mdi-pound-box', sortable: false  },
+            { text: "Arena Name", value: "arena_name" ,  icon: 'mdi-alpha-a-circle',sortable: false },
             { text: "", value: "actions", sortable: false },
         ],
         itemsPerPageOptions: [5, 10, 20, 30, 40, 50, 100, 200],
@@ -146,7 +178,6 @@ export default {
         selected: [],
         loading: false,
         pagePosition: 1,
-
         paginationOption: {}
     }),
     methods: {
@@ -271,4 +302,11 @@ export default {
     }
 };
 </script>
-<style lang=""></style>
+<style scoped>
+    .custom-button{
+        border: 1px solid #000000;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 30px;
+    }
+</style>

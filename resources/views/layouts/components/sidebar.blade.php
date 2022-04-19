@@ -1,4 +1,4 @@
-<aside class="main-sidebar  sidebar-dark-primary elevation-4" style="z-index: 10">
+<aside class="main-sidebar  sidebar-light-primary elevation-4" style="z-index: 10" >
 	<a href="#" class="brand-link">
 	<img src="image/rooster.png" alt="AdminLTE Logo" class="brand-image "
 		style="opacity: .8">
@@ -21,10 +21,10 @@
 		@foreach ($permissions as $permission)
 
 			<li class="nav-item">
-				<router-link to="{{$permission->roles->link}}" class="nav-link ">
-					<i class="nav-icon fas {{$permission->roles->icon}}">
+				<router-link to="{{$permission->roles->link}}" class="nav-link">
+					<i class="nav-icon fas {{$permission->roles->icon}}" style="color:#B4B6BC; font-size:28px; " >
 					</i>
-					<p>{{$permission->roles->name}} &nbsp; </p>
+					<p class="custom-text" style="font-size:14px; padding-left:10px; font-weight:600; color:#B4B6BC;">{{$permission->roles->name}} &nbsp; </p>
 					@if ($permission->roles->name == 'Account')
 						<span class="badge badge-danger right">	{{$importCount}}</span>
 					@elseif ($permission->roles->name == 'Arena Details')
