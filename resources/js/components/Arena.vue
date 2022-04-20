@@ -1385,4 +1385,8 @@ export default {
         border-radius: 20px;
     }
 
+    .custom-bg{
+        background-color: #3a89e8;
+    }
+
 </style>

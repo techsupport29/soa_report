@@ -110,14 +110,16 @@
                         </v-data-table>
                     </v-card>
                 </v-col>
-                <v-col class="col-md-6 mt-7">
+                <v-col>
                     <v-banner
+                    class="mt-7"
                     v-if="!viewTeam"
                     single-line
                     transition="slide-y-transition"
                     ><b class="custom-color">No team selected yet</b></v-banner>
                     <team-management 
-                    v-else :loadTeam="loadTeam" 
+                    v-else 
+                    :loadTeam="loadTeam" 
                     :viewTeam.sync="viewTeam" 
                     :selectedTeam.sync="selectedTeam" 
                     :arenaTeams.sync="arenaTeams" 
@@ -189,7 +191,7 @@ export default {
     data() {
         return {
             headers: [
-                { text: "Name", value: "name" },
+                { text: "Name", value: "name",},
                 { text: "Computed By", value: "user_details" },
                 { text: "No. of Arenas", value: "arena_details" },
                 { text: "", value: "actions", sortable: false },
