@@ -29,7 +29,6 @@
                             <v-tooltip bottom color="primary">
                                 <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                        color="white"
                                         class="mx-2 edit custom-btn"
                                         icon
                                         dark

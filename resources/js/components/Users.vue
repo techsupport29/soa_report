@@ -3,8 +3,8 @@
 		<v-container>
 			<v-row class="mt-5 is-blurred" v-if="$gate.isAdminTech()">
 				<v-col class="col-md-12">
-					<v-card  class="mt-4">
-                        <v-card-title class="card-header">
+					<v-card  class="mt-4" outlined color="transparent vcard">
+                        <v-card-title class="custom-color">
                              User Management
                              <v-spacer></v-spacer>
                                <v-text-field
@@ -12,13 +12,13 @@
                                     append-icon="mdi-magnify"
                                     label="Search"
                                     class="mx-4"
+                                    color="#8DA90B"
                                 ></v-text-field>
 
 						</v-card-title>
                            	<v-card-actions class="card-tools">
-                                <v-spacer></v-spacer>
-								<v-btn style="padding:10px;" color="success"
-                                    elevation="2"  @click="newModal">Add New User<i style="padding:5px" class="fas fa-user-plus fa-fw"> </i></v-btn>
+								<v-btn style="padding:10px;" color="#8DA90B" dark
+                                    elevation="2"  @click="newModal">Add New User<i class="fas fa-user-plus fa-fw"> </i></v-btn>
 							</v-card-actions>
 
                             <v-data-table
@@ -26,7 +26,7 @@
                                     :items="users.data"
                                     :items-per-page="10"
                                     :search="search"
-                                    class="elevation-1 text-center"
+                                    class="elevation-1 text-center mt-5 custom-tbl"
                                 >
                             <template v-slot:[`item.modify`]="{ item }">
                                 {{$moment(item.updated_at).format('LL LTS') }}
@@ -36,32 +36,31 @@
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on, attrs }">
                                                 <v-btn
-                                                color="primary"
-                                                class="mx-2"
+                                                color="white"
+                                                class="mx-2 edit custom-btn"
                                                 icon
                                                 dark
                                                 v-bind="attrs"
                                                 v-on="on"
                                                 @click="editModal(item)"
                                                 >
-                                                <i class="fas fa-edit"></i>
+                                                Update
                                                 </v-btn>
                                         </template>
                                     <span>Edit User Info</span>
                                     </v-tooltip>
-                                    |
                                      <v-tooltip bottom>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn
-                                            color="red"
+                                            color="white"
                                             dark
                                             icon
                                             v-bind="attrs"
                                             v-on="on"
-                                            class="mx-2"
+                                            class="delete custom-btn"
                                             @click="deleteUser(item.id)"
                                             >
-                                            <i class="fa fa-trash"></i>
+                                            Delete
                                             </v-btn>
                                         </template>
                                     <span>Delete info User</span>
@@ -77,10 +76,10 @@
 					<!-- Modal -->
 			<div class="modal fade" id="addNew" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
+					<div class="modal-content custom-tbl">
 					<div class="modal-header">
-						<h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add New</h5>
-						<h5 class="modal-title" v-show="editmode" id="addNewLabel">Update User's Info</h5>
+						<h5 class="modal-title custom-color" v-show="!editmode" id="addNewLabel"><i class="fas fa-user-plus fa-fw"></i>&nbsp;Add New User</h5>
+						<h5 class="modal-title custom-color" v-show="editmode" id="addNewLabel"><i class="fas fa-user-edit fa-fw"></i>&nbsp;Update User's Info</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 						</button>
@@ -95,7 +94,7 @@
                                     outlined
                                     dense
                                     v-model="form.name"
-
+                                    color="#8DA90B"
                                     :rules="[() => !!form.name || 'This field is required']"
                                     required
                                      prepend-inner-icon="mdi-account"
@@ -108,6 +107,7 @@
                                     placeholder="johndoe123"
                                     outlined
                                     dense
+                                    color="#8DA90B"
                                     :error-messages='usernameError'
                                     v-model="form.username"
                                     :rules="[() => !!form.username || 'This field is required']"
@@ -123,6 +123,7 @@
                                     hide-selected
                                     outlined
                                     dense
+                                     color="#8DA90B"
                                     item-text="name"
                                     v-model="form.type"
                                     class="pb-4"
@@ -139,6 +140,7 @@
                                     hide-selected
                                     outlined
                                     dense
+                                    color="#8DA90B"
                                     item-text="position"
                                     item-value="id"
                                     v-model="form.position_id"
@@ -157,6 +159,7 @@
                                 label="Permissions"
                                 prepend-inner-icon="mdi-account-lock"
                                 dense
+                                color="#8DA90B"
                                 multiple
                                 outlined
                                 :rules="[
@@ -166,13 +169,13 @@
                                 small-chips
                             >
                              <template v-slot:selection="{ item }">
-                                <v-chip text-color="white" color="blue" small
+                                <v-chip text-color="white" color="#8DA90B" small
                                 >{{ item.name }}</v-chip>
                                 </template>
                                 <template v-slot:item="{  item, attrs, on }">
                                 <v-list-item v-on="on" v-bind="attrs" #default="{ active }">
-                                    <v-list-item-action>
-                                        <v-checkbox
+                                    <v-list-item-action >
+                                        <v-checkbox 
                                         :input-value="active"
 
                                         ></v-checkbox>
@@ -183,7 +186,7 @@
                                         <v-row no-gutters align="center">
                                         <span>{{ item.name }} </span>
                                         <v-spacer></v-spacer>
-                                         <v-chip text-color="white" color="#0000ff" small
+                                         <v-chip text-color="white" color="#8DA90B" small
                                         >{{ item.link}}</v-chip>
                                         </v-row>
                                     </v-list-item-title>
@@ -199,14 +202,15 @@
                                     placeholder="*****"
                                     outlined
                                     dense
+                                    color="#8DA90B"
                                     :error-messages='passwordError'
                                     v-model="form.password"
                             ></v-text-field>
 						</div>
 						<div class="modal-footer">
 							<v-btn type="button" color="error" elevation="2" data-dismiss="modal">Close</v-btn>
-							<v-btn v-show="editmode" type="submit" color="primary" elevation="2">Update</v-btn>
-							<v-btn v-show="!editmode" type="submit" color="success"  elevation="2">Create</v-btn>
+							<v-btn v-show="editmode" type="submit" class="add" color="#8DA90B" elevation="2">Update</v-btn>
+							<v-btn v-show="!editmode" type="submit" class="add" color="#8DA90B"  elevation="2">Create</v-btn>
 						</div>
 
 					</form>
@@ -420,3 +424,43 @@
         }
     }
 </script>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .vcard{
+        border-radius: 20px;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .view{
+        background-color: #3a89e8;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+    }
+
+    .chkbx:active{
+        background-color: #8DA90B;
+    }
+</style>
