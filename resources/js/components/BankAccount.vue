@@ -8,71 +8,57 @@
                         :items="account"
                         :items-per-page="5"
                         :search="search"
-                         class="elevation-1 ma-4"
+                        class="elevation-1 ma-4 custom-tbl"
                     >
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title class="font-weight-bold"
+                                <v-toolbar-title class="font-weight-bold custom-color"
                                     >COMPANY BANKS</v-toolbar-title
                                 >
-                                <v-divider
-                                    class="mx-4"
-                                    inset
-                                    vertical
-                                ></v-divider>
+                               
                                 <v-spacer></v-spacer>
                                 <v-btn
-                                    color="success"
-                                    elevation="2"
+                                    color="#8DA90B"
+                                    dark
+                                    class="mb-2"
                                     @click="openModal"
                                 >
-                                    Add Bank Information
-                                    <i class="fas fa-plus fa-fw"></i>
+                                    <i class="fas fa-landmark"></i>
+                                    &nbsp; Add Bank Information
                                 </v-btn>
                             </v-toolbar>
-                            <v-row>
-                                <v-spacer></v-spacer>
-                                <v-col class="pr-5">
-                                    <v-text-field
-                                        v-model="search"
-                                        append-icon="mdi-magnify"
-                                        label="Search"
-                                        color="primary darken-2"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
+                           
                         </template>
 
                         <template v-slot:[`item.actions`]="{ item }">
                             <v-tooltip top>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                        color="primary"
-                                        class="mx-2"
+                                        color="white"
+                                        class="mx-2 edit custom-btn"
                                         icon
                                         dark
                                         v-bind="attrs"
                                         v-on="on"
                                         @click="editModal(item)"
                                     >
-                                        <i class="fas fa-edit"></i>
+                                        UPDATE
                                     </v-btn>
                                 </template>
                                 <span>Edit User Info</span>
                             </v-tooltip>
-                            |
                             <v-tooltip top>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                        color="red"
+                                        color="white"
+                                        class="delete custom-btn"
                                         dark
                                         icon
                                         v-bind="attrs"
                                         v-on="on"
-                                        class="mx-2"
                                         @click="deleteAccount(item.id)"
                                     >
-                                        <i class="fa fa-trash"></i>
+                                        DELETE
                                     </v-btn>
                                 </template>
                                 <span>Delete info User</span>
@@ -94,17 +80,17 @@
             aria-hidden="true"
         >
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+                <div class="modal-content custom-tbl">
                     <div class="modal-header">
                         <h5
-                            class="modal-title"
+                            class="modal-title custom-color"
                             v-show="!editmode"
                             id="addNewLabel"
                         >
                             New Bank Information
                         </h5>
                         <h5
-                            class="modal-title"
+                            class="modal-title custom-color"
                             v-show="editmode"
                             id="addNewLabel"
                         >
@@ -124,6 +110,7 @@
                     >
                         <div class="modal-body">
                             <v-text-field
+                                color="#8DA90B"
                                 label="Account Name"
                                 placeholder="john doe"
                                 outlined
@@ -138,6 +125,7 @@
                                 prepend-inner-icon="mdi-shield-account"
                             ></v-text-field>
                             <v-text-field
+                                color="#8DA90B"
                                 label="Bank Name"
                                 placeholder="BDO"
                                 outlined
@@ -152,6 +140,7 @@
                                 prepend-inner-icon="mdi-bank"
                             ></v-text-field>
                             <v-text-field
+                                color="#8DA90B"
                                 label="Bank Number"
                                 placeholder="0123-456-789"
                                 outlined
@@ -177,14 +166,16 @@
                             <v-btn
                                 v-show="editmode"
                                 type="submit"
-                                color="primary"
+                                class="add"
+                                color="#8DA90B"
                                 elevation="2"
                                 >Update</v-btn
                             >
                             <v-btn
                                 v-show="!editmode"
                                 type="submit"
-                                color="success"
+                                class="add"
+                                color="#8DA90B"
                                 elevation="2"
                                 >Add Bank</v-btn
                             >
@@ -282,7 +273,7 @@ export default {
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#8DA90B",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!",
             }).then((result) => {
@@ -317,3 +308,32 @@ export default {
     },
 };
 </script>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+    }
+
+</style>

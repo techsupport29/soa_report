@@ -78,7 +78,7 @@
                                     >
                                     <template v-slot:label>
                                         <span :style="[
-                                                    switchPrepared ? {'color':'#8DA90B'} : ''
+                                                    switchPrepared ? {'color':'#8fa900'} : ''
                                                      ]">
                                             Signatory {{switchPrepared ? 'On' : 'Off' }}
                                         </span>
@@ -116,7 +116,7 @@
                             align-with-title
                             @change="handleChangeTab"
                         >
-                            <v-tabs-slider color="primary"></v-tabs-slider>
+                            <v-tabs-slider color="#8fa900"></v-tabs-slider>
                             <v-tab
                                 v-for="item in items"
                                 :key="item.tabItem"
@@ -1163,8 +1163,10 @@ export default {
     font-size: 28px;
     line-height: 34px;
     color:#8DA90B;
-}.
+}
 .v-input__slot .v-label{
     color:red !important;
 }
+
+
 </style>

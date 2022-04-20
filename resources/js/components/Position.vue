@@ -5,27 +5,24 @@
             :items="position"
             :search="search"
             sort-by="calories"
-            class="elevation-1 ma-4"
+            class="elevation-1 ma-4 custom-tbl"
            
         >
             <template v-slot:top>
                 <v-toolbar
                     flat
                 >
-                    <v-toolbar-title class="font-weight-bold">POSITIONS</v-toolbar-title>
-                        <v-divider
-                        class="mx-4"
-                        inset
-                        vertical
-                    ></v-divider>
+                    <v-toolbar-title class="font-weight-bold custom-color">POSITIONS</v-toolbar-title>
+                        
                     <v-spacer></v-spacer>
                         <v-btn
-                            color="success"
+                            color="#8DA90B"
                             dark
                             class="mb-2"
                             @click="addnewPostion()"
                         >
-                        Add New Position
+                        <i class="fas fa-plus fa-fw"></i>
+                        &nbsp; Add New Position
                         </v-btn>
                 </v-toolbar>
                 </template>
@@ -34,32 +31,32 @@
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                        color="primary"
-                                        class="mx-2"
+                                        color="white"
+                                        class="edit custom-btn"
                                         icon
                                         dark
                                         v-bind="attrs"
                                         v-on="on"
                                         @click="editPositionModal(item)"
                                         >
-                                        <i class="fas fa-edit"></i>
+                                        UPDATE
                                         </v-btn>
                                 </template>
                             <span>Edit User Info</span>
                             </v-tooltip>
-                            |
+                            
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                    color="red"
+                                   <v-btn
+                                    color="white"
                                     dark
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    class="mx-2"
+                                    class="mx-2 delete custom-btn"
                                     @click="deletePosition(item.id)"
                                     >
-                                    <i class="fa fa-trash"></i>
+                                    DELETE
                                     </v-btn>
                                 </template>
                             <span>Delete info User</span>
@@ -68,12 +65,12 @@
         </v-data-table>
 
             <!-- Position Modal -->
-        <div class="modal fade" id="addPostion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+        <div class="modal fade"  id="addPostion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered"  role="document">
+                <div class="modal-content custom-tbl">
                 <div class="modal-header">
-                    <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add  Position</h5>
-                    <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update Position</h5>
+                    <h5 class="modal-title custom-color" v-show="!editmode" id="addNewLabel"><i class="fas fa-user-plus fa-fw"></i>&nbsp; Add  Position</h5>
+                    <h5 class="modal-title custom-color" v-show="editmode" id="addNewLabel"><i class="fas fa-user-edit fa-fw"></i>&nbsp; Update Position</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -81,11 +78,11 @@
                 <form @submit.prevent="editmode ? updatePosition() : createPosition()">
                     <div class="modal-body">
                             <v-text-field
-                                prepend-inner-icon="mdi-crosshairs"
+                                color="#8DA90B"
+                                outlined
+                                prepend-inner-icon="mdi-crosshairs custom-color"
                                 label="Position"
                                 placeholder="user position"
-                                outlined
-                                dense
                                 v-model="positionform.position"
                                 :rules="[
                                     () => !!positionform.position || 'This field is required',
@@ -96,8 +93,8 @@
                     </div>
                     <div class="modal-footer">
                         <v-btn type="button" color="error" elevation="2" data-dismiss="modal">Close</v-btn>
-                        <v-btn v-show="editmode" type="submit" color="primary" elevation="2">Update</v-btn>
-                        <v-btn v-show="!editmode" type="submit" color="success"  elevation="2">Create</v-btn>
+                        <v-btn v-show="editmode" type="submit" class="add" color="#8DA90B" elevation="2">Update</v-btn>
+                        <v-btn v-show="!editmode" type="submit" class="add" color="#8DA90B"  elevation="2">Add</v-btn>
                     </div>
                     </form>
                 </div>
@@ -179,7 +176,7 @@
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
+                    confirmButtonColor: '#8DA90B',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
@@ -208,4 +205,35 @@
         }
     }
 </script>
+
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+        box-shadow: none;
+    }
+    
+</style>
 

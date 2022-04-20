@@ -2,17 +2,24 @@
     <v-app>
         <v-container>
             <v-row class="mt-5 is-blurred flex-column flex-md-row" v-if="$gate.isAdminTech()">
-             
-                <v-col class="col-md-6">
-                    <v-card>
-                        <v-card-title class="card-header">
+                <v-col class="col-md-100">
+                    <v-card outlined color="transparent vcard">
+                        <v-card-title class="custom-color">
                             Team Management
                             <v-spacer></v-spacer>
-                            <v-card-actions class="card-tools">
+                             <v-text-field
+                            color="#8DA90B"
+                            v-model="search"
+                            append-icon="mdi-magnify"
+                            label="Search"
+                            class="mx-4"
+                        ></v-text-field>
+                        </v-card-title>
+                        <v-card-actions class="card-tools m-10">
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="success"
+                                            color="#8DA90B"
                                             dark
                                             v-bind="attrs"
                                             v-on="on"
@@ -27,22 +34,14 @@
                                     </template>
                                     <span>Add New Team</span>
                                 </v-tooltip>
-                            </v-card-actions>
-                        </v-card-title>
-
-                        <v-text-field
-                            v-model="search"
-                            append-icon="mdi-magnify"
-                            label="Search"
-                            class="mx-4"
-                        ></v-text-field>
+                        </v-card-actions>
                       
                         <v-data-table
                             :headers="headers"
                             :items-per-page="10"
                             :search="search"
                             :items="teams"
-                            class="elevation-1 text-center"
+                            class="elevation-1 text-center mt-5"
                         >
                             <template v-slot:[`item.name`]="{ item }">
                                  <span class="font-weight-medium">{{item.name != null ? item.name.toUpperCase() : item.name }}</span>
@@ -60,15 +59,15 @@
                                 <v-tooltip color="primary" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="primary"
+                                            color="white"
                                             icon
                                             dark
+                                            class="view custom-btn"
                                             v-bind="attrs"
                                             v-on="on"
                                             @click="openViewTeam(item)"
-                                            
                                         >
-                                            <v-icon>mdi-view-column</v-icon>
+                                            View
                                         </v-btn>
                                     </template>
                                     <span>View {{ item.name }}</span>
@@ -77,14 +76,15 @@
                                 <v-tooltip color="yellow darken-4" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="yellow darken-4"
+                                            color="white"
                                             icon
                                             dark
+                                            class="edit custom-btn"
                                             v-bind="attrs"
                                             v-on="on"
                                             @click="updateViewTeam(item)"
                                         >
-                                            <i class="fas fa-edit"></i>
+                                            Update
                                         </v-btn>
                                     </template>
                                     <span>Edit {{ item.name }}</span>
@@ -93,14 +93,15 @@
                                 <v-tooltip color="error" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="error"
+                                            color="white"
                                             dark
                                             icon
+                                            class="delete custom-btn"
                                             v-bind="attrs"
                                             v-on="on"
                                             @click="deleteNewTeam(item.id)"
                                         >
-                                            <i class="fa fa-trash"></i>
+                                            Delete
                                         </v-btn>
                                     </template>
                                     <span>Delete {{ item.name }}</span>
@@ -124,9 +125,9 @@
                 max-width="400"
                 v-model="openDialog"
             >
-                <v-card>
+                <v-card class="custom-tbl">
                     <v-toolbar elevation="0">
-                        <v-toolbar-title class="text-h6 pl-0">
+                        <v-toolbar-title class="text-h6 pl-0 custom-color">
                            {{editMode === true ? 'Update Team' : 'Add New Team'}} 
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
@@ -152,12 +153,13 @@
                             label="Team Name"
                             placeholder="Emerald"
                             outlined
+                            color="#8DA90B"
                             required
                             prepend-inner-icon="mdi-account-group"
                         ></v-text-field>
                     </v-card-text>
                     <v-card-actions class="justify-end">
-                        <v-btn :color="editMode === true ? 'primary' : 'success'" @click="editMode === true ? updateNewTeam() :  createNewTeam()"
+                        <v-btn class="add" :color="editMode === true ? '#8DA90B' : '#8DA90B'" @click="editMode === true ? updateNewTeam() :  createNewTeam()"
                             ><v-icon>{{editMode === true ? 'mdi-update' : 'mdi-plus ' }}</v-icon> {{editMode === true ? 'Update' : 'Add'}}</v-btn
                         >
                     </v-card-actions>
@@ -314,3 +316,39 @@ export default {
     },
 };
 </script>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .vcard{
+        border-radius: 20px;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .view{
+        background-color: #3a89e8;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+    }
+</style>
