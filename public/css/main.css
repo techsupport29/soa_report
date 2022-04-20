@@ -177,16 +177,17 @@ iframe {
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(93,84,240,0.5);
+  /* background: rgba(93,84,240,0.5);
   background: -webkit-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
   background: -o-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
   background: -moz-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
-  background: linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5)); */
   pointer-events: none;
 }
 
 .wrap-login100 {
-  width: 590px;
+  width: 1700px;
+  height:800px;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -198,6 +199,82 @@ iframe {
   -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
+.login-box {
+    position: absolute;
+    width: 700px;
+    height: 600px;
+    left: 90px;
+    top: 90px;
+    bottom: 90px;
+    border: 1px solid rgba(141, 169, 11, 0.2);
+    box-sizing: border-box;
+    filter: drop-shadow(0px 4px 100px rgba(0, 0, 0, 0.25));
+}
+.login-icon{
+    position: absolute;
+    width: 800px;
+    height: 700px;
+    left: 80px;
+    top: 110px;
+    bottom: 80px;
+    box-sizing: border-box;
+    filter: drop-shadow(0px 4px 100px rgba(0, 0, 0, 0.25));
+
+}
+
+.login-bottom-pic{
+    position: absolute;
+    width: 551px;
+    height: 551px;
+    bottom: 110px;
+}
+.kiosk-soa {
+    margin-top: 80px;
+/* text-fill-color: transparent; */
+}
+
+.custom-login-input{
+    position: absolute;
+    width: 580px;
+    height: 60px;
+   
+    background: rgba(196, 196, 196, 0.15);
+    border-radius: 10px;
+}
+
+.input-container {
+    width: 380px;
+    height: 62px;
+  
+}
+.left-inner-addon {
+    position: relative;
+}
+.left-inner-addon input {
+    padding-left: 50px !important; 
+}
+.left-inner-addon i {
+    position: absolute;
+    padding: 16px 16px;
+    pointer-events: none;
+    color:#8DA90B;
+}
+.left-inner-addon ::placeholder {
+    color:#8DA90B;
+}
+
+.forgot-password-login{
+    text-align: right;
+    margin-right: 70px;
+    font-size: 18px;
+    /* color:#8DA90B; */
+    margin-top:10px;
+}
+
+.Signin-login-text {
+    /* color:#8DA90B; */
+    margin-bottom:10px;
+}
 
 /*==================================================================
 [ Form ]*/
@@ -293,9 +370,10 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  min-width: 160px;
+  min-width: 260px;
   height: 50px;
-  background-color: #bd59d4;
+  background-color: #8DA90B
+  ;
   border-radius: 25px;
 
   font-family: SourceSansPro-SemiBold;
@@ -309,20 +387,20 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 
-  box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-  -moz-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-  -webkit-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-  -o-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-  -ms-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
+  box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -moz-box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -webkit-box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -o-box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -ms-box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
 }
 
 .login100-form-btn:hover {
   background-color: #4b2354;
-  box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-  -moz-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-  -webkit-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-  -o-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-  -ms-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
+  box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -moz-box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -webkit-box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -o-box-shadow: 0 10px 30px 0px rgba(141, 169, 11, 0.9);
+  -ms-box-shadow: 0 10px 30px 0px rrgba(141, 169, 11, 0.9);
 }
 
 
