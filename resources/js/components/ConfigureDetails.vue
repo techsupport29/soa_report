@@ -1,6 +1,6 @@
 <template lang="">
     <v-app>
-        <h1 class="h2 font-weight-bold pa-8">CONFIGURE DETAILS</h1>
+        <h1 class="h2 font-weight-bold pa-8 custom-text">Configuration Details</h1>
         <v-row dense >
             <v-col class="col-lg-6 sm-12">
                 <position></position>
@@ -30,6 +30,8 @@ export default {
     }
 }
 </script>
-<style lang="">
-
+<style scoped>
+.custom-text{
+    color:#8DA90B;
+}
 </style>

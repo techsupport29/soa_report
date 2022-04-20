@@ -1,11 +1,12 @@
 <template>
-<v-app class="mt-5">
-    <v-card>
-        	<v-card-title class="card-header">
+<v-app>
+    <v-card outlined color="transparent vcard">
+        	<v-card-title class="custom-color">
                 Activity Logs
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="search"
+                    color="#8DA90B"
                     append-icon="mdi-magnify"
                     label="Search"
                     class="mx-4"
@@ -17,7 +18,7 @@
                     :items="activity"
                     :search="search"
                     sort-by="calories"
-                    class="elevation-1 ma-4"
+                    class="elevation-1 ma-4 border-0"
                 >
 
                 <template v-slot:[`item.date`]="{ item }">
@@ -73,4 +74,37 @@
         }
     }
 </script>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
 
+    .vcard{
+        border-radius: 20px;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+        box-shadow: none;
+    }
+    
+</style>
