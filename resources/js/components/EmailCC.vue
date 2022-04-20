@@ -1,13 +1,13 @@
-<template>
-    <v-container>
-        <v-data-table
+<template >
+    <v-container class="w-200" >
+        <v-data-table 
             :headers="emailccHeaders"
             :items="emailcc"
             :search="search"
-            class="elevation-1 ma-4 custom-tbl">
+            class="elevation-1 ma-4 w-200 custom-tbl" >
 
-            <template v-slot:top>
-                <v-toolbar
+            <template v-slot:top >
+                <v-toolbar style="border-radius:20px"
                     flat
                 >
                     <v-toolbar-title class="font-weight-bold custom-color">CARBON COPY IN EMAIL</v-toolbar-title>

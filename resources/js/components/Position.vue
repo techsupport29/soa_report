@@ -9,7 +9,7 @@
            
         >
             <template v-slot:top>
-                <v-toolbar
+                <v-toolbar style="border-radius:20px"
                     flat
                 >
                     <v-toolbar-title class="font-weight-bold custom-color">POSITIONS</v-toolbar-title>

@@ -11,7 +11,7 @@
                         class="elevation-1 ma-4 custom-tbl"
                     >
                         <template v-slot:top>
-                            <v-toolbar flat>
+                            <v-toolbar flat style="border-radius:20px">
                                 <v-toolbar-title class="font-weight-bold custom-color"
                                     >COMPANY BANKS</v-toolbar-title
                                 >
