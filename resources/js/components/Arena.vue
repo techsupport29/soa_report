@@ -15,9 +15,9 @@
                                             dark
                                             elevation="2"
                                             @click="openModal"
-                                            >Add Arena<i
-                                                class="fas fa-plus fa-fw"
-                                            ></i>
+                                            >
+                                            <i class="fas fa-plus fa-fw circle-icon"></i>
+                                            Add Arena
                                         </v-btn>
                                         <v-btn
                                             color="#8DA90B"
@@ -25,7 +25,7 @@
                                             elevation="2"
                                             @click="downloadArenaDetails"
                                         >
-                                        <i class="fas fa-plus fa-fw"></i>
+                                        <i class="fas fa-plus fa-fw circle-icon"></i>
                                         Download Arena Masterlist
                                         </v-btn>
                                     </v-col>
@@ -98,8 +98,8 @@
                                 color="#8DA90B"
                                 clearable
                             >
-                                <template v-slot:prepend-inner>        
-                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                                <template v-slot:prepend-inner>
+                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon>
                                 </template>
                             </v-text-field>
                             <v-data-table
@@ -113,7 +113,7 @@
                                     <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
                                     <span style="color:#8DA90B"> {{ header.text }} </span>
                                 </template>
-                                
+
                                 <template v-slot:[`item.team`]="{ item }">
                                     <span>{{
                                         item.team && item.team.toUpperCase()
@@ -452,7 +452,7 @@
                                 Update Arena
                             </h5>
                             <button
-                                
+
                                 type="button"
                                 class="close"
                                 data-dismiss="modal"
@@ -549,7 +549,7 @@
                                     >Update</v-btn
                                 >
                                 <v-btn
-                                    dark    
+                                    dark
                                     v-show="!editmode"
                                     type="submit"
                                     color="#8DA90B"
@@ -737,7 +737,7 @@ export default {
                     const objk = objectKeyed(mergingData);
 
                     const toArrayContactEmail = (contactString) => {
-              
+
                         let number = [];
                         const checkBreak = contactString?.toString().includes("\r\n");
 

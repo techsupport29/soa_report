@@ -28,6 +28,17 @@ a.custom-tabs.v-tab.v-tab--active{
     color:white !important;
 }
 
+.circle-icon {
+    background: white;
+    color: #8DA90B ;
+    padding: auto;
+    width: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+    margin-right:5px;
+
+}
+
 .login-box {
   margin-top: 75px;
   height: auto;

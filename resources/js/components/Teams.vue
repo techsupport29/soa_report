@@ -13,8 +13,8 @@
                             label="Search"
                             class="mx-4"
                             >
-                                <template v-slot:prepend-inner>        
-                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                                <template v-slot:prepend-inner>
+                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon>
                                 </template>
                             </v-text-field>
                         </v-card-title>
@@ -29,16 +29,15 @@
                                             class="mx-2"
                                             @click="openNewTeam"
                                         >
-                                        Add New Team
-                                            <v-icon style="padding:5px"
-                                                >mdi-account-multiple-plus</v-icon
-                                            >
+                                        <i class="fa-regular fas fa-users circle-icon fa-fw"></i>
+                                            Add New Team
+
                                         </v-btn>
                                     </template>
-                                    <span>Add New Team</span>
+                                    <span>Add Group Name</span>
                                 </v-tooltip>
                         </v-card-actions>
-                      
+
                         <v-data-table
                             :headers="headers"
                             :items-per-page="10"
@@ -57,10 +56,10 @@
                                 <div class="d-flex flex-column">
                                     <span class="font-weight-medium">{{ item.user_details && item.user_details.name }}</span>
                                     <span class="caption">{{ (item.user_details && item.user_details.position_details) ? item.user_details.position_details.position : ''}}</span>
-                                </div>                          
+                                </div>
                             </template>
                             <template v-slot:[`item.arena_details`]="{ item }">
-                                <span class="font-weight-medium">{{ item.arena_details && item.arena_details.length }}</span>               
+                                <span class="font-weight-medium">{{ item.arena_details && item.arena_details.length }}</span>
                              </template>
                             <template v-slot:[`item.actions`]="{ item }">
                                 <v-tooltip color="primary" bottom>
@@ -124,17 +123,17 @@
                     single-line
                     transition="slide-y-transition"
                     ><b class="custom-color">No team selected yet</b></v-banner>
-                    <team-management 
-                    v-else 
-                    :loadTeam="loadTeam" 
-                    :viewTeam.sync="viewTeam" 
-                    :selectedTeam.sync="selectedTeam" 
-                    :arenaTeams.sync="arenaTeams" 
-                    :teams="teams" 
-                    :getAllArenaPerTeam="getAllArenaPerTeam" 
-                    :userTeams.sync="userTeams" 
-                    :getAllUserPerTeam="getAllUserPerTeam" 
-                    :assignedComputed.sync="assignedComputed" 
+                    <team-management
+                    v-else
+                    :loadTeam="loadTeam"
+                    :viewTeam.sync="viewTeam"
+                    :selectedTeam.sync="selectedTeam"
+                    :arenaTeams.sync="arenaTeams"
+                    :teams="teams"
+                    :getAllArenaPerTeam="getAllArenaPerTeam"
+                    :userTeams.sync="userTeams"
+                    :getAllUserPerTeam="getAllUserPerTeam"
+                    :assignedComputed.sync="assignedComputed"
                     :getAssignUserTeam="getAssignUserTeam">
                     </team-management>
                 </v-col>
@@ -148,7 +147,7 @@
                 <v-card class="custom-tbl">
                     <v-toolbar elevation="0">
                         <v-toolbar-title class="text-h6 pl-0 custom-color">
-                           {{editMode === true ? 'Update Team' : 'Add New Team'}} 
+                           {{editMode === true ? 'Update Team' : 'Add New Team'}}
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-tooltip bottom>
@@ -224,7 +223,7 @@ export default {
     methods: {
         loadTeam() {
             axios.get("api/teams").then(({data}) => {
-          
+
                 this.teams = data
             });
         },
@@ -234,12 +233,12 @@ export default {
             this.openDialog = true;
         },
         getAssignUserTeam(){
-      
+
             axios.get('api/assigneduserteam/'+this.selectedTeam.id).then(({data}) => {
-             
+
                 this.assignedComputed = data.id;
-            }); 
-            
+            });
+
         },
         async getAllArenaPerTeam(){
             const arenaTeams = await axios.get('api/getArenaTeam/'+this.selectedTeam.name);
@@ -248,7 +247,7 @@ export default {
                 arenaTeamsArray.push({ ...a, team: a.team.toUpperCase()})
             })
             this.arenaTeams = arenaTeamsArray;
-        
+
         },
         async getAllUserPerTeam(){
             const userTeams = await axios.get('api/getUserTeam/'+this.selectedTeam.id);
@@ -256,18 +255,18 @@ export default {
             userTeams.data.forEach(a => {
                userTeamsArray.push({ team: a.team_details.name.toUpperCase(),team_details: { name: a.team_details.name.toUpperCase()}, ...a,  })
             })
-           
+
             this.userTeams = userTeamsArray
         },
-       
+
         openViewTeam(item){
-         
+
             this.viewTeam = true;
             this.selectedTeam = item
             this.getAssignUserTeam(item)
             this.getAllArenaPerTeam(item);
             this.getAllUserPerTeam(item);
-            
+
         },
         updateViewTeam(item){
             this.editMode = true;
@@ -275,9 +274,9 @@ export default {
             this.team.name = item.name;
             this.team.id = item.id;
             // this.selectedTeam = item
-           
+
         },
-      
+
         createNewTeam() {
             axios.post("api/teams", this.team).then((data) => {
                 Toast.fire({
@@ -289,7 +288,7 @@ export default {
             });
         },
         updateNewTeam(){
-    
+
             axios.post('api/updateTeam/'+this.team.id,{
                 team : this.team.name
             }).then((data) => {
@@ -326,7 +325,7 @@ export default {
                 })
 
         }
-        
+
     },
     created() {
         this.loadTeam();

@@ -13,15 +13,18 @@
                                     class="mx-4"
                                     color="#8DA90B"
                                 >
-                                <template v-slot:prepend-inner>        
-                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                                <template v-slot:prepend-inner>
+                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon>
                                 </template>
                                 </v-text-field>
 
 						</v-card-title>
                            	<v-card-actions class="card-tools">
 								<v-btn style="padding:10px;" color="#8DA90B" dark
-                                    elevation="2"  @click="newModal">Add New User<i class="fas fa-user-plus fa-fw"> </i></v-btn>
+                                    elevation="2"  @click="newModal">
+                                    <i class="fas fa-user-plus fa-fw circle-icon"> </i>
+                                    Add New User
+                                </v-btn>
 							</v-card-actions>
 
                             <v-data-table
@@ -182,7 +185,7 @@
                                 <template v-slot:item="{  item, attrs, on }">
                                 <v-list-item v-on="on" v-bind="attrs" #default="{ active }">
                                     <v-list-item-action >
-                                        <v-checkbox 
+                                        <v-checkbox
                                         :input-value="active"
 
                                         ></v-checkbox>
