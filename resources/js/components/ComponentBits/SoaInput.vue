@@ -15,7 +15,6 @@
                 <v-tooltip bottom color="success">
                     <template v-slot:activator="{ on }">
                         <v-icon
-                            large
                             :disabled="!isExcel"
                             v-on="on"
                             color="#8DA90B"

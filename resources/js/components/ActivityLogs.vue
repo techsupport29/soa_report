@@ -7,11 +7,14 @@
                 <v-text-field
                     v-model="search"
                     color="#8DA90B"
-                    append-icon="mdi-magnify"
                     label="Search"
-                    class="mx-4"
+                    class="mx-4 tfield"
                     clearable
-                ></v-text-field>
+                >
+                    <template v-slot:prepend-inner>        
+                        <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                    </template>
+                </v-text-field>
             </v-card-title>
                   <v-data-table
                     :headers="activityHeaders"
@@ -20,7 +23,10 @@
                     sort-by="calories"
                     class="elevation-1 ma-4 custom-tbl"
                 >
-
+                <template  style="font-size:16px;"  v-for="header in activityHeaders" v-slot:[`header.${header.value}`]="{ header }">
+                    <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                    <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
+                </template>
                 <template v-slot:[`item.date`]="{ item }">
                             <span>{{item.created_at | myDatewithtime}}</span>
                 </template>
@@ -48,11 +54,11 @@
             return {
 
                 activityHeaders : [
-                    { text: 'Date', value: 'date' },
-                    { text: 'By User', value: 'causer' },
-                    { text: 'Action', value: 'description' },
-                    { text: 'Ip Address', value: 'ip_address' },
-                    { text: 'Description', value: 'Description' },
+                    { text: 'Date', value: 'date', icon: 'mdi-calendar' },
+                    { text: 'By User', value: 'causer', icon: 'mdi-account'  },
+                    { text: 'Action', value: 'description', icon: 'mdi-arrow-right-drop-circle'  },
+                    { text: 'Ip Address', value: 'ip_address', icon: 'mdi-console-network'},
+                    { text: 'Description', value: 'Description', icon: 'mdi-format-align-left'  },
                 ],
                 search: '',
                 activity:[],
@@ -107,4 +113,7 @@
         box-shadow: none;
     }
     
+    .tfield{
+        border-bottom-color: #8DA90B;
+    }
 </style>

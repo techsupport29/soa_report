@@ -7,7 +7,11 @@
             sort-by="calories"
             class="elevation-1 ma-4 custom-tbl"
            
-        >
+        >   
+            <template  style="font-size:16px;"  v-for="header in positionHeaders" v-slot:[`header.${header.value}`]="{ header }">
+                <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                <span style="color:#8DA90B"> {{ header.text }} </span>
+            </template>
             <template v-slot:top>
                 <v-toolbar style="border-radius:20px"
                     flat
@@ -111,7 +115,7 @@
     
                 positionHeaders : [
                   
-                    { text: 'Position', value: 'position' },
+                    { text: 'Position', value: 'position', icon: 'mdi-account-switch' },
                     { text: '', value: 'PositionAction', sortable: false},
                 ],
                 editmode: false,

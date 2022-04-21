@@ -65,6 +65,10 @@
                                         :headers="headers"
                                         :items="summaryData"
                                     >
+                                        <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                            <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                                            <span style="color:#8DA90B"> {{ header.text }} </span>
+                                        </template>
                                         <template v-slot:item="{ item }">
                                             <tr>
                                                 <td>
@@ -148,6 +152,10 @@
                                         :headers="headers"
                                         :items="summaryData"
                                     >
+                                        <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                            <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                                            <span style="color:#8DA90B"> {{ header.text }} </span>
+                                        </template>
                                         <template v-slot:item="{ item }">
                                             <tr>
                                                 <td>
@@ -247,7 +255,7 @@ export default {
     data() {
         return {
             headers: [
-                { text: "Date of Event", value: "date_of_soa" },
+                { text: "Date of Event", value: "date_of_soa", icon: "mdi-calendar", sortable: false },
                 { text: "", value: "action", sortable: false }
             ],
             items: [
