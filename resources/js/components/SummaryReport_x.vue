@@ -8,10 +8,10 @@
 <template>
     <v-app>
         <v-container>
-            <h1 class="h3">Summary Report</h1>
+            <h1 class="h3 custom-color">Summary Report</h1>
             <v-row class="mt-5">
                 <v-col class="col-md-12">
-                    <v-row>
+                    <v-row >
                         <!-- DATE RANGE -->
                         <v-col class="col-md-4">
                             <!-- <v-text-field
@@ -40,7 +40,7 @@
                             <!-- <v-btn>Export</v-btn> -->
                         </v-col>
                     </v-row>
-                    <v-card>
+                    <v-card class="custom-tbl">
                         <v-tabs
                             v-model="tab"
                             align-with-title
@@ -56,7 +56,7 @@
                             </v-tab>
                         </v-tabs>
                         <v-card-text>
-                            <v-tabs-items v-model="tab">
+                            <v-tabs-items v-model="tab" >
                                 <v-tab-item id="deposit">
                                     <!-- Table for ongoing soa -->
 
@@ -472,3 +472,36 @@ export default {
     },
 };
 </script>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .view{
+        background-color: #3a89e8;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+    }
+
+</style>

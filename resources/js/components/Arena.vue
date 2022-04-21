@@ -6,17 +6,27 @@
                 <v-col class="col-md-12">
                     <v-row>
                         <v-col>
-                            <h1>Arena Details</h1>
+                            <h1 class="custom-color mb-5">Arena Details</h1>
                             <form>
                                 <v-row>
                                     <v-col>
                                         <v-btn
-                                            color="success"
+                                            color="#8DA90B"
+                                            dark
                                             elevation="2"
                                             @click="openModal"
                                             >Add Arena<i
                                                 class="fas fa-plus fa-fw"
                                             ></i>
+                                        </v-btn>
+                                        <v-btn
+                                            color="#8DA90B"
+                                            dark
+                                            elevation="2"
+                                            @click="downloadArenaDetails"
+                                        >
+                                        <i class="fas fa-plus fa-fw"></i>
+                                        Download Arena Masterlist
                                         </v-btn>
                                     </v-col>
                                     <v-col>
@@ -24,7 +34,7 @@
                                             outlined
                                             dense
                                             v-model="fileUpload"
-                                            color="deep-purple accent-4"
+                                            color="#8DA90B"
                                             label="File input"
                                             :clearable="false"
                                             placeholder="Select your file"
@@ -69,7 +79,7 @@
                                             >
                                                 <v-chip
                                                     v-if="index < 2"
-                                                    color="deep-purple accent-4"
+                                                    color="error"
                                                     dark
                                                     label
                                                     close
@@ -87,7 +97,7 @@
                                 v-model="search"
                                 append-icon="mdi-magnify"
                                 label="Search Arena"
-                                color="purple darken-1"
+                                color="#8DA90B"
                                 clearable
                             ></v-text-field>
                             <v-data-table
@@ -95,7 +105,7 @@
                                 :items="arena"
                                 :items-per-page="10"
                                 :search="search"
-                                class="elevation-1 text-center"
+                                class="elevation-1 text-center custom-tbl"
                             >
                                 <template v-slot:[`item.team`]="{ item }">
                                     <span>{{
@@ -115,6 +125,8 @@
                                             v-slot:activator="{ on, attrs }"
                                         >
                                             <v-btn
+                                                class="view custom-btn"
+                                                dark
                                                 icon
                                                 v-bind="attrs"
                                                 v-on="on"
@@ -122,11 +134,11 @@
                                                     item.bank_details.length ==
                                                     0
                                                         ? 'gray'
-                                                        : 'green'
+                                                        : 'white'
                                                 "
                                                 @click="openBankModel(item)"
                                             >
-                                                <v-icon small>mdi-bank</v-icon>
+                                                View
                                             </v-btn>
                                         </template>
                                         <span>{{
@@ -144,14 +156,13 @@
                                         >
                                             <v-btn
                                                 icon
+                                                dark
                                                 v-bind="attrs"
                                                 v-on="on"
-                                                color="primary"
+                                                class="edit custom-btn"
                                                 @click="editModal(item)"
                                             >
-                                                <v-icon small
-                                                    >fa fa-edit</v-icon
-                                                >
+                                                Update
                                             </v-btn>
                                         </template>
                                         <span>Update Arena</span>
@@ -162,30 +173,19 @@
                                         >
                                             <v-btn
                                                 icon
+                                                dark
                                                 v-bind="attrs"
                                                 v-on="on"
-                                                color="red"
+                                                 class="delete custom-btn"
                                                 @click="deleteArena(item.id)"
                                             >
-                                                <v-icon small
-                                                    >fas fa-trash</v-icon
-                                                >
+                                                Delete
                                             </v-btn>
                                         </template>
                                         <span>Delete Arena</span>
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
-                            <div class="pt-5">
-                                <v-btn
-                                    color="success"
-                                    elevation="2"
-                                    @click="downloadArenaDetails"
-                                >
-                                    <i class="fas fa-plus fa-fw"></i>
-                                    Download Arena Masterlist
-                                </v-btn>
-                            </div>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -205,17 +205,17 @@
                     class="modal-dialog modal-dialog-centered modal-lg"
                     role="document"
                 >
-                    <div class="modal-content">
+                    <div class="modal-content custom-tbl">
                         <div class="modal-header">
                             <h5
-                                class="modal-title"
+                                class="modal-title custom-color"
                                 v-show="!editmode"
                                 id="addNewLabel"
                             >
                                 Bank Details
                             </h5>
                             <h5
-                                class="modal-title"
+                                class="modal-title custom-color"
                                 v-show="editmode"
                                 id="addNewLabel"
                             >
@@ -228,7 +228,7 @@
                                 data-dismiss="modal"
                                 aria-label="Close"
                             >
-                                <span aria-hidden="true">&times;</span>
+                                <span class="custom-color" aria-hidden="true">&times;</span>
                             </button>
                         </div>
 
@@ -238,31 +238,28 @@
                             :items-per-page="5"
                             :search="searchbank"
                             class="elevation-1 text-center"
+                            style="border-radius:20px;"
                         >
                             <template v-slot:top>
                                 <v-toolbar flat>
                                     <v-toolbar-title>
                                         <v-btn
-                                            color="success"
+                                            dark
+                                            color="#8DA90B"
                                             elevation="2"
                                             @click="openBankDetails"
-                                            >Add Bank<i
+                                            >Add Bank &nbsp;<i
                                                 class="fas fa-plus fa-fw"
                                             ></i>
                                         </v-btn>
                                     </v-toolbar-title>
-                                    <v-divider
-                                        class="mx-4"
-                                        inset
-                                        vertical
-                                    ></v-divider>
                                     <v-spacer></v-spacer>
                                     <div class="mt-4">
                                         <v-text-field
                                             v-model="searchbank"
                                             append-icon="mdi-magnify"
                                             label="Search"
-                                            color="primary darken-2"
+                                            color="#8DA90B"
                                         ></v-text-field>
                                     </div>
                                 </v-toolbar>
@@ -285,8 +282,7 @@
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="primary"
-                                            class="mx-2"
+                                            class="mx-2 edit custom-btn"
                                             icon
                                             dark
                                             v-bind="attrs"
@@ -298,16 +294,14 @@
                                     </template>
                                     <span>Edit Bank Info</span>
                                 </v-tooltip>
-                                |
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="red"
                                             dark
                                             icon
                                             v-bind="attrs"
                                             v-on="on"
-                                            class="mx-2"
+                                            class="mx-2 delete custom-btn"
                                             @click="deleteAccount(item.id)"
                                         >
                                             <i class="fa fa-trash"></i>
@@ -322,21 +316,21 @@
                             <div v-show="show">
                                 <v-card-title>
                                     <h5
-                                        class="modal-title"
+                                        class="modal-title custom-color"
                                         v-show="!editmode"
                                         id="addNewLabel"
                                     >
                                         Add Bank Details
                                     </h5>
                                     <h5
-                                        class="modal-title"
+                                        class="modal-title custom-color"
                                         v-show="editmode"
                                         id="addNewLabel"
                                     >
                                         Update Bank Details
                                     </h5>
                                     <v-spacer></v-spacer>
-                                    <v-icon color="red" @click="show = false">
+                                    <v-icon color="#8DA90B" @click="show = false">
                                         mdi-close
                                     </v-icon>
                                 </v-card-title>
@@ -350,6 +344,7 @@
                                     >
                                         <div class="modal-body">
                                             <v-text-field
+                                                color="#8DA90B"
                                                 label="Account Name"
                                                 placeholder="Enter Account Name"
                                                 outlined
@@ -363,6 +358,7 @@
                                             ></v-text-field>
 
                                             <v-text-field
+                                                color="#8DA90B"
                                                 label="Bank Name"
                                                 placeholder="Enter Bank Name"
                                                 outlined
@@ -376,6 +372,7 @@
                                             ></v-text-field>
 
                                             <v-text-field
+                                                color="#8DA90B"
                                                 label="Bank Number"
                                                 placeholder="Enter Bank number"
                                                 outlined
@@ -397,16 +394,18 @@
                                                 >Close</v-btn
                                             >
                                             <v-btn
+                                                dark
                                                 v-show="editmode"
                                                 type="submit"
-                                                color="primary"
+                                                color="#8DA90B"
                                                 elevation="2"
                                                 >Update</v-btn
                                             >
                                             <v-btn
+                                                dark
                                                 v-show="!editmode"
                                                 type="submit"
-                                                color="success"
+                                                color="#8DA90B"
                                                 elevation="2"
                                                 >Create</v-btn
                                             >
@@ -429,29 +428,30 @@
                 aria-hidden="true"
             >
                 <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content custom-tbl">
                         <div class="modal-header">
                             <h5
-                                class="modal-title"
+                                class="modal-title custom-color"
                                 v-show="!editmode"
                                 id="addNewLabel"
                             >
                                 New Arena
                             </h5>
                             <h5
-                                class="modal-title"
+                                class="modal-title custom-color"
                                 v-show="editmode"
                                 id="addNewLabel"
                             >
                                 Update Arena
                             </h5>
                             <button
+                                
                                 type="button"
                                 class="close"
                                 data-dismiss="modal"
                                 aria-label="Close"
                             >
-                                <span aria-hidden="true">&times;</span>
+                                <span class="custom-color" aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <form
@@ -461,6 +461,7 @@
                         >
                             <div class="modal-body">
                                 <v-text-field
+                                    color="#8DA90B"
                                     label="Arena Name"
                                     outlined
                                     required
@@ -473,6 +474,7 @@
 
                                 <v-text-field
                                     label="Arena Address"
+                                    color="#8DA90B"
                                     outlined
                                     v-model="form.address"
                                     :rules="[
@@ -489,6 +491,7 @@
 
                                 <v-text-field
                                     label="Operator Name"
+                                    color="#8DA90B"
                                     placeholder="john Doe"
                                     outlined
                                     v-model="form.operator"
@@ -503,6 +506,7 @@
                                 <v-combobox
                                     v-model="contactNos"
                                     :items="contacts"
+                                    color="#8DA90B"
                                     label="Contact Number"
                                     hint="Must be 11 digits"
                                     multiple
@@ -517,6 +521,7 @@
                                 <v-combobox
                                     v-model="emailsArr"
                                     :items="emails"
+                                    color="#8DA90B"
                                     label="Email Address"
                                     hint="Maximum of 5 Emails"
                                     multiple
@@ -529,18 +534,20 @@
                             </div>
                             <div class="modal-footer">
                                 <v-btn
+                                    dark
                                     v-show="editmode"
                                     type="submit"
-                                    color="primary"
+                                    color="#8DA90B"
                                     elevation="2"
                                     >Update</v-btn
                                 >
                                 <v-btn
+                                    dark    
                                     v-show="!editmode"
                                     type="submit"
-                                    color="success"
+                                    color="#8DA90B"
                                     elevation="2"
-                                    >Create</v-btn
+                                    >Add Arena</v-btn
                                 >
                             </div>
                         </form>
@@ -1346,3 +1353,40 @@ export default {
     },
 };
 </script>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .view{
+        background-color: #3a89e8;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+    }
+
+    .custom-bg{
+        background-color: #3a89e8;
+    }
+
+</style>

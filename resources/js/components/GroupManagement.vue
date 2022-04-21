@@ -6,24 +6,23 @@
                 v-if="$gate.isAdminTech()"
             >
                 <v-col class="col-md-6">
-                    <v-card>
-                        <v-card-title class="card-header">
+                    <v-card class="custom-tbl">
+                        <v-card-title class="custom-color">
                             Group Management
                             <v-spacer></v-spacer>
                             <v-card-actions class="card-tools">
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="success"
+                                            color="#8DA90B"
                                             dark
                                             v-bind="attrs"
                                             v-on="on"
-                                            class="mx-2"
                                             @click="openModal"
                                         >
                                             <v-icon
                                                 >mdi-account-multiple-plus</v-icon
-                                            >Group Name
+                                            >&nbsp;Add New Group
                                         </v-btn>
                                     </template>
                                     <span>Add group name</span>
@@ -36,6 +35,7 @@
                             append-icon="mdi-magnify"
                             label="Search"
                             class="mx-4"
+                            color="#8DA90B"
                         ></v-text-field>
 
                         <v-data-table
@@ -52,14 +52,14 @@
                                 <v-tooltip color="primary" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="primary"
                                             icon
                                             dark
                                             v-bind="attrs"
                                             v-on="on"
+                                            class="view custom-btn"
                                             @click="openViewGroup(item)"
                                         >
-                                            <v-icon>mdi-view-column</v-icon>
+                                            View
                                         </v-btn>
                                     </template>
                                     <span>View {{ item.name }}</span>
@@ -67,15 +67,15 @@
 
                                 <v-tooltip color="yellow darken-4" bottom>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                            color="yellow darken-4"
+                                        <v-btn   
                                             icon
                                             dark
                                             v-bind="attrs"
                                             v-on="on"
+                                            class="edit custom-btn"
                                             @click="updateGroupModal(item)"
                                         >
-                                            <i class="fas fa-edit"></i>
+                                            Update
                                         </v-btn>
                                     </template>
                                     <span>Edit {{ item.name }}</span>
@@ -84,14 +84,14 @@
                                 <v-tooltip color="error" bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            color="error"
                                             dark
                                             icon
                                             v-bind="attrs"
                                             v-on="on"
+                                            class="delete custom-btn"
                                             @click="deleteGroupModal(item.id)"
                                         >
-                                            <i class="fa fa-trash"></i>
+                                            Delete
                                         </v-btn>
                                     </template>
                                     <span>Delete {{ item.name }}</span>
@@ -105,21 +105,21 @@
                         v-if="!viewGroup"
                         single-line
                         transition="slide-y-transition"
-                        >No Group selected yet
+                        ><b class="custom-color">No Group selected yet</b>
                     </v-banner>
 
-                    <v-card v-else>
-                        <v-card-title class="card-header">
+                    <v-card v-else class="custom-tbl">
+                        <v-card-title class="custom-color">
                             {{ this.selectedGroup.name }} Arena List
                             <v-spacer></v-spacer>
                             <v-tooltip bottom color="green">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                        color="green"
+                                        color="#8DA90B"
                                         dark
                                         v-bind="attrs"
                                         v-on="on"
-                                        class="mx-2"
+                                        class="mx-2 mb-2 mt-2"
                                         @click="openEmail(selectedGroup)"
                                     >
                                         <v-icon>mdi-at</v-icon> Pick Date
@@ -133,11 +133,11 @@
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                        color="primary"
+                                        color="#8DA90B"
                                         dark
                                         v-bind="attrs"
                                         v-on="on"
-                                        class="mx-2"
+                                        class="mx-2 mb-2 mt-2"
                                         @click="openArenaModal"
                                     >
                                         <v-icon>mdi-plus-thick</v-icon> Add
@@ -152,6 +152,7 @@
                         </v-card-title>
 
                         <v-text-field
+                            color="#8DA90B"
                             v-model="searchgroup"
                             append-icon="mdi-magnify"
                             label="Search"
@@ -193,9 +194,9 @@
                 max-width="400"
                 v-model="openDialog"
             >
-                <v-card>
-                    <v-toolbar elevation="0">
-                        <v-toolbar-title class="text-h6 pl-0">
+                <v-card class="custom-tbl">
+                    <v-toolbar elevation="0" >
+                        <v-toolbar-title class="text-h6 pl-0 custom-color">
                             {{
                                 editMode === true
                                     ? "Update Team"
@@ -221,6 +222,7 @@
 
                     <v-card-text>
                         <v-text-field
+                            color="#8DA90B"
                             v-model="group.name"
                             label="Group Name"
                             placeholder="GOFW"
@@ -230,6 +232,7 @@
                             prepend-inner-icon="mdi-account-group"
                         ></v-text-field>
                         <v-text-field
+                            color="#8DA90B"
                             v-model="group.email"
                             label="Email Address"
                             placeholder="johndoe@gmail.com"
@@ -241,7 +244,8 @@
                     </v-card-text>
                     <v-card-actions class="justify-end">
                         <v-btn
-                            :color="editMode === true ? 'primary' : 'success'"
+                            dark
+                            :color="editMode === true ? '#8DA90B' : '#8DA90B'"
                             @click="
                                 editMode === true
                                     ? updateGroups()
@@ -262,9 +266,9 @@
                 max-width="600"
                 v-model="openAddArenaDialog"
             >
-                <v-card>
-                    <v-toolbar elevation="0">
-                        <v-toolbar-title class="text-h6 pl-0">
+                <v-card class="custom-tbl"> 
+                    <v-toolbar elevation="0" >
+                        <v-toolbar-title class="text-h6 pl-0 custom-color">
                             {{
                                 editMode === true
                                     ? "Update Group"
@@ -281,7 +285,7 @@
                                     v-on="on"
                                     @click="openAddArenaDialog = false"
                                 >
-                                    <v-icon medium>mdi-close</v-icon>
+                                    <v-icon color="#8DA90B" medium>mdi-close</v-icon>
                                 </v-btn>
                             </template>
                             <span>Close Modal</span>
@@ -289,6 +293,7 @@
                     </v-toolbar>
 
                     <v-text-field
+                        color="#8DA90B"
                         v-model="searchArenaDetials"
                         append-icon="mdi-magnify"
                         label="Search Area Code"
@@ -328,7 +333,7 @@
 
                     <v-card-actions class="justify-end">
                         <v-btn
-                            color="red darken-1"
+                            class="custom-color"
                             text
                             @click="
                                 () => {
@@ -991,4 +996,37 @@ ul {
 ul li:before {
     content: "✓";
 }
+</style>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .view{
+        background-color: #3a89e8;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+    }
+
 </style>

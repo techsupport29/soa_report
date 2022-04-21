@@ -18,7 +18,7 @@
                     :items="activity"
                     :search="search"
                     sort-by="calories"
-                    class="elevation-1 ma-4 border-0"
+                    class="elevation-1 ma-4 custom-tbl"
                 >
 
                 <template v-slot:[`item.date`]="{ item }">

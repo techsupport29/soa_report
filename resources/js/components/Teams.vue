@@ -41,7 +41,7 @@
                             :items-per-page="10"
                             :search="search"
                             :items="teams"
-                            class="elevation-1 text-center mt-5"
+                            class="elevation-1 text-center mt-5 custom-tbl"
                         >
                             <template v-slot:[`item.name`]="{ item }">
                                  <span class="font-weight-medium">{{item.name != null ? item.name.toUpperCase() : item.name }}</span>
@@ -110,13 +110,26 @@
                         </v-data-table>
                     </v-card>
                 </v-col>
-                <v-col  class="col-md-6">
+                <v-col>
                     <v-banner
+                    class="mt-7"
                     v-if="!viewTeam"
                     single-line
                     transition="slide-y-transition"
-                    >No team selected yet</v-banner>
-                    <team-management  v-else :loadTeam="loadTeam" :viewTeam.sync="viewTeam" :selectedTeam.sync="selectedTeam" :arenaTeams.sync="arenaTeams" :teams="teams" :getAllArenaPerTeam="getAllArenaPerTeam" :userTeams.sync="userTeams" :getAllUserPerTeam="getAllUserPerTeam" :assignedComputed.sync="assignedComputed" :getAssignUserTeam="getAssignUserTeam"></team-management>
+                    ><b class="custom-color">No team selected yet</b></v-banner>
+                    <team-management 
+                    v-else 
+                    :loadTeam="loadTeam" 
+                    :viewTeam.sync="viewTeam" 
+                    :selectedTeam.sync="selectedTeam" 
+                    :arenaTeams.sync="arenaTeams" 
+                    :teams="teams" 
+                    :getAllArenaPerTeam="getAllArenaPerTeam" 
+                    :userTeams.sync="userTeams" 
+                    :getAllUserPerTeam="getAllUserPerTeam" 
+                    :assignedComputed.sync="assignedComputed" 
+                    :getAssignUserTeam="getAssignUserTeam">
+                    </team-management>
                 </v-col>
             </v-row>
 
@@ -178,7 +191,7 @@ export default {
     data() {
         return {
             headers: [
-                { text: "Name", value: "name" },
+                { text: "Name", value: "name",},
                 { text: "Computed By", value: "user_details" },
                 { text: "No. of Arenas", value: "arena_details" },
                 { text: "", value: "actions", sortable: false },
