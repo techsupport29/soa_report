@@ -11,7 +11,7 @@
              
         </v-row>
         <v-row>
-            <v-col class="col-lg-12" style="margin-top:-100px">
+            <v-col class="col-lg-12">
                 <email-cc></email-cc>
             </v-col>              
         </v-row>
