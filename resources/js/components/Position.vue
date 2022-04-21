@@ -25,7 +25,7 @@
                             class="mb-2"
                             @click="addnewPostion()"
                         >
-                        <i class="fas fa-plus fa-fw"></i>
+                        <i class="fas fa-plus fa-fw circle-icon"></i>
                         &nbsp; Add New Position
                         </v-btn>
                 </v-toolbar>

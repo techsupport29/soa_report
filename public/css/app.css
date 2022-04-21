@@ -9332,7 +9332,7 @@ input[type=button].btn-block {
 .admn {
   border: 1px solid #8DA90B;
   border-radius: 30px;
-  width: 100px;
+  width: auto;
   text-align: center;
 }
 

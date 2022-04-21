@@ -27,7 +27,7 @@
                                     class="mb-2"
                                     @click="openModal"
                                 >
-                                    <i class="fas fa-landmark"></i>
+                                    <i class="fas fa-landmark circle-icon"></i>
                                     &nbsp; Add Bank Information
                                 </v-btn>
                             </v-toolbar>
