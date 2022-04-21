@@ -61,7 +61,7 @@
 		@if(Auth::user()->type === 'tech')
 		<li class="nav-item">
 			<router-link to="/sidebar" class="nav-link ">
-				<i class=" nav-icon  fas fa-thin fa-align-justify"></i>
+				<i class="nav-icon fas fa-th-list"></i>
 				<p>Sidebar</p>
 			</router-link>
 		</li>

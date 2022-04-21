@@ -9319,7 +9319,7 @@ input[type=button].btn-block {
   padding: 0.5rem 0;
   margin: 0.125rem 0 0;
   font-size: 1rem;
-  color: #8DA90B;
+  color: #212529;
   text-align: left;
   list-style: none;
   background-color: #fff;
@@ -9327,13 +9327,6 @@ input[type=button].btn-block {
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
-}
-
-.admn {
-  border: 1px solid #8DA90B;
-  border-radius: 30px;
-  width: auto;
-  text-align: center;
 }
 
 .dropdown-menu-left {

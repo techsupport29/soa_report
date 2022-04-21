@@ -28,8 +28,8 @@
   color:white !important;
 }
 
-a.cutom-tabs{
-    
+a.custom-tabs.v-tab.v-tab{
+  text-decoration: none;
 }
 
 a.custom-tabs.v-tab.v-tab--active{
