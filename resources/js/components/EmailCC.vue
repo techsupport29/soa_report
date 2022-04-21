@@ -23,7 +23,7 @@
                             class="mb-2"
                             @click="OpenModal()"
                         >
-                        <i class="fas fa-edit fa-fw"></i>
+                        <i class="fas fa-edit fa-fw circle-icon"></i>
                         &nbsp;Add CC for Email
                         </v-btn>
                 </v-toolbar>

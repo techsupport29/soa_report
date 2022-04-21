@@ -25,7 +25,7 @@
                                             elevation="2"
                                             @click="downloadArenaDetails"
                                         >
-                                        <i class="fas fa-plus fa-fw circle-icon"></i>
+                                        <i class="fas fa-download circle-icon"></i>
                                         Download Arena Masterlist
                                         </v-btn>
                                     </v-col>
@@ -132,17 +132,17 @@
                                             v-slot:activator="{ on, attrs }"
                                         >
                                             <v-btn
-                                                class="view custom-btn"
+                                                :class="
+                                                    item.bank_details.length ==
+                                                    0
+                                                        ?'no custom-btn'
+                                                        :'yes custom-btn'
+                                                "
                                                 dark
                                                 icon
                                                 v-bind="attrs"
                                                 v-on="on"
-                                                :color="
-                                                    item.bank_details.length ==
-                                                    0
-                                                        ? 'gray'
-                                                        : 'white'
-                                                "
+                                                color="white"
                                                 @click="openBankModel(item)"
                                             >
                                                 View
@@ -255,9 +255,8 @@
                                             color="#8DA90B"
                                             elevation="2"
                                             @click="openBankDetails"
-                                            >Add Bank &nbsp;<i
-                                                class="fas fa-plus fa-fw"
-                                            ></i>
+                                            ><i class="fas fa-plus fa-fw circle-icon"
+                                            ></i> &nbsp;Add Bank
                                         </v-btn>
                                     </v-toolbar-title>
                                     <v-spacer></v-spacer>
@@ -1372,6 +1371,14 @@ export default {
 
     .view{
         background-color: #3a89e8;
+    }
+
+    .yes{
+        background-color: #8DA90B;
+    }
+
+    .no{
+        background-color: #b8b8b8;
     }
 
     .edit{

@@ -270,9 +270,13 @@
                                                     10,
                                                 ],
                                             }">
+                                <template  style="font-size:16px;"  v-for="header in headersArena" v-slot:[`header.${header.value}`]="{ header }">
+                                  <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                                <span style="color:#8DA90B"> &nbsp; {{ header.text }} </span>
+                            </template>
 
                           </v-data-table>
-
+                           
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -316,6 +320,10 @@
                                                     10,
                                                 ],
                                             }">
+                            <template  style="font-size:16px;"  v-for="header in headerStaffs" v-slot:[`header.${header.value}`]="{ header }">
+                                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                                <span style="color:#8DA90B"> &nbsp; {{ header.text }} </span>
+                            </template>
 
                           </v-data-table>
 
@@ -323,7 +331,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                             <v-btn color="red darken-1" text @click="() => {addNewUserItem = false}">Cancel</v-btn>
-                            <v-btn color="blue darken-1" text @click="addUserSelectedToTeam">ADD</v-btn>
+                            <v-btn color="#8DA90B" text @click="addUserSelectedToTeam">ADD</v-btn>
 
                     </v-card-actions>
                 </v-card>
@@ -380,12 +388,12 @@ export default {
         { text: "", value: "actions", sortable: false },
       ],
       headerStaffs: [
-         { text: "Name", value: "name" },
-        { text: "Position", value: "position_details.position" },
+         { text: "Name", value: "name", icon: "mdi-account-details"},
+        { text: "Position", value: "position_details.position", icon: "mdi-account-switch" },
       ],
       headersArena: [
-        { text: "Code", value: "area_code" },
-        { text: "Arena", value: "arena" },
+        { text: "Code", value: "area_code", icon: 'mdi-map-marker-radius' },
+        { text: "Arena", value: "arena", icon: 'mdi-alpha-a-circle' },
       ],
 
       selected: [],

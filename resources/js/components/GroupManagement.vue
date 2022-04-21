@@ -19,9 +19,7 @@
                                             v-on="on"
                                             @click="openModal"
                                         >
-                                            <v-icon
-                                                >mdi-account-multiple-plus</v-icon
-                                            >&nbsp;Add New Group
+                                            <i class="fa-regular fas fa-users circle-icon fa-fw"></i>&nbsp;Add New Group
                                         </v-btn>
                                     </template>
                                     <span>Add group name</span>
@@ -47,6 +45,10 @@
                             :items="operatorGroups"
                             class="elevation-1 text-center"
                         >
+                             <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                                <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
+                            </template>
                             <template v-slot:[`item.count`]="{ item }">
                                 <strong> {{ item.hasgroup.length }}</strong>
                             </template>
@@ -124,7 +126,7 @@
                                         class="mx-2 mb-2 mt-2"
                                         @click="openEmail(selectedGroup)"
                                     >
-                                        <v-icon>mdi-at</v-icon> Pick Date
+                                        <i class="fas fa-calendar-alt circle-icon fa-fw"></i> Pick Date
                                     </v-btn>
                                 </template>
                                 <span
@@ -142,8 +144,7 @@
                                         class="mx-2 mb-2 mt-2"
                                         @click="openArenaModal"
                                     >
-                                        <v-icon>mdi-plus-thick</v-icon> Add
-                                        Arena
+                                        <i class="fas fa-plus fa-fw circle-icon"></i>Add Arena
                                     </v-btn>
                                 </template>
                                 <span
@@ -171,6 +172,10 @@
                             :items="groupHasArena"
                             class="elevation-1 text-center"
                         >
+                             <template  style="font-size:16px;"  v-for="header in Groupheaders" v-slot:[`header.${header.value}`]="{ header }">
+                                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                                <span style="color:#8DA90B"> &nbsp; {{ header.text }} </span>
+                            </template>
                             <template v-slot:[`item.actions`]="{ item }">
                                 <v-tooltip color="error" bottom>
                                     <template v-slot:activator="{ on, attrs }">
@@ -318,6 +323,10 @@
                         class="elevation-1"
                         @toggle-select-all="selectAllToggle"
                     >
+                     <template  style="font-size:16px;"  v-for="header in SelectArenaheaders" v-slot:[`header.${header.value}`]="{ header }">
+                                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                                <span style="color:#8DA90B"> &nbsp; {{ header.text }} </span>
+                            </template>
 
                         <template v-slot:item="{ item, isSelected, select }">
                             <tr>
@@ -504,9 +513,9 @@ export default {
                 { text: "", value: "action", sortable: false },
             ],
             headers: [
-                { text: "Group Name", value: "name" },
-                { text: "Email", value: "email" },
-                { text: "No. of Arenas", value: "count" },
+                { text: "Group Name", value: "name", icon: "mdi-account-group"},
+                { text: "Email", value: "email", icon: "mdi-chevron-down-box" },
+                { text: "No. of Arenas", value: "count", icon: "mdi-numeric" },
                 { text: "", value: "actions", sortable: false },
             ],
             headerImports: [
@@ -517,12 +526,12 @@ export default {
                 { text: "", value: "actions", sortable: false },
             ],
             Groupheaders: [
-                { text: "Arena/OCBS Name", value: "area_code" },
+                { text: "Arena/OCBS Name", value: "area_code", icon: 'mdi-alpha-a-circle' },
                 { text: "", value: "actions", sortable: false },
             ],
             SelectArenaheaders: [
-                { text: "Area Code", value: "area_code" },
-                { text: "Arena/OCBS Name", value: "arena_name" },
+                { text: "Area Code", value: "area_code", icon: 'mdi-map-marker-radius' },
+                { text: "Arena/OCBS Name", value: "arena_name", icon: 'mdi-alpha-a-circle' },
                 { text: "", value: "actions", sortable: false },
             ],
             search: "",
