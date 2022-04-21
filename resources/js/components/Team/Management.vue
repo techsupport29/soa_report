@@ -21,6 +21,10 @@
               <v-tab class="custom-tabs">Members</v-tab>
               <v-tab-item>
                 <v-data-table :items="arenaTeams" :headers="headers">
+                  <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                  <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                      <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
+                  </template>
                   <template v-slot:top>
                     <v-toolbar flat>
                       <v-tooltip color="#8DA90B" bottom>
@@ -54,10 +58,7 @@
                                                     </v-card>
                                             </v-dialog>
                                     </template>
-                                <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
-                                    <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
-                                    <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
-                                </template>
+                                
                                 
                                 <template v-slot:[`item.team`]="{ item }">
                                     <v-edit-dialog

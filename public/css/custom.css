@@ -28,6 +28,10 @@
   color:white !important;
 }
 
+a.cutom-tabs{
+    
+}
+
 a.custom-tabs.v-tab.v-tab--active{
     background: #8DA90B !important;
     color:white !important;
