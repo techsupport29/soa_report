@@ -128,6 +128,7 @@
                                <span class="custom-tab-span"> {{ item.text }}</span>
                             </v-tab>
                         </v-tabs>
+
                         <v-card-text>
                             <v-tabs-items v-model="tab">
                                 <v-tab-item

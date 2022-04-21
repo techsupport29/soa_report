@@ -52,6 +52,7 @@
                                 :key="item.tabItem"
                                 class="custom-tabs"
                                 :href="`#${item.tabItem}`"
+                                
                             >
                                <span style="font-size:12px;">{{ item.text }}</span>
                             </v-tab>

@@ -16,10 +16,9 @@
                 color="#8DA90B"
                 right
                 flat
-                class="custom-tabss"
               >
-              <v-tab >Arenas</v-tab>
-              <v-tab >Members</v-tab>
+              <v-tab class="custom-tabs">Arenas</v-tab>
+              <v-tab class="custom-tabs">Members</v-tab>
               <v-tab-item>
                 <v-data-table :items="arenaTeams" :headers="headers">
                   <template v-slot:top>
@@ -654,20 +653,7 @@ export default {
 };
 </script>
 <style scoped>
-.custom-tabs1{
-    width: 125px;
-    height: 28px;
-    border: 1px solid #8DA90B;
-    box-sizing: border-box;
-    border-radius: 30px;
-    margin-right: 5px;
-}
-a.custom-tabs1.v-tab--active{
-    background: #8DA90B !important;
-    color:white !important;
-}
-
-    .custom-color{
+   .custom-color{
     color:#8DA90B;
     }
 
