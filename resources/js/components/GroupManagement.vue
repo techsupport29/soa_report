@@ -67,7 +67,7 @@
 
                                 <v-tooltip color="yellow darken-4" bottom>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn   
+                                        <v-btn
                                             icon
                                             dark
                                             v-bind="attrs"
@@ -266,7 +266,7 @@
                 max-width="600"
                 v-model="openAddArenaDialog"
             >
-                <v-card class="custom-tbl"> 
+                <v-card class="custom-tbl">
                     <v-toolbar elevation="0" >
                         <v-toolbar-title class="text-h6 pl-0 custom-color">
                             {{
@@ -317,7 +317,7 @@
                                     <v-simple-checkbox
                                         :value="isSelected"
                                         :readonly="item.disabled"
-                                        :disabled="item.bank_details.length == 0 || item.email_details.length == 0 ? true : false"
+                                        :disabled="item.email_details.length == 0 ? true : false"
                                         @input="select($event)"
                                     ></v-simple-checkbox>
                                 </td>
@@ -359,18 +359,21 @@
                 transition="dialog-bottom-transition"
                 max-width="800"
                 v-model="openEmailDialog"
+
             >
                 <v-expansion-panels>
                     <v-expansion-panel
                         v-for="item in dates"
                         :key="item.i"
                         @click="handleExpand(item)"
+                        class="custom-tbl"
+                        style="border-radius:30px 0px 30px 0px"
                     >
                         <v-expansion-panel-header>
                            <strong>{{ moment(item, 'YYYY-MM-DD').format("LL") }}</strong>
                         </v-expansion-panel-header>
 
-                        <v-expansion-panel-content>
+                        <v-expansion-panel-content >
                                 <v-row>
                                     <v-col>
                                         <div>
@@ -564,7 +567,7 @@ export default {
                 console.log('filter',this.arena)
 
             });
-         
+
         },
         // Select all imports with arena details
         selectAllToggle(props) {
@@ -575,7 +578,7 @@ export default {
 
             props.items.map((x) => {
 
-                if (x.bank_details.length == 0 || x.email_details.length == 0) dis += 1;
+                if ( x.email_details.length == 0) dis += 1;
             });
             console.log(props.items.length - dis);
 
@@ -587,7 +590,7 @@ export default {
 
                 props.items.forEach((item) => {
 
-                    if (item.bank_details.length !== 0  && item.email_details.length !== 0 ) {
+                    if (item.email_details.length !== 0 ) {
                         self.selectedArena.push(item);
                     }
                 });

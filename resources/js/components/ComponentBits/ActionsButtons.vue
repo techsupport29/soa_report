@@ -6,6 +6,8 @@
             class="mr-4"
             v-show="showClear"
             @click="clearDatabyDate"
+            rounded
+            outlined
         >
             <v-icon light>mdi-backspace-outline</v-icon>
             &nbsp;Clear {{tab}}
@@ -30,10 +32,12 @@
                             v-on="{ ...tooltip, ...menu }"
                             :loading="downloadingReport"
                             :disabled="downloadingReport"
+                            rounded
+                            outlined
                         >
                             <v-icon
                                 light
-                                 class="ma-2 white--text all"
+                                 class="ma-2  all"
                             >mdi-view-grid-outline</v-icon>
                                 Menu
                             <template

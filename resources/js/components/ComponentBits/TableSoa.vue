@@ -37,35 +37,14 @@
             />
         </template>
 
-      
-        <template  v-slot:header.date_of_soa="{ header }">
-            <div style="font-size:16px;">
-                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
-                <span style="color:#8DA90B; " > {{ header.text }} </span>
-            </div>
+
+        <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+             <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+             <span style="color:#8DA90B"> {{ header.text }} </span>
+
         </template>
 
-         <template  v-slot:header.areaCode="{ header }">
-            <div style="font-size:16px;">
-                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
-                <span style="color:#8DA90B"> {{ header.text }} </span>
-            </div>
-        </template>
 
-         <template  v-slot:header.refNo="{ header }">
-            <div style="font-size:16px;">
-                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
-                <span style="color:#8DA90B"> {{ header.text }} </span>
-            </div>
-        </template>
-
-         <template  v-slot:header.arena_name="{ header }">
-            <div style="font-size:16px;">
-                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
-                <span style="color:#8DA90B"> {{ header.text }} </span>
-            </div>
-        </template>
-     
         <template v-slot:item="{item, isSelected, select}">
             <tr>
                 <td>
@@ -93,7 +72,7 @@
                         <v-tooltip top color="primary">
                             <template v-slot:activator="{ on, attrs, hover }">
                                 <v-btn
-                                    
+
                                     color="#0B2EA9"
                                     dark
                                     small

@@ -14,6 +14,19 @@
     background-size: cover;
 
 }
+.custom-tabs{
+    width: 125px;
+    height: 28px;
+    border: 1px solid #8DA90B;
+    box-sizing: border-box;
+    border-radius: 30px;
+    margin-right: 5px;
+}
+
+a.custom-tabs.v-tab.v-tab--active{
+    background: #8DA90B !important;
+    color:white !important;
+}
 
 .login-box {
   margin-top: 75px;

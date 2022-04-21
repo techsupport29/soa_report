@@ -40,19 +40,20 @@
                             <!-- <v-btn>Export</v-btn> -->
                         </v-col>
                     </v-row>
-                    <v-card class="custom-tbl">
+                    <v-card class="custom-tbl pa-5">
                         <v-tabs
                             v-model="tab"
                             align-with-title
                             @change="handleChangeTab"
                         >
-                            <v-tabs-slider color="primary"></v-tabs-slider>
+                            <v-tabs-slider color="#8DA90B"></v-tabs-slider>
                             <v-tab
                                 v-for="item in items"
                                 :key="item.tabItem"
+                                class="custom-tabs"
                                 :href="`#${item.tabItem}`"
                             >
-                                {{ item.text }}
+                               <span style="font-size:12px;">{{ item.text }}</span>
                             </v-tab>
                         </v-tabs>
                         <v-card-text>
@@ -94,7 +95,8 @@
                                                             >
                                                              <!-- convertToExcel(item.date_of_soa) -->
                                                                 <v-btn
-                                                                    color="success"
+                                                                    color="#8DA90B"
+                                                                    rounded
                                                                     dark
                                                                     small
                                                                     v-bind="
@@ -175,7 +177,9 @@
                                                                 }"
                                                             >
                                                                 <v-btn
-                                                                    color="success"
+                                                                    color="#8DA90B"
+                                                                    outlined
+                                                                    rounded
                                                                     dark
                                                                     small
                                                                     v-bind="
@@ -369,7 +373,7 @@ export default {
             );
 
         },
- 
+
         async convertToExcelSummary(item) {
             const value = moment(item).format("YYYY-MM-DD LTS");
             const date = moment(item).format("MMMM-DD-YYYY");
@@ -434,7 +438,7 @@ export default {
                 worksheet.getCell(cell).fill = fillColor('FF000000')
                 worksheet.getCell(cell).alignment = {vertical:'middle',horizontal:'center'}
             }),
-      
+
             worksheet.addRows(convertedResult);
 
             worksheet.columns.forEach(function (column, i) {
