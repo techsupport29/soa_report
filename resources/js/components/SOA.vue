@@ -111,6 +111,7 @@
                             v-model="tab"
                             align-with-title
                             @change="handleChangeTab"
+                            class="vtabs"
                         >
                             <v-tabs-slider color="#8fa900"></v-tabs-slider>
                             <v-tab
@@ -1016,6 +1017,11 @@ export default {
     font-size: 28px;
     line-height: 34px;
     color:#8DA90B;
+}
+
+.vtabs{
+    width: 310px;
+    margin-left:80%;
 }
 
 </style>

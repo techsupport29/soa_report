@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
             <v-toolbar-items>
               <v-btn dark text @click.stop="closeViewTeam">
-                <v-icon>mdi-close</v-icon>
+                <v-icon color="#8DA90B">mdi-close</v-icon>
               </v-btn>
             </v-toolbar-items>
           </v-toolbar>
