@@ -3,7 +3,6 @@
         <v-container>
             <v-row
                 class="mt-5 is-blurred flex-column flex-md-row"
-                v-if="$gate.isAdminTech()"
             >
                 <v-col class="col-md-6">
                     <v-card class="custom-tbl">
@@ -36,8 +35,8 @@
                             class="mx-4"
                             color="#8DA90B"
                         >
-                            <template v-slot:prepend-inner>        
-                                <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                            <template v-slot:prepend-inner>
+                                <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon>
                             </template>
                         </v-text-field>
 
@@ -160,8 +159,8 @@
                             label="Search"
                             class="mx-4"
                         >
-                            <template v-slot:prepend-inner>        
-                                <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                            <template v-slot:prepend-inner>
+                                <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon>
                              </template>
                         </v-text-field>
 
@@ -305,8 +304,8 @@
                         class="mx-4"
                         @keyup="searchArena"
                     >
-                        <template v-slot:prepend-inner>        
-                            <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                        <template v-slot:prepend-inner>
+                            <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon>
                         </template>
                     </v-text-field>
 
