@@ -526,7 +526,7 @@ export default {
                 { text: "", value: "actions", sortable: false },
             ],
             Groupheaders: [
-                { text: "Arena/OCBS Name", value: "soa_details.arena_name", icon: 'mdi-alpha-a-circle' },
+                { text: "Arena/OCBS Name", value: "arena_detials.arena", icon: 'mdi-alpha-a-circle' },
                 { text: "", value: "actions", sortable: false },
             ],
             SelectArenaheaders: [
@@ -774,7 +774,7 @@ export default {
             this.selectedEmail = item.email;
             axios.get("api/getselectedgroup/" + item.id).then(({ data }) => {
                 data.forEach((element) => {
-                    // console.log(element.hasgroup);
+                    console.log(element.hasgroup);
                     this.groupHasArena = element.hasgroup;
                 });
             });

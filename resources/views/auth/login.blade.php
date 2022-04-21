@@ -34,7 +34,7 @@
                                 <div class="left-inner-addon input-container mt-4">
                                     <i class="fa fa-lock  fa-2x" ></i>
                                     <input type="password"
-                                            name="password" required autocomplete="current-password"
+                                           name="password" required autocomplete="current-password"
                                            class="custom-login-input" 
                                            placeholder="Enter password" 
                                     />

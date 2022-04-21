@@ -85,7 +85,7 @@ class OperatorGroupController extends Controller
 
     public function getselectedGroup($id){
 
-        return response()->json(OperatorGroups::with(['Hasgroup.SoaDetails.arenaDetails.EmailDetails'])->whereId($id)->get());
+        return response()->json(OperatorGroups::with(['Hasgroup.arenaDetials.EmailDetails'])->whereId($id)->get());
     }
 
     public function Deletegroupsselectedarena($id){
