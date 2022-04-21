@@ -32,11 +32,14 @@
 
                         <v-text-field
                             v-model="search"
-                            append-icon="mdi-magnify"
                             label="Search"
                             class="mx-4"
                             color="#8DA90B"
-                        ></v-text-field>
+                        >
+                            <template v-slot:prepend-inner>        
+                                <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                            </template>
+                        </v-text-field>
 
                         <v-data-table
                             :headers="headers"
@@ -154,10 +157,13 @@
                         <v-text-field
                             color="#8DA90B"
                             v-model="searchgroup"
-                            append-icon="mdi-magnify"
                             label="Search"
                             class="mx-4"
-                        ></v-text-field>
+                        >
+                            <template v-slot:prepend-inner>        
+                                <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                             </template>
+                        </v-text-field>
 
                         <v-data-table
                             :headers="Groupheaders"
@@ -295,11 +301,14 @@
                     <v-text-field
                         color="#8DA90B"
                         v-model="searchArenaDetials"
-                        append-icon="mdi-magnify"
                         label="Search Area Code"
                         class="mx-4"
                         @keyup="searchArena"
-                    ></v-text-field>
+                    >
+                        <template v-slot:prepend-inner>        
+                            <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                        </template>
+                    </v-text-field>
 
                     <v-data-table
                         v-model="selectedArena"

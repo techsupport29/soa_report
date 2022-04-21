@@ -8,9 +8,12 @@
             <v-col class="col-lg-6 sm-12">
                 <bank-account></bank-account>
             </v-col>
-             <v-col class="col-lg-12" style="margin-top:-200px">
+             
+        </v-row>
+        <v-row>
+            <v-col class="col-lg-12" style="margin-top:-100px">
                 <email-cc></email-cc>
-            </v-col>
+            </v-col>              
         </v-row>
     </v-app>
 </template>

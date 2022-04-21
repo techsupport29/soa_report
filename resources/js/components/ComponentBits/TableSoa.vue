@@ -41,7 +41,6 @@
         <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
              <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
              <span style="color:#8DA90B"> {{ header.text }} </span>
-
         </template>
 
 

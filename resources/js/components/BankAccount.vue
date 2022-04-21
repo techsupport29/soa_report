@@ -10,6 +10,10 @@
                         :search="search"
                         class="elevation-1 ma-4 custom-tbl"
                     >
+                        <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                            <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                            <span style="color:#8DA90B"> {{ header.text }} </span>
+                        </template>
                         <template v-slot:top>
                             <v-toolbar flat style="border-radius:20px">
                                 <v-toolbar-title class="font-weight-bold custom-color"
@@ -193,9 +197,9 @@ export default {
     data() {
         return {
             headers: [
-                { text: "Account Name", value: "account_name" ,sortable: false },
-                { text: "Bank Name", value: "bank_name" ,sortable: false },
-                { text: "Bank Account", value: "bank_number" ,sortable: false },
+                { text: "Account Name", value: "account_name" , icon: 'mdi-account-details' ,sortable: false },
+                { text: "Bank Name", value: "bank_name" , icon: 'mdi-bank-minus' ,sortable: false },
+                { text: "Bank Account", value: "bank_number" , icon: 'mdi-bank' ,sortable: false },
                 { text: "", value: "actions", sortable: false },
             ],
             editmode: false,

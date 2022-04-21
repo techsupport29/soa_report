@@ -6,6 +6,10 @@
             :search="search"
             class="elevation-1 ma-4 w-200 custom-tbl" >
 
+            <template  style="font-size:16px;"  v-for="header in emailccHeaders" v-slot:[`header.${header.value}`]="{ header }">
+                <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
+            </template>
             <template v-slot:top >
                 <v-toolbar style="border-radius:20px"
                     flat
@@ -109,7 +113,7 @@
 
                 emailccHeaders : [
 
-                    { text: 'Email', value: 'email_cc' },
+                    { text: 'Email', value: 'email_cc', icon: 'mdi-chevron-down-box' },
                     { text: '', value: 'emailAction', sortable: false},
                 ],
                 editmode: false,

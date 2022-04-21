@@ -10,10 +10,13 @@
                              <v-text-field
                             color="#8DA90B"
                             v-model="search"
-                            append-icon="mdi-magnify"
                             label="Search"
                             class="mx-4"
-                        ></v-text-field>
+                            >
+                                <template v-slot:prepend-inner>        
+                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                                </template>
+                            </v-text-field>
                         </v-card-title>
                         <v-card-actions class="card-tools m-10">
                                 <v-tooltip bottom>
@@ -43,6 +46,10 @@
                             :items="teams"
                             class="elevation-1 text-center mt-5 custom-tbl"
                         >
+                            <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                                <span style="color:#8DA90B"> &nbsp; {{ header.text }} </span>
+                            </template>
                             <template v-slot:[`item.name`]="{ item }">
                                  <span class="font-weight-medium">{{item.name != null ? item.name.toUpperCase() : item.name }}</span>
                             </template>
@@ -191,9 +198,9 @@ export default {
     data() {
         return {
             headers: [
-                { text: "Name", value: "name",},
-                { text: "Computed By", value: "user_details" },
-                { text: "No. of Arenas", value: "arena_details" },
+                { text: "Name", value: "name", icon: "mdi-account-details"},
+                { text: "Computed By", value: "user_details", icon: "mdi-calculator" },
+                { text: "No. of Arenas", value: "arena_details", icon: "mdi-numeric"},
                 { text: "", value: "actions", sortable: false },
             ],
             search: "",

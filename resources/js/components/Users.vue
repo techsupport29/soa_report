@@ -9,11 +9,14 @@
                              <v-spacer></v-spacer>
                                <v-text-field
                                     v-model="search"
-                                    append-icon="mdi-magnify"
-                                    label="Search"
+                                    label="hehe"
                                     class="mx-4"
                                     color="#8DA90B"
-                                ></v-text-field>
+                                >
+                                <template v-slot:prepend-inner>        
+                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                                </template>
+                                </v-text-field>
 
 						</v-card-title>
                            	<v-card-actions class="card-tools">
@@ -30,6 +33,10 @@
                                 >
                             <template v-slot:[`item.modify`]="{ item }">
                                 {{$moment(item.updated_at).format('LL LTS') }}
+                            </template>
+                            <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                                <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
                             </template>
                             <template v-slot:[`item.actions`]="{ item }">
 
@@ -227,10 +234,10 @@
         data() {
             return {
                 headers: [
-                    { text: 'Name', value: 'name' ,sortable: false },
-                    { text: 'Username', value: 'username' ,sortable: false },
-                    { text: 'Type', value: 'type' ,sortable: false },
-                    { text: 'Modify', value: 'modify',sortable: false },
+                    { text: 'Name', value: 'name',  icon: "mdi-account-details" , sortable: false },
+                    { text: 'Username', value: 'username' , icon: "mdi-account" , sortable: false },
+                    { text: 'Type', value: 'type' , icon: "mdi-account-cog" , sortable: false },
+                    { text: 'Modify', value: 'modify', icon: "mdi-account-edit" , sortable: false },
                     { text: '', value: 'actions', sortable: false },
                 ],
                 editmode: false,

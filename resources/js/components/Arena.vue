@@ -54,7 +54,6 @@
                                                         }"
                                                     >
                                                         <v-icon
-                                                            large
                                                             :disabled="!isExcel"
                                                             v-on="on"
                                                             color="green darken-3"
@@ -79,7 +78,7 @@
                                             >
                                                 <v-chip
                                                     v-if="index < 2"
-                                                    color="error"
+                                                    color="deep-purple accent-4"
                                                     dark
                                                     label
                                                     close
@@ -95,11 +94,14 @@
 
                             <v-text-field
                                 v-model="search"
-                                append-icon="mdi-magnify"
                                 label="Search Arena"
                                 color="#8DA90B"
                                 clearable
-                            ></v-text-field>
+                            >
+                                <template v-slot:prepend-inner>        
+                                    <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                                </template>
+                            </v-text-field>
                             <v-data-table
                                 :headers="headers"
                                 :items="arena"
@@ -107,6 +109,11 @@
                                 :search="search"
                                 class="elevation-1 text-center custom-tbl"
                             >
+                                <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                    <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                                    <span style="color:#8DA90B"> {{ header.text }} </span>
+                                </template>
+                                
                                 <template v-slot:[`item.team`]="{ item }">
                                     <span>{{
                                         item.team && item.team.toUpperCase()
@@ -582,11 +589,11 @@ export default {
         return {
             headers: [
                 { text: "#", value: "index", sortable: false },
-                { text: "Code", value: "area_code", sortable: false },
-                { text: "Arena Name", value: "arena", sortable: false },
-                { text: "Operator", value: "operator", sortable: false },
-                { text: "Team", value: "team", sortable: false },
-                { text: "Bank Details", value: "bank", sortable: false },
+                { text: "Code", value: "area_code", icon: 'mdi-map-marker-radius', sortable: false },
+                { text: "Arena Name", value: "arena", icon: 'mdi-alpha-a-circle', sortable: false },
+                { text: "Operator", value: "operator", icon: 'mdi-account-cog', sortable: false },
+                { text: "Team", value: "team", icon: 'mdi-account-group', sortable: false },
+                { text: "Bank Details", value: "bank", icon: 'mdi-bank', sortable: false },
                 { text: "", value: "actions", sortable: false },
             ],
 
