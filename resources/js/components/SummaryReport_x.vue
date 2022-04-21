@@ -99,7 +99,7 @@
                                                             >
                                                              <!-- convertToExcel(item.date_of_soa) -->
                                                                 <v-btn
-                                                                    color="#8DA90B"
+                                                                    color="#0B2EA9"
                                                                     rounded
                                                                     dark
                                                                     small
@@ -185,7 +185,7 @@
                                                                 }"
                                                             >
                                                                 <v-btn
-                                                                    color="#8DA90B"
+                                                                    color="#0B2EA9"
                                                                     outlined
                                                                     rounded
                                                                     dark
