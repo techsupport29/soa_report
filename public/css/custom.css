@@ -20,7 +20,7 @@
     border: 1px solid #8DA90B;
     box-sizing: border-box;
     border-radius: 30px;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 a.custom-tabs.v-tab.v-tab--active{

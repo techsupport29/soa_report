@@ -86,11 +86,9 @@ class EmailController extends Controller
     }
 
     public function SendEmail(request $request){
-        
-        $emails =    explode('/',$request->data['email_details'][0]['email']);
-
-        $extension = explode('/', explode(':', substr($request->data['link'], 0, strpos($request->data['link'], ';')))[1])[1];   // .jpg .png .pdf
-        $replace = substr($request->data['link'], 0, strpos($request->data['link'], ',')+1);
+        dd($request->data);
+        $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
+        $replace = substr($request->link, 0, strpos($request->link, ',')+1);
         // find substring fro replace here eg: data:image/png;base64,
         $image = str_replace($replace, '', $request->data['link']);
         $image = str_replace(' ', '+', $image);

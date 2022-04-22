@@ -40,11 +40,14 @@
                             <!-- <v-btn>Export</v-btn> -->
                         </v-col>
                     </v-row>
-                    <v-card class="custom-tbl pa-5">
+                    <v-card class="custom-tbl pa-5"    >
+                        <div >
                         <v-tabs
                             v-model="tab"
                             align-with-title
                             @change="handleChangeTab"
+                          
+                          
                         >
                             <v-tabs-slider color="#8DA90B"></v-tabs-slider>
                             <v-tab
@@ -52,10 +55,13 @@
                                 :key="item.tabItem"
                                 class="custom-tabs"
                                 :href="`#${item.tabItem}`"
+                      
                             >
-                               <span style="font-size:12px;">{{ item.text }}</span>
+                               <span style="font-size:12px; ">{{ item.text }}</span>
                             </v-tab>
                         </v-tabs>
+                        </div>
+                     
                         <v-card-text>
                             <v-tabs-items v-model="tab" >
                                 <v-tab-item id="deposit">
