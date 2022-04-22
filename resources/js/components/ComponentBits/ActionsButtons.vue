@@ -556,13 +556,17 @@ export default {
                     setTimeout(async () => {
                         this.downloadingReport = false;
                         this.loading = false;
-                         this.handleEmptySelect()
+                        this.handleEmptySelect();
+                        Toast.fire({
+                        icon: "success",
+                        title: "Email Sending in successfully",
+                        });
                     }, 1000);
                     //   if(this.dates.length !== 0) {
                     //             await this.loadDateRange(this.tab)
                     //         }else{
                                 // this.tab === 'ongoing' ? this.soaLists() : this.importWithStatus();
-                                await this.fetchLists()
+                    await this.fetchLists()
                             // }
                 }
             }
