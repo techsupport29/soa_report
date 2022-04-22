@@ -9,7 +9,9 @@
         copy of the deposit slip. Thank you and God bless!
         </div><br>
 
-
+        <span  style="color: #ff6600; font-weight:bold">Note: </span> Kindly go to <strong> Junk Email / Spam Message </strong>,  if you do not receive this email. <br>
+        For further questions, please do not hesitate to contact us. Thank you and God bless!
+        <br>
 
 
     <span>---</span><br>

@@ -5,7 +5,12 @@ Good day <strong>Ma'am/Sir</strong>,
     <strong style="background-color:#effc03;">Statement of  Account and Replenishment Report</strong> 
     dated&nbsp; 
     <u><strong>  {{$date}} </strong></u>
+    <br>
 
+    <span  style="color: #ff6600; font-weight:bold">Note: </span> Kindly go to <strong> Junk Email / Spam Message </strong>,  if you do not receive this email. <br>
+    For further questions, please do not hesitate to contact us. Thank you and God bless!
+    <br>
+    
     for your reference.
     Thank you and God bless.
     </div>

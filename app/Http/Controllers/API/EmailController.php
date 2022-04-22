@@ -86,26 +86,30 @@ class EmailController extends Controller
     }
 
     public function SendEmail(request $request){
-        dd($request->data);
+        
         $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
         $replace = substr($request->link, 0, strpos($request->link, ',')+1);
         // find substring fro replace here eg: data:image/png;base64,
-        $image = str_replace($replace, '', $request->data['link']);
+        $image = str_replace($replace, '', $request->link);
         $image = str_replace(' ', '+', $image);
 
-        foreach ($emails as $email){
-    
+        foreach ($request->data['email_details'] as $email){
+
         $data = [
+            'group' => $request->group,
+            'email' => $email['email'],
             'email_cc' => $request->cc,
+            'date' => $request->date,
             'arena_name' => $request->data['arena'],
-            'subject' => "KIOSK SALES REPORT FOR".' '.$request->data['date'],
+            'subject' => "KIOSK SALES REPORT FOR".' '.$request->date,
             'file' =>  $image
         ];
-
+   
         $files = [
-           base64_decode($image)
+           base64_decode($data["file"])
         ];
-     
+
+
         Mail::send($data['group'] == "Statement of Account" ? 'email.emailsoa' :' email.reflenishment' , $data, function($message)use($data, $files) {
             $message->to($data["email"])
                     ->cc($data['email_cc'])
