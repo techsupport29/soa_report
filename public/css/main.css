@@ -282,6 +282,16 @@ iframe {
   width: 100%;
 }
 
+/*==================================================================
+[ FINANCE SOA TEXT DESIGN ( SIDE BAR ) ]*/
+
+.text{
+	text-transform: uppercase;
+	background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
+	-webkit-text-fill-color: transparent;
+}
+
+
 .login100-form-title {
   display: block;
   font-family: SourceSansPro-Bold;

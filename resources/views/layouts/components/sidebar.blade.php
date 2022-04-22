@@ -2,7 +2,7 @@
 	<a href="#" class="brand-link">
 	<img src="image/manok.png" alt="AdminLTE Logo" class="brand-image "
 		style="opacity: .8">
-	<span class="brand-text font-weight-light">Finance SOA </span>
+	<span class="brand-text text">Finance SOA </span>
 	</a>
 	<div class="sidebar">
 		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
