@@ -125,7 +125,9 @@ export default {
                     const EmailCC =  this.selectedCc.map(selectedCc => {
                             return selectedCc.email_cc
                         });
-                    const emails = uniq(flattenDeep(operatorsEmail))
+                    const emails = uniq(flattenDeep(operatorsEmail));
+
+        
                     axios.post('api/sendZipEmail', {
                             link: base64,
                             emails,

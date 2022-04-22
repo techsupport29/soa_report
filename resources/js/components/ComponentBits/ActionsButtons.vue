@@ -138,18 +138,21 @@
                         :disabled="downloadingReport"
                         color="blue darken-3"
                         class="ma-2 white--text allbtn"
-                        @click="handleZipDialogOpen"
+                        @click="multisendEmail"
                         elevation="2"
                         rounded
                         v-bind="attrs"
                         v-on="on"
                     >
-                        <v-icon light class="ma-2 white--text all">mdi-zip-box</v-icon>
-                         EMAIL Zip
+                          <v-icon
+                                light
+                                class="ma-2 white--text all"
+                        >mdi-email-multiple</v-icon>
+                                Send Selected Email
                     </v-btn>
                 </v-list-item>
                 </template>
-                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Compress selected image into Zip and Send in Email  </span>
+                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Send selected Email to specific operators  </span>
             </v-tooltip>
 
 

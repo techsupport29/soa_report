@@ -275,6 +275,7 @@
                 transition="dialog-bottom-transition"
                 max-width="600"
                 v-model="openAddArenaDialog"
+                @click:outside="closeSelectedModal"
             >
                 <v-card class="custom-tbl">
                     <v-toolbar elevation="0" >
@@ -293,7 +294,7 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="openAddArenaDialog = false"
+                                    @click="closeSelectedModal"
                                 >
                                     <v-icon color="#8DA90B" medium>mdi-close</v-icon>
                                 </v-btn>
@@ -349,18 +350,6 @@
                     </v-data-table>
 
                     <v-card-actions class="justify-end">
-                        <v-btn
-                            class="custom-color"
-                            text
-                            @click="
-                                () => {
-                                    openAddArenaDialog = false;
-                                    addNewArenaItem = false;
-                                    this.selectedArena = [];
-                                }
-                            "
-                            >Cancel</v-btn
-                        >
                         <v-btn
                             :disabled="selectedArena < 1 ? true : false"
                             color="blue darken-1"
@@ -574,7 +563,12 @@ export default {
         };
     },
     methods: {
-
+        //clear data after closing modal
+        closeSelectedModal() {
+            this.openAddArenaDialog = false ;
+            this.selectedArena = [];
+            this.addNewArenaItem = false;
+        },
         //custom filter
         searchArena(){
              axios.post("api/addArenaSearch",{

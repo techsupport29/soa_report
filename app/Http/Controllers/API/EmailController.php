@@ -86,7 +86,7 @@ class EmailController extends Controller
     }
 
     public function SendEmail(request $request){
-        
+
         $extension = explode('/', explode(':', substr($request->link, 0, strpos($request->link, ';')))[1])[1];   // .jpg .png .pdf
         $replace = substr($request->link, 0, strpos($request->link, ',')+1);
         // find substring fro replace here eg: data:image/png;base64,
@@ -128,7 +128,7 @@ class EmailController extends Controller
 
 
     public function sendZipEmail(request $request){
-       
+        dd( $request->email);
         $data = [
             'email' => $request->email,
             'email_cc' => $request->cc,

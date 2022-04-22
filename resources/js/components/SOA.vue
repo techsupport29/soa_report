@@ -1020,7 +1020,7 @@ export default {
 }
 
 .vtabs{
-    width: 310px;
+    
     margin-left:80%;
 }
 
