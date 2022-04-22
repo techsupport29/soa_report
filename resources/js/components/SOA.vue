@@ -64,7 +64,7 @@
                         <!-- FILE INPUT -->
                         <soa-input :soaLists="soaLists"></soa-input>
                     </v-row>
-                    <v-card>
+                    <v-card class="custom-tbl">
                         <v-card-title>
                             <v-row>
                                 <v-col class="col-md-6">
@@ -109,7 +109,6 @@
                         <!-- TAB -->
                         <v-tabs
                             v-model="tab"
-                            align-with-title
                             @change="handleChangeTab"
                             class="vtabs"
                         >
@@ -1019,9 +1018,15 @@ export default {
     color:#8DA90B;
 }
 
+.custom-tbl{
+    border: 2px solid #8DA90B;
+    border-radius: 20px;
+}
+
 .vtabs{
-    
+    width: 315px;
     margin-left:80%;
+    overflow: hidden;
 }
 
 </style>

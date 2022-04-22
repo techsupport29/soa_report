@@ -256,7 +256,6 @@ iframe {
 .left-inner-addon i {
     position: absolute;
     padding: 16px 16px;
-    pointer-events: none;
     color:#8DA90B;
 }
 .left-inner-addon ::placeholder {
@@ -275,8 +274,6 @@ iframe {
     /* color:#8DA90B; */
     margin-bottom:10px;
 }
-
-
 
 /*==================================================================
 [ Form ]*/
