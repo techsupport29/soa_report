@@ -9,7 +9,7 @@
                              <v-spacer></v-spacer>
                                <v-text-field
                                     v-model="search"
-                                    label="hehe"
+                                    label="Search"
                                     class="mx-4"
                                     color="#8DA90B"
                                 >

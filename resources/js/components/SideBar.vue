@@ -5,47 +5,49 @@
             :headers="sidebarHeaders"
             :items="sidebar"
             :search="search"
-            class="elevation-1 ma-4"
+            class="elevation-1 ma-4 custom-tbl"
 
         >
+             <template  style="font-size:16px;"  v-for="header in sidebarHeaders" v-slot:[`header.${header.value}`]="{ header }">
+                <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
+            </template>
             <template v-slot:top>
-                <v-toolbar
+                <v-toolbar style="border-radius:20px"
                     flat
                 >
-                    <v-toolbar-title class="font-weight-bold">SideBar Configuration</v-toolbar-title>
-                    <v-divider
-                        class="mx-4"
-                        inset
-                        vertical
-                    ></v-divider>
-                    <v-spacer></v-spacer>
-                        <v-btn
-                            class="mb-2 bg-success"
+                    <v-toolbar-title class="font-weight-bold custom-color">SideBar Configuration</v-toolbar-title>
+                </v-toolbar>
+                <v-toolbar flat>
+                       <v-btn
+                            dark
+                            class="mb-2"
+                            color="#8DA90B"
                             @click="openModalSidebar()"
                         >
-                        Add New Sidebar
+                        <i class="fas fa-plus fa-fw circle-icon"></i>
+                        &nbsp;Add New Sidebar
                         </v-btn>
                 </v-toolbar>
-                </template>
+            </template>
                 <template v-slot:[`item.link`]="{ item }">
                   {{env_url}}/{{item.link}}
                 </template>
                 <template v-slot:[`item.icon`]="{ item }">
-                   	<i :class="`text-success nav-icon fas fa-thin` + item.icon" ></i>
+                   	<i :class="`custom-color nav-icon fas fa-thin` + item.icon" ></i>
                 </template>
                 <template v-slot:[`item.action`]="{ item }">
                             <v-tooltip bottom color="primary">
                                 <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                        color="primary"
-                                        class="mx-2"
+                                        class="mx-2 edit custom-btn"
                                         icon
                                         dark
                                         v-bind="attrs"
                                         v-on="on"
                                         @click="EditModalSidebar(item)"
                                         >
-                                        <i class="fas fa-edit"></i>
+                                        UPDATE
                                         </v-btn>
                                 </template>
                             <span>Edit Sidebar Info</span>
@@ -54,15 +56,14 @@
                             <v-tooltip bottom color="red">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                    color="red"
                                     dark
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    class="mx-2"
+                                    class="mx-2 delete custom-btn"
                                     @click="deleteSidebar(item.id)"
                                     >
-                                    <i class="fa fa-trash"></i>
+                                    DELETE
                                     </v-btn>
                                 </template>
                             <span>Delete Sidebar User</span>
@@ -73,10 +74,10 @@
             <!-- sidebar Modal -->
         <div class="modal fade" id="sidebarModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+                <div class="modal-content custom-tbl">
                 <div class="modal-header">
-                    <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add  Sidebar</h5>
-                    <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update Sidebar</h5>
+                    <h5 class="modal-title custom-color" v-show="!editmode" id="addNewLabel">Add  Sidebar</h5>
+                    <h5 class="modal-title custom-color" v-show="editmode" id="addNewLabel">Update Sidebar</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -89,6 +90,7 @@
                                 placeholder="name"
                                 outlined
                                 dense
+                                color="#8DA90B"
                                 v-model="sidebarform.name"
                                 :rules="[
                                     () => !!sidebarform.name || 'This field is required',
@@ -102,6 +104,7 @@
                                 placeholder="link"
                                 outlined
                                 dense
+                                color="#8DA90B"
                                 v-model="sidebarform.link"
                                 :rules="[
                                     () => !!sidebarform.link || 'This field is required',
@@ -115,6 +118,7 @@
                                 placeholder="font awesome icon"
                                 outlined
                                 dense
+                                color="#8DA90B"
                                 v-model="sidebarform.icon"
                                 :rules="[
                                     () => !!sidebarform.icon || 'This field is required',
@@ -126,8 +130,8 @@
                     </div>
                     <div class="modal-footer">
                         <v-btn type="button" color="error" elevation="2" data-dismiss="modal">Close</v-btn>
-                        <v-btn v-show="editmode" type="submit" color="primary" elevation="2">Update</v-btn>
-                        <v-btn v-show="!editmode" type="submit" color="success"  elevation="2">Create</v-btn>
+                        <v-btn v-show="editmode" type="submit" class="add" color="#8DA90B"  elevation="2">Update</v-btn>
+                        <v-btn v-show="!editmode" type="submit" class="add" color="#8DA90B"  elevation="2">Create</v-btn>
                     </div>
                     </form>
                 </div>
@@ -143,9 +147,9 @@
         data() {
             return {
                 sidebarHeaders : [
-                    { text: 'Name', value: 'name' },
-                    { text: 'Url', value: 'link' },
-                    { text: 'Icon', value: 'icon' },
+                    { text: 'Name', value: 'name', icon: 'mdi-account-details'},
+                    { text: 'Url', value: 'link', icon: 'mdi-webhook'},
+                    { text: 'Icon', value: 'icon', icon: 'mdi-camera-image'},
                     { text: '', value: 'action', sortable: false},
                 ],
                 editmode: false,
@@ -235,4 +239,35 @@
         }
     }
 </script>
+<style scoped>
+    .custom-color{
+    color:#8DA90B;
+    }
+
+    .add{
+        background-color: #8DA90B;
+        color:white;
+    }
+
+    .edit{
+        background-color: #f0bb00;
+    }
+
+    .delete{
+        background-color: red;
+    }
+
+    .custom-btn{
+        width:100px;
+        border-radius: 20px;
+    }
+
+    .custom-tbl{
+        border: 2px solid #8DA90B;
+        border-radius: 20px;
+        box-shadow: none;
+    }
+    
+</style>
+
 

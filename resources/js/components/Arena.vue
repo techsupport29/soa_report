@@ -247,6 +247,10 @@
                             class="elevation-1 text-center"
                             style="border-radius:20px;"
                         >
+                            <template  style="font-size:16px;"  v-for="header in Bankheaders" v-slot:[`header.${header.value}`]="{ header }">
+                                <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
+                                <span style="color:#8DA90B"> {{ header.text }} </span>
+                            </template>
                             <template v-slot:top>
                                 <v-toolbar flat>
                                     <v-toolbar-title>
@@ -602,9 +606,9 @@ export default {
                     value: "account_name",
                     sortable: false,
                 },
-                { text: "Bank Name", value: "bank_name", sortable: false },
-                { text: "Bank Number", value: "bank_number", sortable: false },
-                { text: "Modify", value: "modify", sortable: false },
+                { text: "Bank Name", value: "bank_name", icon: 'mdi-bank-minus' , sortable: false },
+                { text: "Bank Number", value: "bank_number", icon: 'mdi-bank', sortable: false },
+                { text: "Modify", value: "modify", icon: "mdi-account-edit" ,  sortable: false },
                 { text: "", value: "actions", sortable: false },
             ],
             activityHeaders: [

@@ -45,9 +45,8 @@
                         <v-tabs
                             v-model="tab"
                             align-with-title
-                            @change="handleChangeTab"
-                          
-                          
+                            @change="handleChangeTab"    
+                            class="vtabs"
                         >
                             <v-tabs-slider color="#8DA90B"></v-tabs-slider>
                             <v-tab
@@ -55,7 +54,7 @@
                                 :key="item.tabItem"
                                 class="custom-tabs"
                                 :href="`#${item.tabItem}`"
-                      
+                                
                             >
                                <span style="font-size:12px; ">{{ item.text }}</span>
                             </v-tab>
@@ -522,4 +521,8 @@ export default {
         border-radius: 20px;
     }
 
+    .vtabs{
+        width: 310px;
+        margin-left:80%;
+    }
 </style>

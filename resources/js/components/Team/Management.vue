@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
             <v-toolbar-items>
               <v-btn dark text @click.stop="closeViewTeam">
-                <v-icon>mdi-close</v-icon>
+                <v-icon color="#8DA90B">mdi-close</v-icon>
               </v-btn>
             </v-toolbar-items>
           </v-toolbar>
@@ -16,12 +16,15 @@
                 color="#8DA90B"
                 right
                 flat
-                class="custom-tabss"
               >
-              <v-tab >Arenas</v-tab>
-              <v-tab >Members</v-tab>
+              <v-tab class="custom-tabs">Arenas</v-tab>
+              <v-tab class="custom-tabs">Members</v-tab>
               <v-tab-item>
                 <v-data-table :items="arenaTeams" :headers="headers">
+                  <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                  <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
+                      <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
+                  </template>
                   <template v-slot:top>
                     <v-toolbar flat>
                       <v-tooltip color="#8DA90B" bottom>
@@ -55,10 +58,7 @@
                                                     </v-card>
                                             </v-dialog>
                                     </template>
-                                <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
-                                    <v-icon medium color="#8DA90B">{{header.icon}}</v-icon>
-                                    <span style="color:#8DA90B"> &nbsp;{{ header.text }} </span>
-                                </template>
+                                
                                 
                                 <template v-slot:[`item.team`]="{ item }">
                                     <v-edit-dialog
@@ -654,20 +654,7 @@ export default {
 };
 </script>
 <style scoped>
-.custom-tabs1{
-    width: 125px;
-    height: 28px;
-    border: 1px solid #8DA90B;
-    box-sizing: border-box;
-    border-radius: 30px;
-    margin-right: 5px;
-}
-a.custom-tabs1.v-tab--active{
-    background: #8DA90B !important;
-    color:white !important;
-}
-
-    .custom-color{
+   .custom-color{
     color:#8DA90B;
     }
 

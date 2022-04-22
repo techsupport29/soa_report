@@ -23,6 +23,15 @@
     margin-right: 10px;
 }
 
+.custom-tabs.v-tab.v-tab--active{
+  background: #8DA90B !important;
+  color:white !important;
+}
+
+a.custom-tabs.v-tab.v-tab{
+  text-decoration: none;
+}
+
 a.custom-tabs.v-tab.v-tab--active{
     background: #8DA90B !important;
     color:white !important;
@@ -36,7 +45,7 @@ a.custom-tabs.v-tab.v-tab--active{
     line-height: 24px;
     border-radius: 50%;
     margin-right:5px;
-    align-content: center;
+
 }
 
 .login-box {
