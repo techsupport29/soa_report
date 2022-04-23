@@ -292,7 +292,7 @@
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            class="mx-2 edit custom-btn"
+                                            class="edit custom-btn"
                                             icon
                                             dark
                                             v-bind="attrs"
@@ -311,7 +311,7 @@
                                             icon
                                             v-bind="attrs"
                                             v-on="on"
-                                            class="mx-2 delete custom-btn"
+                                            class="delete custom-btn"
                                             @click="deleteAccount(item.id)"
                                         >
                                             <i class="fa fa-trash"></i>

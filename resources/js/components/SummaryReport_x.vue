@@ -70,7 +70,7 @@
                                         :headers="headers"
                                         :items="summaryData"
                                     >
-                                        <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                        <template  style="font-size:16px;"  v-for="headerData in headers" v-slot:[`header.${headerData.value}`]="{ header }" >
                                             <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
                                             <span style="color:#8DA90B"> {{ header.text }} </span>
                                         </template>
@@ -157,7 +157,7 @@
                                         :headers="headers"
                                         :items="summaryData"
                                     >
-                                        <template  style="font-size:16px;"  v-for="header in headers" v-slot:[`header.${header.value}`]="{ header }">
+                                        <template  style="font-size:16px;"  v-for="headerData in headers" v-slot:[`header.${headerData.value}`]="{ header }">
                                             <v-icon medium color="#8DA90B">{{ header.icon }}</v-icon>
                                             <span style="color:#8DA90B"> {{ header.text }} </span>
                                         </template>
@@ -522,7 +522,7 @@ export default {
     }
 
     .vtabs{
-        width: 310px;
+        width: 320px;
         margin-left:80%;
     }
 </style>

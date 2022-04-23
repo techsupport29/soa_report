@@ -207,7 +207,6 @@
 
                             <v-text-field
                                     prepend-inner-icon="mdi-lock"
-                                    type="password"
                                     label="Password"
                                     placeholder="*****"
                                     outlined
@@ -215,6 +214,9 @@
                                     color="#8DA90B"
                                     :error-messages='passwordError'
                                     v-model="form.password"
+                                    :append-icon="value ? 'fas fa-eye' : 'fas fa-eye-slash'"
+                                    @click:append="() => (value = !value)"
+                                    :type="value ? 'password' : 'text'"
                             ></v-text-field>
 						</div>
 						<div class="modal-footer">
@@ -283,7 +285,7 @@
                     password: []
                 },
                 checkboxRole:'',
-
+                value: String,
 
 
 

@@ -2,6 +2,21 @@
 
 
 @section('content')
+<script>
+    function togglePass() {
+        var upass = document.getElementById('uPass');
+        var toggleBtn = document.getElementById('toggleBtn');
+        if (upass.type == "password") {
+            upass.type = "text";
+            toggleBtn.className = "fas fa-eye-slash fa-2x";
+        } else {
+            upass.type = "Password";
+            toggleBtn.className = "fas fa-eye fa-2x";
+        }
+    }
+
+</script>
+
 	<div class="container-login100" style="background-image: url('image/login_bg.png');">
   
         <div style="text-align:center;">
@@ -37,8 +52,12 @@
                                            name="password" required autocomplete="current-password"
                                            class="custom-login-input" 
                                            placeholder="Enter password" 
+                                           id="uPass"
                                     />
+                                    <i class="fas fa-eye fa-2x" id="toggleBtn" onclick="togglePass()" style="margin-left:135% ; cursor: pointer;"></i>
                                 </div>
+                                
+                                
                             </div>
                             <h5 class="forgot-password-login">Forgot Password??</h5>
                             
