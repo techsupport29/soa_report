@@ -110,8 +110,8 @@
                         <v-tabs
                             v-model="tab"
                             @change="handleChangeTab"
-                            class="vtabs"
                         >
+                            <v-spacer></v-spacer>
                             <v-tabs-slider color="#8fa900"></v-tabs-slider>
                             <v-tab
                                 v-for="item in items"

@@ -40,14 +40,13 @@
                             <!-- <v-btn>Export</v-btn> -->
                         </v-col>
                     </v-row>
-                    <v-card class="custom-tbl pa-5"    >
-                        <div >
+                    <v-card class="custom-tbl pa-5">
                         <v-tabs
                             v-model="tab"
                             align-with-title
                             @change="handleChangeTab"    
-                            class="vtabs"
                         >
+                            <v-spacer></v-spacer>
                             <v-tabs-slider color="#8DA90B"></v-tabs-slider>
                             <v-tab
                                 v-for="item in items"
@@ -59,8 +58,6 @@
                                <span style="font-size:12px; ">{{ item.text }}</span>
                             </v-tab>
                         </v-tabs>
-                        </div>
-                     
                         <v-card-text>
                             <v-tabs-items v-model="tab" >
                                 <v-tab-item id="deposit">
@@ -519,10 +516,5 @@ export default {
     .custom-tbl{
         border: 2px solid #8DA90B;
         border-radius: 20px;
-    }
-
-    .vtabs{
-        width: 320px;
-        margin-left:80%;
     }
 </style>
