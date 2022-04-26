@@ -1,4 +1,5 @@
 const computationSoa = (data) => {
+
     const totalMWBets = data.total_meron_wala;
     const drawCancelled = data.draw_cancelled;
     const totalPayoutPaid = data.total_payout_paid;
@@ -41,7 +42,9 @@ const computationSoa = (data) => {
         totalMWMobile,
         otherCommissionIntel05: totalOtherCommIntel,
         safetyFund: totalSafetyFund,
+        totalSafetyFund : totalSafetyFund,
         consolidatorsCommission: totalConsolComm,
+        totalConsolComm : totalConsolComm,
         paymentForOutstandingBalance: totalPayOutBal,
         ...data,
     };

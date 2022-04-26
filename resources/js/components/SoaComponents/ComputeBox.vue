@@ -14,7 +14,7 @@
                         <span class="custom-label">Total M/W Bets:</span>
                         <div
                             class="custom-span computation-span d-flex align-center"
-                            
+
                         >
                             <span>{{ moneyFormat(computation.totalMWBets) }}</span>
                         </div>
@@ -29,7 +29,7 @@
                             <span class="operation">+</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{ moneyFormat(computation.drawCancelled) }}</span>
                             </div>
@@ -45,7 +45,7 @@
                             <span class="operation">+</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{ moneyFormat(computation.draw) }}</span>
                             </div>
@@ -61,7 +61,7 @@
                             <span class="operation">-</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{ moneyFormat(computation.totalPayoutPaid) }}</span>
                             </div>
@@ -78,7 +78,7 @@
                             <span class="operation">-</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{ moneyFormat(computation.cdPaid) }}</span>
                             </div>
@@ -95,7 +95,7 @@
                             <div
                                 class="custom-span computation-span d-flex align-center"
                             >
-                               
+
                                 <span>{{ moneyFormat(computation.drawPaid) }}</span>
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                             <span class="operation">+</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{ moneyFormat(computation.unclaimed) }}</span>
                             </div>
@@ -239,7 +239,7 @@
                             <span class="operation">+</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{ moneyFormat(computation.cUnpaid) }}</span>
                             </div>
@@ -255,7 +255,7 @@
                             <span class="operation">-</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{ moneyFormat(computation.salesDeduction) }}</span>
                             </div>
@@ -288,7 +288,7 @@
                             <span class="operation">+</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{
                                     moneyFormat(computation.otherCommissionIntel05)
@@ -308,10 +308,10 @@
                             <span class="operation">-</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{
-                                    moneyFormat(computation.consolidatorsCommission)
+                                    moneyFormat(computation.totalConsolComm)
                                 }}</span>
                             </div>
                         </div>
@@ -326,9 +326,9 @@
                             <span class="operation">-</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
-                                <span>{{ moneyFormat(computation.safetyFund) }}</span>
+                                <span>{{ moneyFormat(computation.totalSafetyFund) }}</span>
                             </div>
                         </div>
                     </div>
@@ -344,7 +344,7 @@
                             <span class="operation">-</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{
                                     moneyFormat(computation.paymentForOutstandingBalance)
@@ -392,7 +392,7 @@
                         >
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{
                                     moneyFormat(computation.totalMWMobile)
@@ -410,7 +410,7 @@
                         >
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{
                                     moneyFormat(computation.drawMobile)
@@ -430,7 +430,7 @@
                             <span class="operation">+</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                              
+
                             >
                                 <span>{{ moneyFormat(computation.cashLoad) }}</span>
                             </div>
@@ -448,7 +448,7 @@
                             <span class="operation">-</span>
                             <div
                                 class="custom-span computation-span d-flex align-center"
-                                
+
                             >
                                 <span>{{
                                     moneyFormat(computation.cashWithdrawal)
