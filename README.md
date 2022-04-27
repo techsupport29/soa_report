@@ -6,6 +6,8 @@ composer latest version <br>
 nodejs Recommended version 
 
 
+## cloning 
+ git clone  https://github.com/techsupport29/soa_report.git
 ## Set Up 
 npm install <br>
 composer install <br>
