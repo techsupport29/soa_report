@@ -21,7 +21,9 @@ php artisan migrate
 php artisan serve
 
 ## To Watch/dev
-npm run dev
+npm run dev (for development stage)
+npm run prod (for production stage)
+npm run watch (for code complation)
 
 ## Seeder
 php artisan db:seed --class=DatebaseSeeder <br>
