@@ -23,39 +23,44 @@ class RoleSeeder extends Seeder
             [
                 'name' => 'Arena Details',
                 'link' => 'arena',
-                'icon' => 'fab fa-angular'
+                'icon' => 'fas fa-landmark'
             ],
             [
                 'name' => 'Summary Report',
                 'link' => 'summary',
                 'icon' => 'fa-book-reader'
             ],
-           
+
             [
                 'name' => 'User Management',
                 'link' => 'users',
                 'icon' => 'fa-users-cog'
-            ],        
+            ],
             [
                 'name' => 'Team Management',
                 'link' => 'teams',
                 'icon' => 'fa-users'
-            ],          
+            ],
             [
                 'name' => 'Configuration',
                 'link' => 'detailsconfig',
                 'icon' => 'fas fa-cogs'
             ],
             [
+                'name' => 'Group Management',
+                'link' => 'Group Management',
+                'icon' => 'fad fa-box-open'
+            ],
+            [
                 'name' => 'activitylogs',
                 'link' => 'activitylogs',
-                'icon' => 'fas fa-cogs'
+                'icon' => 'fas fa-comments'
             ],
-           
-        
+
+
         ];
 
-      
+
 
         foreach($roles as $role) {
             Role::create([
