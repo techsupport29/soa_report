@@ -11,6 +11,7 @@ nodejs Recommended version
 ## Set Up 
 npm install <br>
 composer install <br>
+php artisan key:generate (optional) <br>
 php artisan passport:install
 
 ## To Migrate database
