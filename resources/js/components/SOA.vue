@@ -12,7 +12,6 @@
                     <v-row>
                         <!-- DATE RANGE -->
                         <date-range
-
                             @depositReplenish="handleFilterDate"
                             :soaLists="soaLists"
                             @dates="getDates"
@@ -24,14 +23,29 @@
                             :page="page"
                         ></date-range>
                         <!-- Search Input -->
-                        <search-soa
+                         <v-col class="col-md-2">
+                            <v-text-field
+                                v-model="searchArenaParams"
+                                outlined
+                                dense
+                                label="Search"
+                                color="#8DA90B"
+                                clearable
+                            >
+                            <template v-slot:prepend-inner>        
+                                <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
+                            </template>
+                         </v-text-field>
+                        </v-col>
+                        <!-- <search-soa
                             @searchData="handleSearch"
+                            @searchParams = "searchParams"
                             :tab="tab"
                             :page="pageNumber"
                             :soaLists="soaLists"
                             :importWithStatus="importWithStatus"
                             ref="search"
-                        ></search-soa>
+                        ></search-soa> -->
                         <!-- Filter WIth/Without ARENA Details -->
                         <filter-arena
                             :arenaData="arenaData"
@@ -42,7 +56,6 @@
                             :fetchLists="handleFetchLists"
                             :soaLists="soaLists"
                             :importWithStatus="importWithStatus"
-
                             @noArenaDetails="noArenaDetails"
                             @filterText="filterText"
                             ref="filterArena"
@@ -64,6 +77,18 @@
                         <!-- FILE INPUT -->
                         <soa-input :soaLists="soaLists"></soa-input>
                     </v-row>
+                    <template>
+                        <v-btn
+                            rounded
+                            color="#8DA90B"
+                            dark
+                            class="mb-5 w-100"
+                            @click="searchCentralize()"
+                        >
+                        <i class="fa fa-search circle-icon"></i>
+                            S E A R C H
+                        </v-btn>
+                    </template>
                     <v-card class="custom-tbl">
                         <v-card-title>
                             <v-row>
@@ -108,11 +133,13 @@
                         </v-card-title>
                         <!-- TAB -->
                         <v-tabs
+                            color="#8DA90B"
                             v-model="tab"
                             @change="handleChangeTab"
+                            class="p-3"
                         >
                             <v-spacer></v-spacer>
-                            <v-tabs-slider color="#8fa900"></v-tabs-slider>
+                        
                             <v-tab
                                 v-for="item in items"
                                 class="custom-tabs"
@@ -495,7 +522,8 @@ import {
     moneyFormat,
     defineEmail,
     defineContact,
-} from "../utility";
+} 
+from "../utility";
 import VueHtml2pdf from "vue-html2pdf";
 import moment from "moment";
 import DateSOA from "./SoaComponents/DateSOA.vue";
@@ -617,6 +645,8 @@ export default {
             selectedDated:'',
             sendingEmail: false,
             EmailCC: [],
+            searchArenaParams:'',
+            tabParams:[],
         };
     },
     methods: {
@@ -769,8 +799,6 @@ export default {
             ) {
                 await this.importWithStatus(site);
             }
-
-
             else if (this.dates.length > 1 && !this.search) {
                 await this.loadDateRange();
             } else {
@@ -826,7 +854,9 @@ export default {
         getDates(value) {
             // $emit get dates from date-range component
             this.dates = value;
+            // console.log(this.dates);
         },
+       
         revertTab(item) {
             // $emit return to default menu tab (ongoing) from date-range component
             this.tab = item;
@@ -851,7 +881,7 @@ export default {
                 ));
         },
         async handleChangeTab(item) {
-
+            this.tabParams = item;
             // Swicth between menu tab: ongoing and converted
             // console.log('switch tab', this.selectsited);
 
@@ -887,12 +917,27 @@ export default {
         },
         handleSearching(item) {
             this.$refs.search.handleSearch(item);
+
         },
         handleSearch(items) {
             this.search = items.search;
             this.arenaData = items.searchData;
             this.total = items.total;
             this.page = items.page;
+        },
+
+       async searchCentralize(){
+            const tabItem = this.tab;
+            const to = moment(this.dates[1], "YYYY-MM-DD")
+            .add(1, "days")
+            .format("YYYY-MM-DD");
+
+            const status =  tabItem === 'ongoing' || (!tabItem && this.tab ==='ongoing') ? null : 'done'
+            const {data} = await axios.get(`api/searchSoa?&search=${this.searchArenaParams}&status=${status}&dateFrom=${this.dates[0]}&dateTo=${to}&page=${this.page}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}`);
+            
+            this.arenaData = data.data;
+            console.log('data',data);
+
         },
         noArenaDetails(item) {
             this.arenaData = item.noArenaData;
@@ -1001,7 +1046,9 @@ export default {
 
         window.addEventListener("scroll", this.handleScroll);
     },
+    
 };
+
 </script>
 <style scoped>
 

@@ -1,5 +1,5 @@
 <template lang="">
-    <v-col class="col-md-3" v-show="$gate.isAdmin()">
+    <v-col class="col-md-3">
         <v-file-input
             outlined
             dense

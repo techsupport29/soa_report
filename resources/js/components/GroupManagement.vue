@@ -348,7 +348,7 @@
                             </tr>
                         </template>
                     </v-data-table>
-
+AddArenaSearch
                     <v-card-actions class="justify-end">
                         <v-btn
                             :disabled="selectedArena < 1 ? true : false"
