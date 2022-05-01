@@ -31,6 +31,8 @@
                                 label="Search"
                                 color="#8DA90B"
                                 clearable
+                                @click:clear="handleClear"
+                                v-on:keyup.enter="searchCentralize()"
                             >
                             <template v-slot:prepend-inner>        
                                 <v-icon outlined dark color="#8DA90B">mdi-magnify</v-icon> 
@@ -62,7 +64,6 @@
                         ></filter-arena>
 
                         <filter-site
-
                             :loadDateRange="loadDateRange"
                             :page="pageNumber"
                             :tab="tab"
@@ -758,7 +759,7 @@ export default {
         },
         async handleFetchLists(site) {
              if (this.dates.length < 1 && this.search) {
-                await this.handleSearching();
+                await this.searchCentralize();
             } else if (
                 this.filteredText === "noArenaDetails" &&
                 this.dates.length < 1 &&
@@ -776,22 +777,23 @@ export default {
                 this.dates.length > 1 &&
                 !this.search){
 
-                    await this.soaLists(site, this.dates);
-            }else if ( site &&
+                    await this.searchCentralize(site, this.dates);
+            }
+            else if ( site &&
                 this.tab === "converted" &&
                 this.dates.length > 1 &&
                 !this.search){
-                    await this.importWithStatus(site, this.dates);
+                    await this.soaLists(site, this.dates);
             }
-              else if (
-                site &&
+            else if (
                 this.tab === "ongoing" &&
                 this.dates.length < 1 &&
                 !this.search
             ) {
 
-                await this.soaLists(site);
-            } else if (
+                await this.searchCentralize(site);
+            } 
+            else if (
                 site &&
                 this.tab === "converted" &&
                 this.dates.length < 1 &&
@@ -800,7 +802,7 @@ export default {
                 await this.importWithStatus(site);
             }
             else if (this.dates.length > 1 && !this.search) {
-                await this.loadDateRange();
+                await this.searchCentralize();
             } else {
                 // console.log("SEARCH", this.search);
             }
@@ -844,6 +846,11 @@ export default {
             // $emit clear dates from date-range component
             this.showClear = value;
         },
+
+        async handleClear(){
+            this.tab === 'ongoing' ? await this.soaLists() : await this.importWithStatus()
+        }, 
+
         handleSelected(value) {
             // $emit Selected imports from table-soa component
             this.selected = value;
@@ -926,18 +933,18 @@ export default {
             this.page = items.page;
         },
 
-       async searchCentralize(){
+       async searchCentralize(site){
             const tabItem = this.tab;
             const to = moment(this.dates[1], "YYYY-MM-DD")
             .add(1, "days")
             .format("YYYY-MM-DD");
 
             const status =  tabItem === 'ongoing' || (!tabItem && this.tab ==='ongoing') ? null : 'done'
-            const {data} = await axios.get(`api/searchSoa?&search=${this.searchArenaParams}&status=${status}&dateFrom=${this.dates[0]}&dateTo=${to}&page=${this.page}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}`);
+            const {data} = await axios.get(`api/searchSoa?&search=${this.searchArenaParams}&site=${site}&status=${status}&dateFrom=${this.dates[0]}&dateTo=${to}&page=${this.page}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}`);
             
             this.arenaData = data.data;
             console.log('data',data);
-
+            return data;
         },
         noArenaDetails(item) {
             this.arenaData = item.noArenaData;

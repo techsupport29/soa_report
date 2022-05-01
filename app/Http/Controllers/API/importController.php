@@ -113,7 +113,7 @@ class importController extends Controller
     if($request->has('per_page')) {
 
         $perPage = $request->input('per_page');
-
+        
         if($request->has('site') && $site !== 'all') {
             if($request->has('dateFrom') && $request->has('dateTo')) {
                 return $soa->where('refNo','like', '_'.$site.'%')->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
@@ -138,7 +138,8 @@ class importController extends Controller
 
     public function searchSoa(Request $request) {
 
-        $status = $request->query('status') == "null" ? null : 'done';  
+        $status = $request->query('status') == "null" ? null : 'done';
+        $site = $request->query('site');
         $from = $request->query('dateFrom');
         $to = $request->query('dateTo');
         $soaSearch = import::with(['BankDetails',
@@ -151,40 +152,72 @@ class importController extends Controller
         
         if (($request->query('search') != null && $request->query('search') != "null") && ($from === "undefined" && $to === "Invalid date")){
             if($request->has('per_page')) {
-                $perPage = $request->input('per_page');
-                return $soaSearch->where('refNo','like', '%'.$request->query('search').'%')
-                ->orWhere('arena_name','like', '%'.$request->query('search').'%')
-                ->orWhere('areaCode','like', '%'.$request->query('search').'%')->paginate($perPage);
-            }else {
-                return $soaSearch->paginate($perPage);
                 
+                $perPage = $request->input('per_page');
+                if($request->has('site') && $site !== 'all') { 
+                    return $soaSearch->where('refNo','like', '_'.$site.'%')->Where('arena_name','like', '%'.$request->query('search').'%')
+                                    ->paginate($perPage);
+                }elseif($request->has('site')  && $site == 'all'){
+                    return $soaSearch->Where('arena_name','like', '%'.$request->query('search').'%')
+                                    ->orWhere('areaCode','like', '%'.$request->query('search').'%')->paginate($perPage);
+                }else{
+                    return $soaSearch->paginate($perPage);
+                }
+            }else {
+                return $soaSearch->get();  
             }
         }
         elseif((is_null($request->query('search')) == true || $request->query('search') == "null") && ($from !== "undefined" && $to !== "Invalid date")){
             if($request->has('per_page')) {
                 $perPage = $request->input('per_page');
-                if($request->has('dateFrom') && $request->has('dateTo')){
-                    return $soaSearch->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
+                if($request->has('site') && $site !== 'all') { 
+                    if($request->has('dateFrom') && $request->has('dateTo')){
+                        return $soaSearch->where('refNo','like', '_'.$site.'%')->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
+                    }else{
+                        return $soaSearch->paginate($perPage);
+                    }
+                }elseif($request->has('site')  && $site == 'all'){
+                    if($request->has('dateFrom') && $request->has('dateTo')){
+                        return $soaSearch->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
+                    }else{
+                        return $soaSearch->paginate($perPage);
+                    }
                 }else{
-                    return $soaSearch->paginate($perPage);
+
                 }
             }else {
-                return $soaSearch->paginate($perPage);
+                return $soaSearch->get();
             }
         }
         elseif(($request->query('search') != null && $request->query('search') != "null") && ($from !== "undefined" && $to !== "Invalid date")){
             if($request->has('per_page')) {
                 $perPage = $request->input('per_page');
-                return $soaSearch->where('areaCode','like', '%'.$request->query('search').'%')
+                return $soaSearch->Where('arena_name','like', '%'.$request->query('search').'%')
+                                 ->whereBetween('date_of_soa',[$from, $to])
+                                 ->orWhere('areaCode','like', '%'.$request->query('search').'%')
                                  ->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
             }else {
-                return $soaSearch->paginate($perPage);
+                return $soaSearch->get();
             }
         }
         else{
+
+            // if($request->has('per_page')) {
+            //     $perPage = $request->input('per_page');
+            //     return $soaSearch->paginate($perPage);
+            // } else {
+            //     return $soaSearch->get();
+            // }
+
             if($request->has('per_page')) {
                 $perPage = $request->input('per_page');
-                return $soaSearch->paginate($perPage);
+                if($request->has('site') && $site !== 'all') {
+                    return $soaSearch->where('refNo','like', '_'.$site.'%')->paginate($perPage);
+                } else if ($request->has('site')  && $site == 'all') {
+                    return $soaSearch->paginate($perPage);
+                } else {
+                    return $soaSearch->get();
+                }
             } else {
                 return $soaSearch->get();
             }
