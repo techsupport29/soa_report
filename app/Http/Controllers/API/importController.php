@@ -261,7 +261,7 @@ class importController extends Controller
             'arenaDetails.EmailDetails',
             'arenaDetails.ContactDetails',
             'arenaDetails.UserTeam.userDetails.positionDetails'
-        ]);
+    ]);
         $perPage = $request->query('per_page');
         $site = $request->query('site');
         if($request->has('site') && $site !== 'all') {

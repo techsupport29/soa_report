@@ -388,9 +388,9 @@
                                                                 'FR'
                                                             "
                                                             class="fr-notif"
-                                                            >*Please note that the reflected total commision is already
+                                                            ><i>*Please note that the reflected total commision is already
                                                             net of the 2% withholding tax.
-                                                            Please see attached acknowledgement receipt for the details.</span
+                                                            Please see attached acknowledgement receipt for the details.</i></span
                                                         >
                                                     </v-row>
 
