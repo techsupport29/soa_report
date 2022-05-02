@@ -1,5 +1,5 @@
 const computationSoa = (data) => {
-
+   
     const totalMWBets = data.total_meron_wala;
     const drawCancelled = data.draw_cancelled;
     const totalPayoutPaid = data.total_payout_paid;
@@ -27,6 +27,8 @@ const computationSoa = (data) => {
         parseFloat(consolidatorsCommission) + parseFloat(consolCommMob);
     const totalPayOutBal =
         parseFloat(paymentForOutstandingBalance) + parseFloat(payOutsBalMob);
+    const lessWithHoldingTax = parseFloat(totalCommission) * 0.02;
+    const netCommWithTax = parseFloat(totalCommission) - parseFloat(lessWithHoldingTax);
     const computation = {
         totalMWBets,
         drawCancelled,
@@ -46,6 +48,8 @@ const computationSoa = (data) => {
         consolidatorsCommission: totalConsolComm,
         totalConsolComm : totalConsolComm,
         paymentForOutstandingBalance: totalPayOutBal,
+        lessWithHoldingTax : lessWithHoldingTax,
+        netCommWithTax : netCommWithTax,
         ...data,
     };
 

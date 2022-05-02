@@ -389,7 +389,7 @@
                                                             "
                                                             class="fr-notif"
                                                             ><i>*Please note that the reflected total commision is already
-                                                            net of the 2% withholding tax.
+                                                            net of withholding tax.
                                                             Please see attached acknowledgement receipt for the details.</i></span
                                                         >
                                                     </v-row>
@@ -796,7 +796,7 @@ export default {
                 this.tab === "converted" &&
                 this.dates.length > 1 &&
                 !this.search){
-                    await this.soaLists(site, this.dates);
+                    await this.searchCentralize(site, this.dates);
             }
             else if (
                 this.tab === "ongoing" &&
@@ -861,7 +861,7 @@ export default {
         },
 
         async handleClear(){
-            this.tab === 'ongoing' ? await this.soaLists() : await this.importWithStatus()
+            this.tab === 'ongoing' ? await this.searchCentralize() : await this.importWithStatus()
         }, 
 
         handleSelected(value) {
