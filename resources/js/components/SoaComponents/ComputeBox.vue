@@ -444,7 +444,7 @@
                         >
                             <span class="operation">=</span>
                             <div
-                                class="custom-span computation-span d-flex align-center"
+                                class="custom-span computation-span d-flex align-center computation-total"
 
                             >
                                 <span>{{ moneyFormat(computation.netCommWithTax) }}</span>
