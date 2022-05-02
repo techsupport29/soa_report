@@ -380,18 +380,6 @@
                                                                 depRep.depositReplenishText
                                                             "
                                                         />
-                                                         <span
-                                                            v-if="
-                                                                depRep
-                                                                    .depositReplenishText
-                                                                    .dateText ===
-                                                                'FR'
-                                                            "
-                                                            class="fr-notif"
-                                                            ><i>*Please note that the reflected total commision is already
-                                                            net of withholding tax.
-                                                            Please see attached acknowledgement receipt for the details.</i></span
-                                                        >
                                                     </v-row>
 
                                                     <SignatoryBox
@@ -400,7 +388,6 @@
                                                             arenaDetails
                                                         "
                                                     />
-
                                                 </v-card-text>
                                             </section>
                                         </vue-html2pdf>
@@ -796,7 +783,7 @@ export default {
                 this.tab === "converted" &&
                 this.dates.length > 1 &&
                 !this.search){
-                    await this.searchCentralize(site, this.dates);
+                    await this.soaLists(site, this.dates);
             }
             else if (
                 this.tab === "ongoing" &&
@@ -861,7 +848,7 @@ export default {
         },
 
         async handleClear(){
-            this.tab === 'ongoing' ? await this.searchCentralize() : await this.importWithStatus()
+            this.tab === 'ongoing' ? await this.soaLists() : await this.importWithStatus()
         }, 
 
         handleSelected(value) {
@@ -953,7 +940,7 @@ export default {
             .format("YYYY-MM-DD");
 
             const status =  tabItem === 'ongoing' || (!tabItem && this.tab ==='ongoing') ? null : 'done'
-            const {data} = await axios.get(`api/searchSoa?&search=${this.searchArenaParams}&site=${site}&status=${status}&dateFrom=${this.dates[0]}&dateTo=${to}&page=${this.page}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}`);
+            const {data} = await axios.get(`api/searchSoa?&search=${this.searchArenaParams}&site=${site}&status=${status}&dateFrom=${this.dates[0]}&dateTo=${to}&page=${this.pageNumber}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}`);
             
             this.arenaData = data.data;
             console.log('data',data);
