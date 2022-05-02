@@ -380,6 +380,18 @@
                                                                 depRep.depositReplenishText
                                                             "
                                                         />
+                                                         <span
+                                                            v-if="
+                                                                depRep
+                                                                    .depositReplenishText
+                                                                    .dateText ===
+                                                                'FR'
+                                                            "
+                                                            class="fr-notif"
+                                                            >*Please note that the reflected total commision is already
+                                                            net of the 2% withholding tax.
+                                                            Please see attached acknowledgement receipt for the details.</span
+                                                        >
                                                     </v-row>
 
                                                     <SignatoryBox
@@ -388,6 +400,7 @@
                                                             arenaDetails
                                                         "
                                                     />
+
                                                 </v-card-text>
                                             </section>
                                         </vue-html2pdf>

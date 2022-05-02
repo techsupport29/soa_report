@@ -356,7 +356,7 @@
                         class="d-flex align-center justify-end computation-wrapper_field"
                     >
                         <span class="font-weight-bold custom-label ctotal-label"
-                            >Total Commission:</span
+                            >Total Commission.<font color="red">*</font></span
                         >
                         <div
                             class="d-flex align-center computation-container_field bordertop"
