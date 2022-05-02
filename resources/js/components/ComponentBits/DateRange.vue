@@ -29,7 +29,7 @@
                         <v-icon outlined dark color="#8DA90B">mdi-calendar</v-icon> 
                     </template>
                     
-                    </v-text-field>
+                </v-text-field>
             </template>
             <v-date-picker
                 v-model="dates"
@@ -74,7 +74,7 @@ export default {
         menu: false,
         dates: [],
         dateRangeTxt: '',
-        loading: false
+        loading: false,
       
     }),
     methods: {
@@ -82,57 +82,56 @@ export default {
             console.log(dates)
             this.$refs.menu.save(dates);
             if(dates.length === 1) dates.push(dates[0])
-            
-            if(dates[1]){
-                this.$emit('showClearBtn', true)
-                this.loadDateRange();
-                this.$emit('dates', dates)
-            }else{
-                this.$emit('showClearBtn', false)
+            this.$emit('dates', dates)
+            // if(dates[1]){
+            //     this.$emit('showClearBtn', true)
+            //     this.loadDateRange();
+            //     this.$emit('dates', dates)
+            // }else{
+            //     this.$emit('showClearBtn', false)
 
-            }
-           
+            // }
         },
         handleClear() {
             this.menu = false;
             this.$refs.menu.save([]);
             this.$emit('dates', [])
             this.$emit('tabs', 'ongoing')
-             this.$emit('showClearBtn', false)
+            this.$emit('showClearBtn', false)
             this.soaLists();
         },
 
-        async loadDateRange(tabItem, page, perPage) {
-            const status =  tabItem === 'ongoing' || (!tabItem && this.tab ==='ongoing') ? null : 'done'
-            // DATE RANGE
-            const endDate = moment(this.dates[1], "YYYY-MM-DD")
-                .add(1, "days")
-                .format("YYYY-MM-DD");
-            const {data} = await axios.get(
-                `api/importDateRange/${this.dates[0]}/${endDate}?page=${page}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}&status=${status}`
-            );
+        // async loadDateRange(tabItem, page, perPage) {
+        //     const status =  tabItem === 'ongoing' || (!tabItem && this.tab ==='ongoing') ? null : 'done'
+        //     // DATE RANGE
+        //     const endDate = moment(this.dates[1], "YYYY-MM-DD")
+        //         .add(1, "days")
+        //         .format("YYYY-MM-DD");
+        //     const {data} = await axios.get(
+        //         `api/importDateRange/${this.dates[0]}/${endDate}?page=${page}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}&status=${status}`
+        //     );
 
-            const depositReplenish = data.data.map(dp => {
-                 const arenaName =
-                dp.arena_name.indexOf("~") > -1
-                ? dp.arena_name.replace(/\~/g, "/")
-                : dp.arena_name;
+        //     const depositReplenish = data.data.map(dp => {
+        //          const arenaName =
+        //         dp.arena_name.indexOf("~") > -1
+        //         ? dp.arena_name.replace(/\~/g, "/")
+        //         : dp.arena_name;
 
-                const obj = {
-                    ...dp,
-                    arena_name: arenaName,
-                };
+        //         const obj = {
+        //             ...dp,
+        //             arena_name: arenaName,
+        //         };
 
-                return obj
-            })
+        //         // return obj
+        //     })
 
-            this.$emit('depositReplenish', {
-                depositReplenish: toOrderBy(depositReplenish),
-                page: data.current_page,
-                total: data.total,
-                numberOfPages: data.last_page
-            })
-        },
+        //     this.$emit('depositReplenish', {
+        //         depositReplenish: toOrderBy(depositReplenish),
+        //         page: data.current_page,
+        //         total: data.total,
+        //         numberOfPages: data.last_page
+        //     })
+        // },
     },
     computed: {
             dateRangeText: {

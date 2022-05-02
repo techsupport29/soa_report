@@ -155,3 +155,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::get('groupSoaSummaryReport', [App\Http\Controllers\API\OperatorGroupController::class, 'groupSoaSummaryReport']);
     Route::post('addArenaSearch', [App\Http\Controllers\API\OperatorGroupController::class, 'AddArenaSearch']);
     
+
+
+
+    //search centralized
+
+    Route::post('centralizeSearch', [App\Http\Controllers\API\ImportController::class, 'searchCentralize']);

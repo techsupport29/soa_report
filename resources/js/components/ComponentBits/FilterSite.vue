@@ -28,6 +28,7 @@ export default {
         importWithStatus: Function,
         tab: String,
         dates: Array,
+        searchCentralize: Function,
     },
     data: () => ({
         defaultSelected: {
