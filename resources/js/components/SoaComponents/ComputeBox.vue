@@ -500,12 +500,14 @@
                             <div
                                 class="custom-span computation-span d-flex align-center overtotal"
                             >
+                             <!-- depositReplenishTxt.totalText = "Replenish" ?
+                                moneyFormat(computation.totalReplenish): -->
+                                <span class="ctotal-text">{{  
+                                    moneyFormat(computation.totalDepositReplenish)
+                                }}</span>
                                 <!-- <span class="ctotal-text">{{
                                     moneyFormat(computation.depositReplenish)
                                 }}</span> -->
-                                <span class="ctotal-text">{{
-                                    moneyFormat(computation.totalDepositReplenish)
-                                }}</span>
                             </div>
                         </div>
                     </div>
