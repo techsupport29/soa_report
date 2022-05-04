@@ -29,6 +29,9 @@ const computationSoa = (data) => {
         parseFloat(paymentForOutstandingBalance) + parseFloat(payOutsBalMob);
     const lessWithHoldingTax = parseFloat(totalCommission) * 0.02;
     const netCommWithTax = parseFloat(totalCommission) - parseFloat(lessWithHoldingTax);
+    const totalDepositReplenish = parseFloat(depositReplenish) - parseFloat(netCommWithTax);
+    // const depositReplenishWithTax = parseFloat(depositReplenish) 
+    console.log('data', data);
     const computation = {
         totalMWBets,
         drawCancelled,
@@ -50,6 +53,7 @@ const computationSoa = (data) => {
         paymentForOutstandingBalance: totalPayOutBal,
         lessWithHoldingTax : lessWithHoldingTax,
         netCommWithTax : netCommWithTax,
+        totalDepositReplenish: totalDepositReplenish,
         ...data,
     };
 

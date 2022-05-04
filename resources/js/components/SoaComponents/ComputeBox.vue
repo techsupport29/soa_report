@@ -500,8 +500,11 @@
                             <div
                                 class="custom-span computation-span d-flex align-center overtotal"
                             >
-                                <span class="ctotal-text">{{
+                                <!-- <span class="ctotal-text">{{
                                     moneyFormat(computation.depositReplenish)
+                                }}</span> -->
+                                <span class="ctotal-text">{{
+                                    moneyFormat(computation.totalDepositReplenish)
                                 }}</span>
                             </div>
                         </div>
