@@ -27,8 +27,12 @@ const computationSoa = (data) => {
         parseFloat(consolidatorsCommission) + parseFloat(consolCommMob);
     const totalPayOutBal =
         parseFloat(paymentForOutstandingBalance) + parseFloat(payOutsBalMob);
-    const lessWithHoldingTax = parseFloat(totalCommission) * 0.02;
+    const lessWithHoldingTax = parseFloat(totalCommission) *0.2 * 0.02;
     const netCommWithTax = parseFloat(totalCommission) - parseFloat(lessWithHoldingTax);
+    const totalDepositReplenish = parseFloat(data.netWinLoss) - parseFloat(netCommWithTax);
+    // const totalReplenish = parseFloat(depositReplenish) + parseFloat(lessWithHoldingTax);
+    // const depositReplenishWithTax = parseFloat(depositReplenish) 
+    console.log('data', data);
     const computation = {
         totalMWBets,
         drawCancelled,
@@ -50,6 +54,8 @@ const computationSoa = (data) => {
         paymentForOutstandingBalance: totalPayOutBal,
         lessWithHoldingTax : lessWithHoldingTax,
         netCommWithTax : netCommWithTax,
+        totalDepositReplenish : totalDepositReplenish,
+        // totalReplenish: totalReplenish,
         ...data,
     };
 
