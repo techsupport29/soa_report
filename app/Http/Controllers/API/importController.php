@@ -192,10 +192,16 @@ class importController extends Controller
         elseif(($request->query('search') != null && $request->query('search') != "null") && ($from !== "undefined" && $to !== "Invalid date")){
             if($request->has('per_page')) {
                 $perPage = $request->input('per_page');
-                return $soaSearch->Where('arena_name','like', '%'.$request->query('search').'%')
-                                 ->whereBetween('date_of_soa',[$from, $to])
-                                 ->orWhere('areaCode','like', '%'.$request->query('search').'%')
-                                 ->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
+                if($request->has('site') && $site !== 'all') {     
+                    return $soaSearch->where('refNo','like', '_'.$site.'%')
+                                        ->Where('arena_name','like', '%'.$request->query('search').'%')
+                                        ->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
+                }elseif($request->has('site')  && $site == 'all'){
+                    return $soaSearch->orWhere('arena_name','like', '%'.$request->query('search').'%')
+                                     ->whereBetween('date_of_soa',[$from, $to])->paginate($perPage);
+                }else{
+                    return $soaSearch->paginate($perPage);
+                }
             }else {
                 return $soaSearch->get();
             }

@@ -356,7 +356,7 @@
                         class="d-flex align-center justify-end computation-wrapper_field"
                     >
                         <span class="font-weight-bold custom-label ctotal-label"
-                            >Total Commission:</span
+                            >Total Commission.<font color="red">*</font></span
                         >
                         <div
                             class="d-flex align-center computation-container_field bordertop"
@@ -376,7 +376,7 @@
         </v-row>
         <v-row class="row-compute">
             <div class="d-flex mobile-computebox">
-                <div>
+                <div style="margin-top: 55px; padding: 0;">
                     <div
                         class="d-flex justify-center align-center kiosk-mobile_text"
                     >
@@ -419,7 +419,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="ma-0 pa-0" style="margin: 0; padding: 0">
+                <div class="pa-0" style=" margin-left:-30px; padding: 0">
+                    <div
+                        class="d-flex align-center justify-end computation-wrapper_field"
+                    >
+                        <span class="custom-label">LESS: Withholding Tax:</span>
+                        <div
+                            class="d-flex align-center computation-container_field"
+                        >
+                            <span class="operation">-</span>
+                            <div
+                                class="custom-span computation-span d-flex align-center"
+                            >
+                                <span>{{ moneyFormat(computation.lessWithHoldingTax) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="d-flex align-center justify-end computation-wrapper_field"
+                    >
+                        <span class="font-weight-bold custom-label">Operator's Commission Net of Withholding Tax</span>
+                        <div
+                            class="d-flex align-center computation-container_field"
+                        >
+                            <span class="operation">=</span>
+                            <div
+                                class="custom-span computation-span d-flex align-center"
+
+                            >
+                                <span>{{ moneyFormat(computation.netCommWithTax) }}</span>
+                            </div>
+                        </div>
+                    </div>
                     <div
                         class="d-flex align-center justify-end computation-wrapper_field"
                     >
