@@ -854,7 +854,8 @@ export default {
         handleSelected(value) {
             // $emit Selected imports from table-soa component
             this.selected = value;
-            console.log("SELECTED", value);
+            this.printReadyProgress = value.length;
+            // console.log("SELECTED", value);
             if (value.length < 1)
                 (this.signsArray = []), (this.printReadyProgress = 0);
         },
