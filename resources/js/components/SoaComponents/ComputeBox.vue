@@ -291,7 +291,7 @@
 
                             >
                                 <span>{{
-                                    moneyFormat(computation.otherCommissionIntel05)
+                                    moneyFormat(computation.otherCommissionIntel0)
                                 }}</span>
                             </div>
                         </div>
@@ -502,8 +502,11 @@
                             >
                              <!-- depositReplenishTxt.totalText = "Replenish" ?
                                 moneyFormat(computation.totalReplenish): -->
-                                <span class="ctotal-text">{{  
+                                <!-- <span class="ctotal-text">{{  
                                     moneyFormat(computation.totalDepositReplenish)
+                                }}</span> -->
+                                <span class="ctotal-text">{{  
+                                    moneyFormat(computation.SampleCompute)
                                 }}</span>
                                 <!-- <span class="ctotal-text">{{
                                     moneyFormat(computation.depositReplenish)
