@@ -499,6 +499,7 @@
                             <span class="operation">=</span>
                             <div
                                 class="custom-span computation-span d-flex align-center overtotal"
+                                v-if="computation.exempted === 'Exempted'"
                             >
                              <!-- depositReplenishTxt.totalText = "Replenish" ?
                                 moneyFormat(computation.totalReplenish): -->
@@ -506,12 +507,28 @@
                                     moneyFormat(computation.totalDepositReplenish)
                                 }}</span> -->
                                 <span class="ctotal-text">{{  
-                                    moneyFormat(computation.SampleCompute)
+                                    moneyFormat(computation.Exempted)
                                 }}</span>
                                 <!-- <span class="ctotal-text">{{
                                     moneyFormat(computation.depositReplenish)
                                 }}</span> -->
                             </div>
+                            <div
+                                class="custom-span computation-span d-flex align-center overtotal"
+                                v-else
+                            >
+                             <!-- depositReplenishTxt.totalText = "Replenish" ?
+                                moneyFormat(computation.totalReplenish): -->
+                                <!-- <span class="ctotal-text">{{  
+                                    moneyFormat(computation.totalDepositReplenish)
+                                }}</span> -->
+                                <span class="ctotal-text">{{  
+                                    moneyFormat(computation.notExempted)
+                                }}</span>
+                                <!-- <span class="ctotal-text">{{
+                                    moneyFormat(computation.depositReplenish)
+                                }}</span> -->
+                            </div>                            
                         </div>
                     </div>
                 </div>
