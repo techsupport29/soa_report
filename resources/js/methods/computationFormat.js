@@ -38,14 +38,16 @@ const computationSoa = (data) => {
 
     const netCommWithTax = parseFloat(totalCommission) - parseFloat(lessWithHoldingTax);
     const totalDepositReplenish = parseFloat(data.netWinLoss) - parseFloat(netCommWithTax);
-    const SampleCompute = parseFloat(data.netWinLoss) - parseFloat(data.totalCommission) + parseFloat(data.cashLoad) - parseFloat(data.cashWithdrawal);
+    const Exempted = parseFloat(data.netWinLoss) - parseFloat(data.totalCommission) + parseFloat(data.cashLoad) - parseFloat(data.cashWithdrawal);
+    const notExempted = parseFloat(data.netWinLoss) + parseFloat(data.cashLoad) - parseFloat(data.cashWithdrawal);
     // const totalReplenish = parseFloat(depositReplenish) + parseFloat(lessWithHoldingTax);
     // const depositReplenishWithTax = parseFloat(depositReplenish)
 
 
     console.log('data', data);
     const computation = {
-        SampleCompute,
+        notExempted,
+        Exempted,
         totalMWBets,
         drawCancelled,
         totalPayoutPaid,
