@@ -172,7 +172,7 @@ export default {
                 }).then((result) => {
                 if (result.isConfirmed) {
                     axios.delete('api/deleteOneSoa/'+ id).then((data)=>{
-                        console.log('data',data)
+                        // console.log('data',data)
                         this.$emit('loading', true)
                         this.soaLists();
                         this.$emit('loading', false)
@@ -197,7 +197,7 @@ export default {
                         self.selected.push(item);
                     }
                 });
-                console.log('ok',this.selected)
+                // console.log('ok',this.selected)
                 this.$emit('selectedSoa', this.selected)
             } else {
                 this.selected = []
@@ -205,7 +205,7 @@ export default {
             };
         },
         resetTable(){
-            console.log('xxxRESETxxxx')
+            // console.log('xxxRESETxxxx')
             this.selected = []
         },
         singleSelected(item){
@@ -232,7 +232,7 @@ export default {
         },
 
         handlePageOptions(e){
-            console.log('handlePageOptions',e.itemsPerPage)
+            // console.log('handlePageOptions',e.itemsPerPage)
 
             e.itemsPerPage && localStorage.setItem('itemsPerPage', e.itemsPerPage)
             this.$emit('pageOption', e)
@@ -245,7 +245,7 @@ export default {
 
         },
         pageOptions(){
-            console.log('pageOptions')
+            // console.log('pageOptions')
             // this.paginationOption = {
             //   ...this.paginationOption,
             //   // page: parseInt(localStorage.getItem('page')),
