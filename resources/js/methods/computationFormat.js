@@ -46,7 +46,7 @@ const computationSoa = (data) => {
     // const depositReplenishWithTax = parseFloat(depositReplenish)
 
 
-    console.log('data', data);
+    // console.log('data', data);
     const computation = {
         totalMWBets,
         drawCancelled,
