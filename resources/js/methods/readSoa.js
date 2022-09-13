@@ -72,7 +72,7 @@ const readSoa = (event, isExcel, withSite) => {
             // Select only specific excel sheet
             const filteredWS = ws.filter(function (value, index, arr) {
                 const accReportComb = "Accounts Report Combined";
-                const summaryRep = "Summary Report";
+                const summaryRep = "Summary Report New";
                 return (
                     camelCase(value) === camelCase(accReportComb) ||
                     camelCase(value) === camelCase(summaryRep)
@@ -293,6 +293,8 @@ const readSoa = (event, isExcel, withSite) => {
                         const safetyFund = rest.safetyFund;
                         const paymentForOutstandingBalance =
                             rest.paymentForOutstandingBalance;
+                        const otherDeductiblesFromCommission =
+                            rest.otherDeductiblesFromCommission;    
                         const totalCommission = rest.totalCommission;
                         const cashLoad = rest.cashLoad;
                         const cashWithdrawal =  rest.cashWithdrawal;
@@ -352,6 +354,7 @@ const readSoa = (event, isExcel, withSite) => {
                             consolidatorsCommission,
                             safetyFund,
                             paymentForOutstandingBalance,
+                            otherDeductiblesFromCommission,
                             totalCommission,
                             total_win_mobile: totalMWMobile,
                             draw_mobile: totalDrawMobile,
