@@ -9,17 +9,17 @@
             </div>
         </div>
         <div class="d-flex align-center fieldDateNumber">
+            <span class="custom-label">Date&nbsp;of&nbsp;Event:</span>
+            <div class="custom-span d-flex align-center">
+                <span class="refdate-text">{{ dateEvent }}</span>
+            </div>
+        </div>        
+        <div class="d-flex align-center fieldDateNumber">
             <span class="custom-label"
                 >Date&nbsp;of&nbsp;{{ depositReplenishText.dateText }}:</span
             >
             <div class="custom-span d-flex align-center">
                 <span class="refdate-text">{{ dateSoa }}</span>
-            </div>
-        </div>
-        <div class="d-flex align-center fieldDateNumber">
-            <span class="custom-label">Date&nbsp;of&nbsp;Event:</span>
-            <div class="custom-span d-flex align-center">
-                <span class="refdate-text">{{ dateEvent }}</span>
             </div>
         </div>
     </v-col>
