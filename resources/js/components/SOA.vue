@@ -944,7 +944,7 @@ export default {
             const {data} = await axios.get(`api/searchSoa?&search=${this.searchArenaParams}&site=${site}&status=${status}&dateFrom=${this.dates[0]}&dateTo=${to}&page=${this.pageNumber}&per_page=${parseInt(localStorage.getItem('itemsPerPage'))}`);
             
             this.arenaData = data.data;
-            console.log('data',data);
+            // console.log('data',data);
             return data;
         },
         noArenaDetails(item) {
