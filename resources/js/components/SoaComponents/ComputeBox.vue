@@ -355,6 +355,26 @@
                     <div
                         class="d-flex align-center justify-end computation-wrapper_field"
                     >
+                        <span class="custom-label"
+                            >Other Deductibles from Commission:</span
+                        >
+                        <div
+                            class="d-flex align-center computation-container_field"
+                        >
+                            <span class="operation">-</span>
+                            <div
+                                class="custom-span computation-span d-flex align-center"
+
+                            >
+                                <span>{{
+                                    moneyFormat(computation.otherDeductiblesFromCommission)
+                                }}</span>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div
+                        class="d-flex align-center justify-end computation-wrapper_field"
+                    >
                         <span class="font-weight-bold custom-label ctotal-label"
                             >Total Commission.<font color="red">*</font></span
                         >
@@ -366,7 +386,7 @@
                                 class="custom-span computation-span d-flex align-center computation-total"
                             >
                                 <span class="ctotal-text">{{
-                                    moneyFormat(computation.totalCommission, true)
+                                    moneyFormat(computation.totalCommissionDeductables, true)
                                 }}</span>
                             </div>
                         </div>
@@ -499,36 +519,19 @@
                             <span class="operation">=</span>
                             <div
                                 class="custom-span computation-span d-flex align-center overtotal"
-                                v-if="computation.exempted === 'Exempted'"
                             >
                              <!-- depositReplenishTxt.totalText = "Replenish" ?
                                 moneyFormat(computation.totalReplenish): -->
                                 <!-- <span class="ctotal-text">{{  
                                     moneyFormat(computation.totalDepositReplenish)
                                 }}</span> -->
-                                <span class="ctotal-text">{{  
-                                    moneyFormat(computation.Exempted)
-                                }}</span>
-                                <!-- <span class="ctotal-text">{{
-                                    moneyFormat(computation.depositReplenish)
-                                }}</span> -->
-                            </div>
-                            <div
-                                class="custom-span computation-span d-flex align-center overtotal"
-                                v-else
-                            >
-                             <!-- depositReplenishTxt.totalText = "Replenish" ?
-                                moneyFormat(computation.totalReplenish): -->
                                 <!-- <span class="ctotal-text">{{  
-                                    moneyFormat(computation.totalDepositReplenish)
+                                    moneyFormat(computation.Daily)
                                 }}</span> -->
-                                <span class="ctotal-text">{{  
-                                    moneyFormat(computation.notExempted)
-                                }}</span>
-                                <!-- <span class="ctotal-text">{{
+                                <span class="ctotal-text">{{
                                     moneyFormat(computation.depositReplenish)
-                                }}</span> -->
-                            </div>                            
+                                }}</span>
+                            </div>                          
                         </div>
                     </div>
                 </div>
