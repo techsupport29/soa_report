@@ -390,7 +390,6 @@ const readSoa = (event, isExcel, withSite) => {
                 }, Object.create(null));
 
                 console.log(groupSOAFR);
-                console.log(filterObjectHeader);
 
                 // Convert Month number to alphabet
                 const moLetter = String.fromCharCode(
