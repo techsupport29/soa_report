@@ -1,5 +1,6 @@
 const computationSoa = (data) => {
    
+    const wht = data.wht;
     const totalMWBets = data.total_meron_wala;
     const drawCancelled = data.draw_cancelled;
     const totalPayoutPaid = data.total_payout_paid;
@@ -29,24 +30,24 @@ const computationSoa = (data) => {
     const totalPayOutBal =
         parseFloat(paymentForOutstandingBalance) + parseFloat(payOutsBalMob);
     const totalCommissionDeductables = 
-        parseFloat(netOpCommission) - parseFloat(otherCommissionIntel05) - 
-        parseFloat(consolidatorsCommission) - parseFloat(safetyFund) - 
-        parseFloat(paymentForOutstandingBalance) - parseFloat(otherDeductiblesFromCommission);
+        parseFloat(netOpCommission) - parseFloat(totalOtherCommIntel) + 
+        parseFloat(totalConsolComm) - parseFloat(totalSafetyFund) - 
+        parseFloat(totalPayOutBal) - parseFloat(otherDeductiblesFromCommission);
 
-    const otherTotalCommission = parseFloat(data.mwTwo) + parseFloat(data.drawTwo);
+    const otherTotalCommission = parseFloat(data.mwTwo) + parseFloat(data.mwTwoMobile) + parseFloat(data.drawTwo) + parseFloat(data.drawTwoMobile);
     
 
-    const lessWithHoldingTax = parseFloat(otherTotalCommission * 0.2 * 0.02).toFixed(2);
+    // const lessWithHoldingTax = parseFloat(otherTotalCommission * 0.2 * 0.02);
 
 
 
-    const netCommWithTax = parseFloat(totalCommissionDeductables) - parseFloat(lessWithHoldingTax);
+    const netCommWithTax = parseFloat(totalCommissionDeductables) - parseFloat(data.wht);
     const totalDepositReplenish = parseFloat(data.netWinLoss) - parseFloat(netCommWithTax);
     // const totalReplenish = parseFloat(depositReplenish) + parseFloat(lessWithHoldingTax);
     // const depositReplenishWithTax = parseFloat(depositReplenish)
 
 
-    // console.log('data', data);
+    console.log('data', data);
     const computation = {
         totalMWBets,
         drawCancelled,
@@ -60,6 +61,7 @@ const computationSoa = (data) => {
         depositReplenish,
         drawMobile,
         totalMWMobile,
+        wht : wht,
         otherTotalCommission : otherTotalCommission,
         otherCommissionIntel0 : totalOtherCommIntel,
         safetyFund: totalSafetyFund,
@@ -68,7 +70,7 @@ const computationSoa = (data) => {
         totalConsolComm : totalConsolComm,
         paymentForOutstandingBalance: totalPayOutBal,
         otherDeductiblesFromCommission : otherDeductiblesFromCommission,
-        lessWithHoldingTax : lessWithHoldingTax,
+        // lessWithHoldingTax : lessWithHoldingTax,
         netCommWithTax : netCommWithTax,
         totalDepositReplenish : totalDepositReplenish,
         // totalReplenish: totalReplenish,

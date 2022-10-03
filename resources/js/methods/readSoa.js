@@ -264,6 +264,7 @@ const readSoa = (event, isExcel, withSite) => {
 
                         const type = rest.type || rest.classification;
                         const exempted = rest.exempted;
+                        const wht = rest.wht;
                         const totalMWBets = rest.meron + rest.wala;
                         const totalCancelledBets = rest.drawCancelled;
                         const totalDrawBets = rest.draw;
@@ -325,6 +326,7 @@ const readSoa = (event, isExcel, withSite) => {
                         rest = {
                             areaCode,
                             codeEvent,
+                            wht,
                             date_of_soa: rest.eventCreated,
                             date_closed: rest.eventClosed,
                             meron: rest.meron,
@@ -388,6 +390,7 @@ const readSoa = (event, isExcel, withSite) => {
                 }, Object.create(null));
 
                 console.log(groupSOAFR);
+                console.log(filterObjectHeader);
 
                 // Convert Month number to alphabet
                 const moLetter = String.fromCharCode(
