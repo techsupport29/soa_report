@@ -29,10 +29,10 @@
                     <span class="detailed">{{
                         bankAccounts.length > 0
                             ? bankAccounts[0].bank_number
-                            : "0050-1001-5156"
+                            : "0005-01-61689025-3"
                     }}</span>
                 </div>
-
+<!-- 
                 <div v-show="bankAccounts.length >= 2" class="or">OR</div>
                 <div v-show="bankAccounts.length === 0" class="or">OR</div>
                 <div class="bank bank2">
@@ -57,7 +57,7 @@
                             ? bankAccounts[1].bank_number
                             : ""
                     }}</span>
-                </div>
+                </div> -->
             </div>
 
             <div class="bank-content d-flex justify-center align-center" v-else>
