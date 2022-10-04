@@ -30,7 +30,7 @@ const computationSoa = (data) => {
     const totalPayOutBal =
         parseFloat(paymentForOutstandingBalance) + parseFloat(payOutsBalMob);
     const totalCommissionDeductables = 
-        parseFloat(netOpCommission) - parseFloat(totalOtherCommIntel) + 
+        parseFloat(totalOtherCommIntel) + parseFloat(netOpCommission) -  
         parseFloat(totalConsolComm) - parseFloat(totalSafetyFund) - 
         parseFloat(totalPayOutBal) - parseFloat(otherDeductiblesFromCommission);
 
