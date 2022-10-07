@@ -451,7 +451,7 @@
                             <div
                                 class="custom-span computation-span d-flex align-center"
                             >
-                                <span>{{ moneyFormat(computation.wht) }}</span>
+                                <span>{{ moneyFormat(computation.whTax) }}</span>
                             </div>
                         </div>
                     </div>

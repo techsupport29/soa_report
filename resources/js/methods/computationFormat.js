@@ -42,6 +42,7 @@ const computationSoa = (data) => {
 
 
     const netCommWithTax = parseFloat(totalCommissionDeductables) - parseFloat(data.wht);
+    const whTax = parseFloat(data.wht).toFixed(2);
     const totalDepositReplenish = parseFloat(data.netWinLoss) - parseFloat(netCommWithTax);
     // const totalReplenish = parseFloat(depositReplenish) + parseFloat(lessWithHoldingTax);
     // const depositReplenishWithTax = parseFloat(depositReplenish)
@@ -61,7 +62,8 @@ const computationSoa = (data) => {
         depositReplenish,
         drawMobile,
         totalMWMobile,
-        wht : wht,
+        wht,
+        whTax : whTax,
         otherTotalCommission : otherTotalCommission,
         otherCommissionIntel0 : totalOtherCommIntel,
         safetyFund: totalSafetyFund,
@@ -71,7 +73,7 @@ const computationSoa = (data) => {
         paymentForOutstandingBalance: totalPayOutBal,
         otherDeductiblesFromCommission : otherDeductiblesFromCommission,
         // lessWithHoldingTax : lessWithHoldingTax,
-        netCommWithTax : netCommWithTax,
+        netCommWithTax : netCommWithTax.toFixed(2),
         totalDepositReplenish : totalDepositReplenish,
         // totalReplenish: totalReplenish,
         ...data,
