@@ -448,7 +448,12 @@
                             class="d-flex align-center computation-container_field"
                         >
                             <span class="operation">-</span>
-                            <div
+                            <div v-if="computation.areaCode.substring(0,3) === 'MAA'"
+                                class="custom-span computation-span d-flex align-center"
+                            >
+                                <span>{{ moneyFormat(0) }}</span>
+                            </div>
+                            <div v-else
                                 class="custom-span computation-span d-flex align-center"
                             >
                                 <span>{{ moneyFormat(computation.whTax) }}</span>
@@ -463,12 +468,18 @@
                             class="d-flex align-center computation-container_field"
                         >
                             <span class="operation">=</span>
-                            <div
+                            <div v-if="computation.areaCode.substring(0,3) === 'MAA'"
+                                class="custom-span computation-span d-flex align-center computation-total"
+
+                            >
+                                <span>{{ moneyFormat(0) }}</span>
+                            </div>
+                            <div v-else
                                 class="custom-span computation-span d-flex align-center computation-total"
 
                             >
                                 <span>{{ moneyFormat(computation.netCommWithTax) }}</span>
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                     <div

@@ -127,6 +127,30 @@
                 </template>
                 <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Compress selected image into Zip File  </span>
             </v-tooltip>
+
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
+                <v-list-item class="d-flex justify-center" >
+                    <v-btn
+                        color="#FF1313"
+                        class="ma-2 white--text allbtn"
+                        @click="clearDatabyDate"
+                        elevation="2"
+                        rounded
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                        <v-icon
+                            light
+                             class="ma-2 white--text all"
+                        >mdi-delete</v-icon>
+                        Delete
+                    </v-btn>
+                </v-list-item>
+                </template>
+                <span><v-icon class="text-white">mdi-chat-alert</v-icon>  Multiple delete of selected reports </span>
+            </v-tooltip>
+
                 <!-- email send via zip or single send  -->
             <hr color="green lighten-2" class="ma-2">
 
@@ -290,8 +314,14 @@ export default {
                             swal.fire(
                                 "Deleted!",
                                 "Your file has been deleted.",
-                                "success"
-                            );
+                                "success",
+                            ).then(function(isConfirm) {
+                                if (isConfirm) {
+                                    location.reload();
+                                } else {
+                                    //if no clicked => do something else
+                                }
+                                });
 
                             // this.tab === 'ongoing' ? this.soaLists() : this.importWithStatus();
                             if(this.dates.length !== 0) {

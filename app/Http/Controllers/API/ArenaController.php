@@ -204,6 +204,7 @@ class ArenaController extends Controller
 
         $arena = arena::with('BankDetails')->where('id',$id)->update([
             'arena' => strtoupper($request['arena']),
+            'area_code' => strtoupper($request['area_code']),
             'address' => strtoupper($request['address']),
             'operator' => strtoupper($request['operator']),
             'contact_number' => 'xxxxxxx',

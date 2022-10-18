@@ -18,12 +18,11 @@ class AddAdditionalToImportsTable extends Migration
             $table->string('totalOthers')->default(0);
             $table->string('salesDeductionTablet')->default(0);
             $table->string('netOperatorsCommission')->default(0);
-            $table->string('otherCommissionIntel05')->default(0);
+            $table->string('otherCommissionIntel')->default(0);
             $table->string('consolidatorsCommission')->default(0);
             $table->string('safetyFund')->default(0);
             $table->string('paymentForOutstandingBalance')->default(0);
             $table->string('otherDeductiblesFromCommission')->default(0);
-            $table->string('wht')->default(0);
             $table->string('systemErrorCOArmsi')->default(0);
             $table->string('cashLoad')->default(0);
             $table->string('cashWithdrawal')->default(0);

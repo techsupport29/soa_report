@@ -138,13 +138,15 @@ const readSoa = (event, isExcel, withSite) => {
                 );
 
                 console.log("eventDateCreated", eventDateCreated);
+
                 const eventDateClosed = dateFormatting(
                     mergeObj.dateClosed ||
                         isValidEventArenaDate(eventDetailsA[4]?.A) ||
                         eventClosedUTC
                 );
 
-                console.log(isValidEventArenaDate(arrayData[1][3].A));
+                console.log("eventDateClosed", eventDateClosed);
+                // console.log(isValidEventArenaDate(arrayData[1][3].A));
 
                 const objectKeyed = (array) => {
                     let objectKeyReplacedArray = [];
@@ -176,6 +178,10 @@ const readSoa = (event, isExcel, withSite) => {
                             otherCommIntMob: 0,
                             consolCommMob: 0,
                             payOutsBalMob: 0,
+                            otherCommissionIntel05: 0,
+                            otherCommissionIntel01: 0,
+                            otherCommissionIntel1: 0,
+                            otherDeductiblesFromCommission: 0,
                             ...data,
                         });
                     });
@@ -206,6 +212,10 @@ const readSoa = (event, isExcel, withSite) => {
                             item.safetyFund;
                         objMobileKiosk[existingIndex].otherCommIntMob =
                             item.otherCommissionIntel05;
+                        objMobileKiosk[existingIndex].otherCommIntMob =
+                            item.otherCommissionIntel01; 
+                        objMobileKiosk[existingIndex].otherCommIntMob =
+                            item.otherCommissionIntel1;       
                         objMobileKiosk[existingIndex].consolCommMob =
                             item.consolidatorsCommission;
                         objMobileKiosk[existingIndex].payOutsBalMob =
@@ -232,6 +242,8 @@ const readSoa = (event, isExcel, withSite) => {
                         helper[key].drawMobile = o.draw;
                         helper[key].safetyFundMob = o.safetyFund;
                         helper[key].otherCommIntMob = o.otherCommissionIntel05;
+                        helper[key].otherCommIntMob = o.otherCommissionIntel01;
+                        helper[key].otherCommIntMob = o.otherCommissionIntel1;
                         helper[key].consolCommMob = o.consolidatorsCommission;
                         helper[key].payOutsBalMob = o.paymentForOutstandingBalance;
                     }
@@ -264,7 +276,7 @@ const readSoa = (event, isExcel, withSite) => {
 
                         const type = rest.type || rest.classification;
                         const exempted = rest.exempted;
-                        const wht = rest.wht;
+                        // const wht = rest.wht;
                         const totalMWBets = rest.meron + rest.wala;
                         const totalCancelledBets = rest.drawCancelled;
                         const totalDrawBets = rest.draw;
@@ -287,8 +299,12 @@ const readSoa = (event, isExcel, withSite) => {
                         const salesDeduction = rest.salesDeductionTablet;
                         const netOperatorsCommission =
                             rest.netOperatorsCommission;
-                        const otherCommissionIntel =
+                        const otherCommissionIntel05 =
                             rest.otherCommissionIntel05;
+                        const otherCommissionIntel01 =
+                            rest.otherCommissionIntel01;         
+                        const otherCommissionIntel1 =
+                            rest.otherCommissionIntel1;                                                 
                         const consolidatorsCommission =
                             rest.consolidatorsCommission;
                         const safetyFund = rest.safetyFund;
@@ -326,7 +342,7 @@ const readSoa = (event, isExcel, withSite) => {
                         rest = {
                             areaCode,
                             codeEvent,
-                            wht,
+                            // wht,
                             date_of_soa: rest.eventCreated,
                             date_closed: rest.eventClosed,
                             meron: rest.meron,
@@ -352,7 +368,7 @@ const readSoa = (event, isExcel, withSite) => {
                             cancelled_unpaid: totalCUnpaid,
                             salesDeductionTablet: salesDeduction,
                             netOperatorsCommission,
-                            otherCommissionIntel05: otherCommissionIntel,
+                            otherCommissionIntel: otherCommissionIntel05||otherCommissionIntel01||otherCommissionIntel1,
                             consolidatorsCommission,
                             safetyFund,
                             paymentForOutstandingBalance,
@@ -390,6 +406,7 @@ const readSoa = (event, isExcel, withSite) => {
                 }, Object.create(null));
 
                 console.log(groupSOAFR);
+                // console.log(filterObjectHeader);
 
                 // Convert Month number to alphabet
                 const moLetter = String.fromCharCode(

@@ -1,6 +1,7 @@
 const computationSoa = (data) => {
    
-    const wht = data.wht;
+    // const wht = data.wht;
+    const areaCode = data.areaCode;
     const totalMWBets = data.total_meron_wala;
     const drawCancelled = data.draw_cancelled;
     const totalPayoutPaid = data.total_payout_paid;
@@ -8,7 +9,7 @@ const computationSoa = (data) => {
     const drawPaid = data.draw_paid;
     const cUnpaid = data.cancelled_unpaid;
     const salesDeduction = data.salesDeductionTablet;
-    const otherCommissionIntel05 = data.otherCommissionIntel05;
+    const otherCommissionIntel = data.otherCommissionIntel;
     const totalMWMobile = data.total_win_mobile;
     const drawMobile = data.draw_mobile;
     const depositReplenish = parseFloat(data.for_total).toFixed(2);
@@ -24,7 +25,7 @@ const computationSoa = (data) => {
     const payOutsBalMob = data.payOutsBalMob;
     const totalSafetyFund = parseFloat(safetyFund) + parseFloat(safetyFundMob);
     const totalOtherCommIntel =
-        parseFloat(otherCommissionIntel05) + parseFloat(otherCommIntMob);
+        parseFloat(otherCommissionIntel)  + parseFloat(otherCommIntMob);
     const totalConsolComm =
         parseFloat(consolidatorsCommission) + parseFloat(consolCommMob);
     const totalPayOutBal =
@@ -41,14 +42,15 @@ const computationSoa = (data) => {
 
 
 
-    const netCommWithTax = parseFloat(totalCommissionDeductables) - parseFloat(data.wht);
-    const whTax = parseFloat(data.wht).toFixed(2);
+
+    const whTax = parseFloat(otherTotalCommission * 0.2 * 0.02).toFixed(2);
+    const netCommWithTax = parseFloat(totalCommissionDeductables) - parseFloat(whTax);
     const totalDepositReplenish = parseFloat(data.netWinLoss) - parseFloat(netCommWithTax);
     // const totalReplenish = parseFloat(depositReplenish) + parseFloat(lessWithHoldingTax);
     // const depositReplenishWithTax = parseFloat(depositReplenish)
 
 
-    console.log('data', data);
+    // console.log('data', data);
     const computation = {
         totalMWBets,
         drawCancelled,
@@ -62,7 +64,7 @@ const computationSoa = (data) => {
         depositReplenish,
         drawMobile,
         totalMWMobile,
-        wht,
+        // wht,
         whTax : whTax,
         otherTotalCommission : otherTotalCommission,
         otherCommissionIntel0 : totalOtherCommIntel,
@@ -76,6 +78,7 @@ const computationSoa = (data) => {
         netCommWithTax : netCommWithTax.toFixed(2),
         totalDepositReplenish : totalDepositReplenish,
         // totalReplenish: totalReplenish,
+        areaCode,
         ...data,
     };
 
